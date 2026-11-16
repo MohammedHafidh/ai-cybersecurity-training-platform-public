@@ -3,11 +3,12 @@ from datetime import datetime, timezone
 
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy import inspect
 from sqlalchemy.exc import IntegrityError
 
 from app.main import app
 from app.persistence.core import DetectionRecord, EventRecord, RunRecord, setup_core_schema
-from app.persistence.database import build_engine, session_factory
+from app.persistence.database import build_engine, create_schema, session_factory
 
 
 def test_core_round_trip_and_foreign_keys(tmp_path, monkeypatch):
@@ -45,3 +46,14 @@ def test_core_round_trip_and_foreign_keys(tmp_path, monkeypatch):
 def test_readiness_requires_installed_schema(tmp_path, monkeypatch):
     monkeypatch.setenv("DATABASE_URL", f"sqlite:///{tmp_path / 'missing.db'}")
     assert TestClient(app).get("/health/database").status_code == 503
+
+
+def test_legacy_setup_cannot_install_core_schema(tmp_path):
+    engine = build_engine(f"sqlite:///{tmp_path / 'legacy.db'}")
+    try:
+        create_schema(engine)
+        assert set(inspect(engine).get_table_names()) == {
+            "feature_runs", "rule_detections", "ml_detections", "detector_comparisons"
+        }
+    finally:
+        engine.dispose()

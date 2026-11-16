@@ -18,6 +18,6 @@ scenarios only. The scores do not establish production performance or probabilit
 calibration. This written review has no independent teammate sign-off.
 
 Install the pinned dependencies from `requirements/day27.txt` alongside the
-backend requirements and run `python -m pytest -q backend/tests/test_frozen_ml_v1.py`.
+backend requirements and run `python -m pytest -q backend/tests/test_public_milestones.py`.
 The smoke tests reproduce the saved development decisions and reject metadata
-inputs and corrupted model bytes. Final evaluation is reserved for Day 32.
+inputs and corrupted model bytes. Day 32 records the completed held-out evaluation.
