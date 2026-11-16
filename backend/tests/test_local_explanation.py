@@ -1,4 +1,6 @@
 import json
+from io import BytesIO
+from uuid import uuid4
 
 from fastapi.testclient import TestClient
 import pytest
@@ -12,12 +14,13 @@ from test_ingestion_api import database, sample
 def detection_client(database, monkeypatch):
     monkeypatch.setenv("CAPSTONE_OLLAMA_ENABLED", "1")
     with TestClient(app) as client:
-        data = sample("auth", "day44-auth")
+        run_id = f"day44-auth-{uuid4().hex}"
+        data = sample("auth", run_id)
         data["events"] += [
-            dict(data["events"][0], event_id=f"day44-extra-{i}") for i in range(2)
+            dict(data["events"][0], event_id=f"{run_id}-extra-{i}") for i in range(2)
         ]
         assert client.post("/ingestion/runs", json=data).status_code == 201
-        processed = client.post("/runs/day44-auth/process")
+        processed = client.post(f"/runs/{run_id}/process")
         assert processed.status_code == 200, processed.text
         yield client, processed.json()["detection_ids"]
 
@@ -90,8 +93,6 @@ def test_ollama_is_opt_in_and_unavailable_does_not_block_detection(detection_cli
 
 
 def test_ollama_transport_is_pinned_to_loopback(monkeypatch):
-    from io import BytesIO
-
     class Response(BytesIO):
         status = 200
 
