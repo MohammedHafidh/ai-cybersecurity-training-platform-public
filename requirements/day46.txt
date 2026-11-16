@@ -1,0 +1,3 @@
+# Install the matching CPU PyTorch wheel first. See docs/day46-retrieval.md.
+sentence-transformers==6.3.0
+faiss-cpu==1.16.0

@@ -1,0 +1,16 @@
+{
+  "chunk_ids": [
+    "v1:brute_force:01",
+    "v1:brute_force:02",
+    "v1:reconnaissance:01",
+    "v1:reconnaissance:02",
+    "v1:sql_injection:01",
+    "v1:sql_injection:02"
+  ],
+  "corpus_sha256": "8836ab6184688fa875611724594832d657483a22d057f46c19ce0e8ad52160df",
+  "dimension": 384,
+  "index_sha256": "c18c2aec4a9cc128f11fadccf3eea02bd9539e4f4dfb08bc38fa431a032c3994",
+  "metric": "cosine",
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
+}
