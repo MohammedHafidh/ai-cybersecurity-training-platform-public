@@ -2,6 +2,8 @@ import type { components, paths } from './schema'
 
 export type Health = paths['/health']['get']['responses'][200]['content']['application/json']
 export type RecentEvent = components['schemas']['EventSummary']
+export type DetectionSummary = components['schemas']['DetectionSummary']
+export type DetectionDetail = components['schemas']['DetectionDetail']
 
 function isRecentEvent(value: unknown): value is RecentEvent {
   if (!value || typeof value !== 'object') return false
@@ -20,6 +22,16 @@ export function createApiClient(baseUrl: string, request: typeof fetch = fetch) 
 
   return {
     docsUrl: `${base}/docs`,
+    async recentDetections(signal: AbortSignal): Promise<DetectionSummary[]> {
+      const response = await request(`${base}/detections?limit=20`, { signal })
+      if (!response.ok) throw new Error(`Detection list failed (HTTP ${response.status}).`)
+      return response.json()
+    },
+    async detectionDetail(id: string, signal: AbortSignal): Promise<DetectionDetail> {
+      const response = await request(`${base}/detections/${encodeURIComponent(id)}`, { signal })
+      if (!response.ok) throw new Error(`Detection detail failed (HTTP ${response.status}).`)
+      return response.json()
+    },
     async recentEvents(limit: number, signal?: AbortSignal): Promise<RecentEvent[]> {
       const response = await request(`${base}/events?limit=${limit}`, {
         headers: { Accept: 'application/json' }, signal,

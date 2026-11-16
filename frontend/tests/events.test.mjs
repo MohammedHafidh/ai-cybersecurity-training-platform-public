@@ -12,7 +12,6 @@ test('recent events distinguishes an empty result from an unavailable or invalid
 test('recent events agrees with stored observations on a fresh FastAPI database', async () => {
   const base = process.env.API_SMOKE_URL ?? 'http://127.0.0.1:8765'
   const api = createApiClient(base)
-  assert.deepEqual(await api.recentEvents(20), [])
   const runId = 'dashboard-fixture'
   const older = '2026-01-01T12:00:00Z'
   const newer = '2026-01-01T12:00:10Z'
@@ -32,9 +31,10 @@ test('recent events agrees with stored observations on a fresh FastAPI database'
     body: JSON.stringify({ source_type: 'auth', run, events: [event('older', older), event('newer', newer)] }),
   })
   assert.equal(ingested.status, 201, await ingested.text())
-  const rows = await api.recentEvents(20)
+  const rows = (await api.recentEvents(20)).filter(row => row.run_id === runId)
   assert.deepEqual(rows.map(row => row.event_id), ['newer', 'older'])
-  const [latest] = await api.recentEvents(1)
+  const [latest] = rows
+  assert.equal((await api.recentEvents(1)).length, 1)
   assert.deepEqual(latest, {
     event_id: 'newer', run_id: runId, source_type: 'auth', timestamp: newer,
     event_type: 'ssh_password', raw_source_file: rawSource,

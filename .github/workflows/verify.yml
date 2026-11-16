@@ -28,7 +28,7 @@ jobs:
         working-directory: frontend
       - run: npm run api:check
         working-directory: frontend
-      - name: Verify frontend health and recent events against FastAPI
+      - name: Verify frontend health, events, and detection evidence against FastAPI
         working-directory: frontend
         run: |
           fixture="$(mktemp -d)"

@@ -12,7 +12,7 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.detection.service import CombinedDetection, DetectionService, DetectionServiceError, RunNotFound, as_utc
-from app.models.events import Label, SourceType
+from app.models.events import Label, Scenario, SourceType
 from app.persistence.core import DetectionRecord, EventRecord, RunRecord
 from app.persistence.database import session_factory
 from app.persistence.runtime import request_engine
@@ -62,8 +62,23 @@ class DetectionSummary(BaseModel):
     created_at: datetime
 
 
-class DetectionDetail(DetectionSummary):
+class RunContext(BaseModel):
+    source_type: SourceType
+    scenario: Scenario
+    expected_label: Label
+    start_time: datetime
+    end_time: datetime
+    source: str
+    target: str
+
+
+class DetectionEvidence(DetectionSummary):
     evidence: dict
+
+
+class DetectionDetail(DetectionEvidence):
+    run: RunContext
+    counterparts: list[DetectionEvidence]
 
 
 class ProcessingResult(BaseModel):
@@ -140,5 +155,22 @@ def detection_detail(detection_id: str, session: DB) -> DetectionDetail:
     record = session.get(DetectionRecord, detection_id)
     if record is None:
         raise HTTPException(status_code=404, detail="detection not found")
-    return DetectionDetail.model_validate(record).model_copy(
-        update={"created_at": as_utc(record.created_at)})
+    run = session.get(RunRecord, record.run_id)
+    row_id = record.evidence.get("row_id")
+    counterparts = []
+    if isinstance(row_id, str) and row_id:
+        matches = session.scalars(select(DetectionRecord).where(
+            DetectionRecord.run_id == record.run_id,
+            DetectionRecord.evidence["row_id"].as_string() == row_id,
+            DetectionRecord.detector != record.detector,
+        ).order_by(DetectionRecord.created_at.desc(), DetectionRecord.detection_id))
+        counterparts = [DetectionEvidence.model_validate(match).model_copy(
+            update={"created_at": as_utc(match.created_at)}) for match in matches]
+    return DetectionDetail(
+        **DetectionEvidence.model_validate(record).model_dump(exclude={"created_at"}),
+        created_at=as_utc(record.created_at),
+        run=RunContext(source_type=run.source_type, scenario=run.scenario,
+                       expected_label=run.expected_label, start_time=as_utc(run.start_time),
+                       end_time=as_utc(run.end_time), source=run.source, target=run.target),
+        counterparts=counterparts,
+    )
