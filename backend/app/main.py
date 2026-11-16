@@ -1,25 +1,48 @@
 import os
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.detection.comparison import compare_detectors
+from app.detection.evaluation import router as evaluation_router
 from app.detection.routes import router as detection_router
 from app.ingestion.routes import router as ingestion_router
 from app.ml.inference import load_selected_model, predict_run
 from app.models.detections import DetectorComparison
 from app.models.ml import MLDetection, MLInferenceRequest
 from app.persistence.core import CORE_TABLES
-from app.persistence.database import build_engine, create_schema, session_factory
+from app.persistence.database import create_schema, session_factory
 from app.persistence.repository import get_comparison, save_comparison
+from app.persistence.runtime import database_lifespan, request_engine
 
 app = FastAPI(
     title="AI-Assisted Cybersecurity Training Platform API",
     version="0.1.0",
+    lifespan=database_lifespan,
+)
+frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
+if "*" in frontend_origin:
+    raise RuntimeError("FRONTEND_ORIGIN must be one explicit origin")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[frontend_origin],
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
 )
 app.include_router(ingestion_router)
+app.include_router(evaluation_router)
+
+
+@app.exception_handler(RequestValidationError)
+async def invalid_request(_request: Request, exc: RequestValidationError) -> JSONResponse:
+    """Report field errors without reflecting input values or the submitted body."""
+    errors = [{key: error[key] for key in ("loc", "msg", "type")} for error in exc.errors()]
+    return JSONResponse(status_code=422, content={"detail": errors})
 
 
 @app.get("/health", tags=["system"])
@@ -29,18 +52,12 @@ def health_check() -> dict[str, str]:
 
 
 @app.get("/health/database", tags=["system"])
-def database_readiness() -> dict[str, str]:
-    database_url = os.environ.get("DATABASE_URL")
-    if not database_url:
-        raise HTTPException(status_code=503, detail="database is not configured")
+def database_readiness(request: Request) -> dict[str, str]:
     try:
-        engine = build_engine(database_url)
-        try:
+        with request_engine(request) as engine:
             with engine.connect() as connection:
                 for table in CORE_TABLES:
                     connection.execute(select(table).limit(0))
-        finally:
-            engine.dispose()
     except (SQLAlchemyError, ValueError) as exc:
         raise HTTPException(status_code=503, detail="core database schema unavailable") from exc
     return {"status": "ok"}
@@ -80,7 +97,7 @@ def create_detector_comparison(request: MLInferenceRequest) -> DetectorCompariso
     "/detections/compare/store", response_model=DetectorComparison, tags=["detections"]
 )
 def create_and_store_detector_comparison(
-    request: MLInferenceRequest,
+    request: MLInferenceRequest, http_request: Request,
 ) -> DetectorComparison:
     """Create and transactionally store separate run and detector records."""
     database_url = os.environ.get("DATABASE_URL")
@@ -96,10 +113,10 @@ def create_and_store_detector_comparison(
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     comparison = compare_detectors(bundle, request)
     try:
-        engine = build_engine(database_url)
-        create_schema(engine)
-        with session_factory(engine)() as session:
-            return save_comparison(session, request, comparison)
+        with request_engine(http_request) as engine:
+            create_schema(engine)
+            with session_factory(engine)() as session:
+                return save_comparison(session, request, comparison)
     except ValueError as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
     except SQLAlchemyError as exc:
@@ -111,14 +128,11 @@ def create_and_store_detector_comparison(
     response_model=DetectorComparison,
     tags=["detections"],
 )
-def read_detector_comparison(run_id: str) -> DetectorComparison:
-    database_url = os.environ.get("DATABASE_URL")
-    if not database_url:
-        raise HTTPException(status_code=503, detail="database is not configured")
+def read_detector_comparison(run_id: str, request: Request) -> DetectorComparison:
     try:
-        engine = build_engine(database_url)
-        with session_factory(engine)() as session:
-            comparison = get_comparison(session, run_id)
+        with request_engine(request) as engine:
+            with session_factory(engine)() as session:
+                comparison = get_comparison(session, run_id)
     except (ValueError, SQLAlchemyError) as exc:
         raise HTTPException(status_code=503, detail="database operation failed") from exc
     if comparison is None:

@@ -58,7 +58,8 @@ def test_error_responses_and_openapi(database, monkeypatch):
         assert {"/health", "/health/database", "/ingestion/runs", "/runs/{run_id}/process",
                 "/events", "/detections", "/detections/{detection_id}"} <= paths.keys()
         assert client.get("/docs").status_code == 200
-        monkeypatch.delenv("DATABASE_URL")
+    monkeypatch.delenv("DATABASE_URL")
+    with TestClient(app) as client:
         assert client.get("/events").status_code == 503
 
 
