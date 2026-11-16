@@ -44,7 +44,7 @@ test('the dashboard renders the frozen evaluation and separates the evidence exp
     assert.match(explanation, /<aside aria-labelledby="explanation-title"/)
     assert.match(explanation, /Failed SSH password events: 3 met the rule threshold of 3/)
     assert.match(explanation, /Failed SSH password events: 2 fell below the rule threshold of 3/)
-    assert.match(explanation, /LLM explanations are unavailable/)
+    assert.match(explanation, /This summary uses stored rule evidence/)
     assert.match(explain({ ...known, observed: null }), /No supported rule threshold/)
   } finally {
     await server.close()

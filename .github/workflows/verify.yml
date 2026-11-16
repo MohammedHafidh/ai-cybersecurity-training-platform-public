@@ -33,7 +33,7 @@ jobs:
         working-directory: frontend
       - run: npm run api:check
         working-directory: frontend
-      - name: Verify frontend API integration and Chromium smoke tests
+      - name: Verify frontend API integration and Chromium smoke tests, including RAG
         working-directory: frontend
         run: |
           fixture="$(mktemp -d)"

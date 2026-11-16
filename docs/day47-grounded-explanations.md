@@ -6,7 +6,7 @@ A `grounded` response separates the run-specific `text` and `evidence_ids` from 
 
 Other questions return `unsupported` with empty evidence and citations. Questions asking for why an ML model flagged an observation also return `unsupported` when the stored record lacks a rule comparison. Unsupported prompts never reach the retriever or model. A missing detection returns 404, unavailable local dependencies return 503, and invalid model selections return 502.
 
-Use the [Day 44 Ollama setup](day44-local-explanations.md) and the [Day 46 retrieval dependencies and model cache](day46-retrieval.md) in the backend's Python environment. Enable local explanations with `CAPSTONE_OLLAMA_ENABLED=1`. Both the original explanation route and the RAG route are read-only. The frontend continues to provide its deterministic evidence preview.
+Use the [Day 44 Ollama setup](day44-local-explanations.md) and the [Day 46 retrieval dependencies and model cache](day46-retrieval.md) in the backend's Python environment. Enable local explanations with `CAPSTONE_OLLAMA_ENABLED=1`. Both the original explanation route and the RAG route are read-only. See the [Day 48 training interface](day48-frontend-rag.md) for dashboard usage.
 
 ## Solo evidence review
 

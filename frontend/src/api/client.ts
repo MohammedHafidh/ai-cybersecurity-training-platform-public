@@ -5,6 +5,8 @@ export type RecentEvent = components['schemas']['EventSummary']
 export type DetectionSummary = components['schemas']['DetectionSummary']
 export type DetectionDetail = components['schemas']['DetectionDetail']
 export type EvaluationSummary = components['schemas']['EvaluationSummary']
+export type RagExplanation = components['schemas']['RagExplanation']
+export type ExplanationQuestion = components['schemas']['Question']
 
 function isRecentEvent(value: unknown): value is RecentEvent {
   if (!value || typeof value !== 'object') return false
@@ -23,6 +25,14 @@ export function createApiClient(baseUrl: string, request: typeof fetch = fetch) 
 
   return {
     docsUrl: `${base}/docs`,
+    async ragExplanation(id: string, question: ExplanationQuestion, signal: AbortSignal): Promise<RagExplanation> {
+      const query = new URLSearchParams({ question })
+      const response = await request(`${base}/detections/${encodeURIComponent(id)}/rag-explanation?${query}`, {
+        headers: { Accept: 'application/json' }, signal,
+      })
+      if (!response.ok) throw new Error(`Explanation request failed (HTTP ${response.status}).`)
+      return response.json()
+    },
     async evaluation(signal: AbortSignal): Promise<EvaluationSummary> {
       const response = await request(`${base}/evaluation/summary`, {
         headers: { Accept: 'application/json' }, signal,
