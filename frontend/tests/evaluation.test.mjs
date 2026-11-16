@@ -4,6 +4,7 @@ import test from 'node:test'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { createServer } from 'vite'
+import { createApiClient } from '../src/api/client.ts'
 
 test('the dashboard renders the frozen evaluation and separates the evidence explanation', async () => {
   const server = await createServer({
@@ -12,10 +13,14 @@ test('the dashboard renders the frozen evaluation and separates the evidence exp
     appType: 'custom',
   })
   try {
-    const { Evaluation } = await server.ssrLoadModule('/src/components/Evaluation.tsx')
+    const { EvaluationResults } = await server.ssrLoadModule('/src/components/Evaluation.tsx')
     const { EvidenceExplanation } = await server.ssrLoadModule('/src/components/EvidenceExplanation.tsx')
-    const { metrics } = JSON.parse(await readFile(new URL('../../data/processed/day32/evaluation.json', import.meta.url)))
-    const html = renderToStaticMarkup(createElement(Evaluation))
+    const frozen = JSON.parse(await readFile(new URL('../../data/processed/day32/evaluation.json', import.meta.url)))
+    const base = process.env.API_SMOKE_URL ?? 'http://127.0.0.1:8765'
+    const report = await createApiClient(base).evaluation(AbortSignal.timeout(5000))
+    assert.deepEqual(report, frozen)
+    const { metrics } = frozen
+    const html = renderToStaticMarkup(createElement(EvaluationResults, { report }))
     const matrices = [...html.matchAll(/<table\b.*?<\/table>/g)].map(([table]) =>
       [...table.matchAll(/<td[^>]*>(\d+)<\/td>/g)].map(([, count]) => Number(count)))
     assert.deepEqual(matrices, [metrics.rule.overall.confusion_matrix.flat(), metrics.ml.overall.confusion_matrix.flat()])

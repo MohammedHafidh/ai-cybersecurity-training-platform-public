@@ -1,6 +1,6 @@
 # Day 42 evaluation and explanation preview
 
-Open **Evaluation** in the dashboard to compare the frozen Day 32 rule and ML results. The frontend imports the public [aggregate report](../data/processed/day32/evaluation.json) at build time. It displays accuracy, precision, recall, F1, false positive rate, and confusion matrices overall and by scenario. Rows are actual labels and columns are predicted labels. Each cell counts runs. The malicious class is positive, and any malicious observation flags its run.
+Open **Evaluation** in the dashboard to compare the frozen Day 32 rule and ML results. The dashboard reads the public [aggregate report](../data/processed/day32/evaluation.json) through the FastAPI summary endpoint. It displays accuracy, precision, recall, F1, false positive rate, and confusion matrices overall and by scenario. Rows are actual labels and columns are predicted labels. Each cell counts runs. The malicious class is positive, and any malicious observation flags its run.
 
 The comparison covers 12 scripted held-out lab runs, four per scenario. It describes performance on this lab dataset. The report records zero for rates with zero denominators, including precision if no runs were flagged. Day 42 reads the frozen results without rescoring the holdout.
 
