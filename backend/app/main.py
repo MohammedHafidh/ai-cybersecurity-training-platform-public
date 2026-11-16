@@ -6,6 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.detection.comparison import compare_detectors
+from app.detection.routes import router as detection_router
 from app.ingestion.routes import router as ingestion_router
 from app.ml.inference import load_selected_model, predict_run
 from app.models.detections import DetectorComparison
@@ -123,3 +124,6 @@ def read_detector_comparison(run_id: str) -> DetectorComparison:
     if comparison is None:
         raise HTTPException(status_code=404, detail="comparison not found")
     return comparison
+
+
+app.include_router(detection_router)
