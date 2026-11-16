@@ -73,6 +73,7 @@ jobs:
           backend/tests/test_ingestion_api.py backend/tests/test_detection_service.py
           backend/tests/test_detection_api.py backend/tests/test_day37_backend.py
           backend/tests/test_day38_integration.py
+          backend/tests/test_local_explanation.py
         env:
           CAPSTONE_TEST_DATABASE_URL: postgresql+psycopg://capstone_fixture:fixture_only@127.0.0.1:${{ job.services.postgres.ports[5432] }}/capstone_fixture
   tag-day38:

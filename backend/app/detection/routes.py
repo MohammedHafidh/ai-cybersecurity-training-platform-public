@@ -12,6 +12,9 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.detection.service import CombinedDetection, DetectionService, DetectionServiceError, RunNotFound, as_utc
+from app.detection.explanation import (
+    Explanation, ExplanationUnavailable, InvalidExplanation, Question, evidence_sentences, explain,
+)
 from app.models.events import Label, Scenario, SourceType
 from app.persistence.core import DetectionRecord, EventRecord, RunRecord
 from app.persistence.database import session_factory
@@ -174,3 +177,23 @@ def detection_detail(detection_id: str, session: DB) -> DetectionDetail:
                        end_time=as_utc(run.end_time), source=run.source, target=run.target),
         counterparts=counterparts,
     )
+
+
+@router.get("/detections/{detection_id}/explanation", response_model=Explanation, tags=["explanations"])
+def detection_explanation(detection_id: str, request: Request, question: Question = Question.summary) -> Explanation:
+    """Explain a stored detection without rescoring or updating it."""
+    try:
+        with request_engine(request) as engine:
+            with session_factory(engine)() as session:
+                record = session.get(DetectionRecord, detection_id)
+                if record is None:
+                    raise HTTPException(status_code=404, detail="detection not found")
+                facts = evidence_sentences(record.detector, record.predicted_label, record.evidence)
+    except (SQLAlchemyError, ValueError) as exc:
+        raise HTTPException(status_code=503, detail="database operation failed") from exc
+    try:
+        return explain(detection_id, question, facts)
+    except ExplanationUnavailable as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except InvalidExplanation as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc

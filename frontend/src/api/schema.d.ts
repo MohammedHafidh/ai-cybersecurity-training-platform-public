@@ -235,6 +235,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/detections/{detection_id}/explanation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Detection Explanation
+         * @description Explain a stored detection without rescoring or updating it.
+         */
+        get: operations["detection_explanation_detections__detection_id__explanation_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -414,6 +434,18 @@ export interface components {
             event_type: string;
             /** Raw Source File */
             raw_source_file: string;
+        };
+        /** Explanation */
+        Explanation: {
+            /** Detection Id */
+            detection_id: string;
+            question: components["schemas"]["Question"];
+            /** Model */
+            model: string;
+            /** Text */
+            text: string;
+            /** Evidence Ids */
+            evidence_ids: string[];
         };
         /** GroundTruth */
         GroundTruth: {
@@ -662,6 +694,11 @@ export interface components {
             /** Detection Ids */
             detection_ids: string[];
         };
+        /**
+         * Question
+         * @enum {string}
+         */
+        Question: "what_happened" | "why_suspicious" | "what_evidence";
         /**
          * RuleDetection
          * @description A rule prediction. Ground truth is deliberately not stored here.
@@ -1142,6 +1179,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DetectionDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    detection_explanation_detections__detection_id__explanation_get: {
+        parameters: {
+            query?: {
+                question?: components["schemas"]["Question"];
+            };
+            header?: never;
+            path: {
+                detection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Explanation"];
                 };
             };
             /** @description Validation Error */
