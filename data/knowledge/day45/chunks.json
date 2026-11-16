@@ -1,0 +1,136 @@
+{
+  "chunks": [
+    {
+      "chunk_id": "v1:brute_force:01",
+      "references": [
+        {
+          "location": "https://attack.mitre.org/techniques/T1110/",
+          "title": "MITRE ATT&CK T1110 Brute Force"
+        },
+        {
+          "location": "docs/day24-auth-rule.md",
+          "title": "Day 24 authentication rule"
+        }
+      ],
+      "scenario": "brute_force",
+      "section": "Concept",
+      "source_path": "sources/brute_force.md",
+      "source_sha256": "a712ca827d07df0c3086328e4ca6ca464edafcfc20591961da06eb10f3af4dad",
+      "source_title": "Brute force",
+      "text": "Online password guessing involves repeated attempts to authenticate with guessed credentials. The lab represents this with SSH password events. Repeated failures can also come from ordinary retries, so the training rule's alert is an indicator to inspect."
+    },
+    {
+      "chunk_id": "v1:brute_force:02",
+      "references": [
+        {
+          "location": "https://attack.mitre.org/techniques/T1110/",
+          "title": "MITRE ATT&CK T1110 Brute Force"
+        },
+        {
+          "location": "docs/day24-auth-rule.md",
+          "title": "Day 24 authentication rule"
+        }
+      ],
+      "scenario": "brute_force",
+      "section": "Interpreting the lab evidence",
+      "source_path": "sources/brute_force.md",
+      "source_sha256": "a712ca827d07df0c3086328e4ca6ca464edafcfc20591961da06eb10f3af4dad",
+      "source_title": "Brute force",
+      "text": "The frozen authentication rule counts failed password events in a fixed 60-second window for the same run, source IP, and target. It flags a window at three failures. Check the observed count, window, and linked event IDs. A failed attempt or a rule alert alone cannot establish successful access or the user's intent."
+    },
+    {
+      "chunk_id": "v1:reconnaissance:01",
+      "references": [
+        {
+          "location": "https://attack.mitre.org/techniques/T1046/",
+          "title": "MITRE ATT&CK T1046 Network Service Discovery"
+        },
+        {
+          "location": "docs/day19-network-features.md",
+          "title": "Day 19 network features"
+        },
+        {
+          "location": "docs/day25-sqli-recon-rules.md",
+          "title": "Day 25 SQLi and reconnaissance rules"
+        }
+      ],
+      "scenario": "reconnaissance",
+      "section": "Concept",
+      "source_path": "sources/reconnaissance.md",
+      "source_sha256": "08ff3969d7f1e8e6dddf36eacddd66c89043ccb40072190b2acc880f0cb337c2",
+      "source_title": "Network reconnaissance",
+      "text": "Network service discovery seeks to learn which services are available on hosts. Connections to several destination ports can be consistent with discovery, and authorized maintenance can produce a similar pattern. The lab records accepted connections on instrumented services."
+    },
+    {
+      "chunk_id": "v1:reconnaissance:02",
+      "references": [
+        {
+          "location": "https://attack.mitre.org/techniques/T1046/",
+          "title": "MITRE ATT&CK T1046 Network Service Discovery"
+        },
+        {
+          "location": "docs/day19-network-features.md",
+          "title": "Day 19 network features"
+        },
+        {
+          "location": "docs/day25-sqli-recon-rules.md",
+          "title": "Day 25 SQLi and reconnaissance rules"
+        }
+      ],
+      "scenario": "reconnaissance",
+      "section": "Interpreting the lab evidence",
+      "source_path": "sources/reconnaissance.md",
+      "source_sha256": "08ff3969d7f1e8e6dddf36eacddd66c89043ccb40072190b2acc880f0cb337c2",
+      "source_title": "Network reconnaissance",
+      "text": "The frozen network rule flags at least two distinct observed destination ports in a fixed 60-second window for the same run, source IP, and target. Repeated connections to one port do not satisfy the distinct port threshold. The lab logs cannot establish which closed ports were probed or whether any service was compromised."
+    },
+    {
+      "chunk_id": "v1:sql_injection:01",
+      "references": [
+        {
+          "location": "https://community.owasp.org/attacks/SQL_Injection",
+          "title": "OWASP Foundation SQL Injection"
+        },
+        {
+          "location": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html",
+          "title": "OWASP SQL Injection Prevention Cheat Sheet"
+        },
+        {
+          "location": "docs/day25-sqli-recon-rules.md",
+          "title": "Day 25 SQLi and reconnaissance rules"
+        }
+      ],
+      "scenario": "sql_injection",
+      "section": "Concept",
+      "source_path": "sources/sql_injection.md",
+      "source_sha256": "4ffd1a57bfe9db9954a6ff29ebd530db23e00eebc51b56dc9fbdd65c2486616a",
+      "source_title": "SQL injection",
+      "text": "SQL injection arises when application input can change the intended meaning of a SQL query. Parameterized queries help keep input separate from SQL instructions. HTTP observations alone describe requests and responses. They can leave the database outcome unknown."
+    },
+    {
+      "chunk_id": "v1:sql_injection:02",
+      "references": [
+        {
+          "location": "https://community.owasp.org/attacks/SQL_Injection",
+          "title": "OWASP Foundation SQL Injection"
+        },
+        {
+          "location": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html",
+          "title": "OWASP SQL Injection Prevention Cheat Sheet"
+        },
+        {
+          "location": "docs/day25-sqli-recon-rules.md",
+          "title": "Day 25 SQLi and reconnaissance rules"
+        }
+      ],
+      "scenario": "sql_injection",
+      "section": "Interpreting the lab evidence",
+      "source_path": "sources/sql_injection.md",
+      "source_sha256": "4ffd1a57bfe9db9954a6ff29ebd530db23e00eebc51b56dc9fbdd65c2486616a",
+      "source_title": "SQL injection",
+      "text": "The frozen web rule flags a run with at least one SQL-like token match. It counts matches across the run. Ordinary input can include similar words and an injection attempt can lack a recognized pattern. A token match or an HTTP error cannot establish that a query changed, data was accessed, or an injection succeeded."
+    }
+  ],
+  "purpose": "Ground learner-facing explanations of stored results for the three controlled lab scenarios.",
+  "version": "v1"
+}
