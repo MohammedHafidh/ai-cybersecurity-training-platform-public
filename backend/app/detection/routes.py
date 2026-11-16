@@ -15,6 +15,7 @@ from app.detection.service import CombinedDetection, DetectionService, Detection
 from app.detection.explanation import (
     Explanation, ExplanationUnavailable, InvalidExplanation, Question, evidence_sentences, explain,
 )
+from app.detection.rag_explanation import RagExplanation, explain_with_context
 from app.models.events import Label, Scenario, SourceType
 from app.persistence.core import DetectionRecord, EventRecord, RunRecord
 from app.persistence.database import session_factory
@@ -182,6 +183,17 @@ def detection_detail(detection_id: str, session: DB) -> DetectionDetail:
 @router.get("/detections/{detection_id}/explanation", response_model=Explanation, tags=["explanations"])
 def detection_explanation(detection_id: str, request: Request, question: Question = Question.summary) -> Explanation:
     """Explain a stored detection without rescoring or updating it."""
+    facts, _ = read_explanation_input(detection_id, request)
+    try:
+        return explain(detection_id, question, facts)
+    except ExplanationUnavailable as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except InvalidExplanation as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+
+def read_explanation_input(detection_id: str, request: Request) -> tuple[dict[str, str], str]:
+    """Copy typed facts and the source family before doing any model work."""
     try:
         with request_engine(request) as engine:
             with session_factory(engine)() as session:
@@ -189,10 +201,22 @@ def detection_explanation(detection_id: str, request: Request, question: Questio
                 if record is None:
                     raise HTTPException(status_code=404, detail="detection not found")
                 facts = evidence_sentences(record.detector, record.predicted_label, record.evidence)
+                run = session.get(RunRecord, record.run_id)
+                return facts, run.source_type
     except (SQLAlchemyError, ValueError) as exc:
         raise HTTPException(status_code=503, detail="database operation failed") from exc
+
+
+@router.get("/detections/{detection_id}/rag-explanation", response_model=RagExplanation, tags=["explanations"])
+def detection_rag_explanation(
+    detection_id: str,
+    request: Request,
+    question: Annotated[str, Query(max_length=160)] = Question.summary,
+) -> RagExplanation:
+    """Explain a stored prediction with cited context from the frozen lab corpus."""
+    facts, source_type = read_explanation_input(detection_id, request)
     try:
-        return explain(detection_id, question, facts)
+        return explain_with_context(detection_id, source_type, question, facts)
     except ExplanationUnavailable as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except InvalidExplanation as exc:
