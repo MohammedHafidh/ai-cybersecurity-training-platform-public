@@ -4,6 +4,7 @@ export type Health = paths['/health']['get']['responses'][200]['content']['appli
 export type RecentEvent = components['schemas']['EventSummary']
 export type DetectionSummary = components['schemas']['DetectionSummary']
 export type DetectionDetail = components['schemas']['DetectionDetail']
+export type EvaluationSummary = components['schemas']['EvaluationSummary']
 
 function isRecentEvent(value: unknown): value is RecentEvent {
   if (!value || typeof value !== 'object') return false
@@ -22,6 +23,13 @@ export function createApiClient(baseUrl: string, request: typeof fetch = fetch) 
 
   return {
     docsUrl: `${base}/docs`,
+    async evaluation(signal: AbortSignal): Promise<EvaluationSummary> {
+      const response = await request(`${base}/evaluation/summary`, {
+        headers: { Accept: 'application/json' }, signal,
+      })
+      if (!response.ok) throw new Error(`Evaluation request failed (HTTP ${response.status}).`)
+      return response.json()
+    },
     async recentDetections(signal: AbortSignal): Promise<DetectionSummary[]> {
       const response = await request(`${base}/detections?limit=20`, { signal })
       if (!response.ok) throw new Error(`Detection list failed (HTTP ${response.status}).`)

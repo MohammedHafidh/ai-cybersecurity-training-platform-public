@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { metrics, model_version, rule_version } from '../../../data/processed/day32/evaluation.json'
+import { useEffect, useState } from 'react'
+import { createApiClient, type EvaluationSummary } from '../api/client'
 import { scenarioNames } from '../api/evidence'
 
 const scopes = {
@@ -9,7 +9,7 @@ const scopes = {
   network: scenarioNames.reconnaissance,
 }
 type Scope = keyof typeof scopes
-type Metrics = typeof metrics.rule.overall
+type Metrics = EvaluationSummary['metrics']['rule']['overall']
 
 const definitions = [
   ['accuracy', 'Accuracy', 'Share of all runs classified correctly.'],
@@ -55,14 +55,41 @@ function DetectorMetrics({ detector, version, result }: { detector: string; vers
   </article>
 }
 
-export function Evaluation() {
+export function Evaluation({ baseUrl }: { baseUrl: string }) {
+  const [result, setResult] = useState<EvaluationSummary | 'error' | null>(null)
+  const [attempt, setAttempt] = useState(0)
+  useEffect(() => {
+    const controller = new AbortController()
+    const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(5000)])
+    async function load() {
+      try {
+        const report = await createApiClient(baseUrl).evaluation(signal)
+        if (!controller.signal.aborted) setResult(report)
+      } catch {
+        if (!controller.signal.aborted) setResult('error')
+      }
+    }
+    void load()
+    return () => controller.abort()
+  }, [baseUrl, attempt])
+  return <section id="evaluation" aria-labelledby="evaluation-title" className="mt-14 scroll-mt-6">
+    <h2 id="evaluation-title" className="text-2xl font-semibold tracking-tight">Held-out evaluation</h2>
+    {!result && <p role="status" className="mt-4">Loading evaluation…</p>}
+    {result === 'error' && <div className="mt-4">
+      <p role="alert" className="text-amber-200">Could not load the frozen evaluation.</p>
+      <button type="button" className="mt-3 rounded-lg border border-white/15 px-4 py-2 text-sm hover:bg-white/10"
+        onClick={() => { setResult(null); setAttempt(value => value + 1) }}>Try again</button>
+    </div>}
+    {result && result !== 'error' && <EvaluationResults report={result} />}
+  </section>
+}
+
+export function EvaluationResults({ report }: { report: EvaluationSummary }) {
   const [scope, setScope] = useState<Scope>('overall')
-  return <section id="evaluation" aria-labelledby="evaluation-title" className="mt-14">
+  const { metrics, model_version, rule_version } = report
+  return <>
     <div className="flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <h2 id="evaluation-title" className="text-2xl font-semibold tracking-tight">Held-out evaluation</h2>
-        <p className="mt-2 text-sm text-slate-300">Frozen Day 32 results. A run is flagged when any observation is predicted malicious.</p>
-      </div>
+      <p className="mt-2 text-sm text-slate-300">Frozen Day 32 results. A run is flagged when any observation is predicted malicious.</p>
       <label className="text-sm">
         <span className="mr-2">Lab scenario</span>
         <select value={scope} onChange={event => setScope(event.target.value as Scope)}
@@ -80,5 +107,5 @@ export function Evaluation() {
       They describe performance on this lab dataset. Production performance and generalization are unknown.
       A rate of 0% can occur when its denominator is zero, such as precision when a detector flags no runs.
     </p>
-  </section>
+  </>
 }

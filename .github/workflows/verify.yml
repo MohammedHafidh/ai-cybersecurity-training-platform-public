@@ -26,9 +26,13 @@ jobs:
         working-directory: frontend
       - run: npm run build
         working-directory: frontend
+        env:
+          VITE_API_BASE_URL: http://127.0.0.1:8765
+      - run: npx playwright install --with-deps chromium
+        working-directory: frontend
       - run: npm run api:check
         working-directory: frontend
-      - name: Verify frontend API integration, frozen metrics, and evidence explanation
+      - name: Verify frontend API integration and Chromium smoke tests
         working-directory: frontend
         run: |
           fixture="$(mktemp -d)"
@@ -40,6 +44,7 @@ jobs:
           trap 'kill "$pid" 2>/dev/null || true' EXIT
           curl --silent --show-error --fail --retry 20 --retry-connrefused --retry-delay 1 http://127.0.0.1:8765/health
           npm test
+          npx playwright test
   postgres:
     runs-on: ubuntu-latest
     timeout-minutes: 10

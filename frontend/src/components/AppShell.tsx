@@ -8,12 +8,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       </a>
       <header className="border-b border-white/10">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-5">
-          <a href="#overview" className="flex items-center gap-3 font-semibold">
-            <span aria-hidden="true" className="h-5 w-5 rotate-12 rounded-sm border-2 border-teal-300" />
-            Security Training Platform
-          </a>
+          <a href="#overview" className="font-semibold">Security Training Platform</a>
           <nav aria-label="Main navigation" className="flex flex-wrap gap-5 text-sm text-slate-300">
-            <a className="hover:text-teal-200" href="#overview">Overview</a>
             <a className="hover:text-teal-200" href="#recent-events">Recent events</a>
             <a className="hover:text-teal-200" href="#detection-evidence">Detection evidence</a>
             <a className="hover:text-teal-200" href="#evaluation">Evaluation</a>
@@ -21,7 +17,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </nav>
         </div>
       </header>
-      <main id="main" className="mx-auto max-w-6xl px-6 py-14 sm:py-20">
+      <main id="main" tabIndex={-1} className="mx-auto max-w-6xl px-6 py-14 sm:py-20">
         {children}
       </main>
     </div>
