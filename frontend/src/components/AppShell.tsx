@@ -14,6 +14,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </a>
           <nav aria-label="Main navigation" className="flex gap-5 text-sm text-slate-300">
             <a className="hover:text-teal-200" href="#overview">Overview</a>
+            <a className="hover:text-teal-200" href="#recent-events">Recent events</a>
             <a className="hover:text-teal-200" href="#connection">API connection</a>
           </nav>
         </div>
