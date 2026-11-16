@@ -27,13 +27,14 @@ schema. The legacy comparison endpoints still require their own model configurat
 
 | Milestone | Public CI coverage |
 | --- | --- |
-| Day 30 | Recheck the selection ranking and match saved development decisions |
+| Day 30 | Repeat the four fixed development fits, check table hashes and split membership, and reproduce comparison metrics and selection |
 | Day 31 | Load the checksummed frozen model and exercise inference on development observations |
 | Day 32 | Recompute metrics from published confusion matrices and cross-check scenario totals |
 | Day 33 | Run core schema, readiness, insert/read, and foreign-key checks on PostgreSQL 16 |
 
 The public copy omits raw evidence archives, sealed test inputs, run-level
-holdout traces, live attack tooling, and old CI artifacts. It does not retrain
-from the full archived dataset or rescore the held-out evidence. Historical
+holdout traces, live attack tooling, and old CI artifacts. It reproduces the
+development fits from the checked-in feature tables. Historical
 documentation may refer to private artifacts. Public verification checks the
-released model and saved results within these limits.
+released model and saved results within these limits. The public snapshot
+does not rebuild the raw corpus or rescore the held-out evidence.

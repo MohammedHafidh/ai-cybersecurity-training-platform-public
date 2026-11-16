@@ -79,7 +79,12 @@ def build_engine(database_url: str) -> Engine:
 
 
 def create_schema(engine: Engine) -> None:
-    Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine, tables=[
+        FeatureRunRecord.__table__,
+        RuleDetectionRecord.__table__,
+        MLDetectionRecord.__table__,
+        DetectorComparisonRecord.__table__,
+    ])
 
 
 def session_factory(engine: Engine):
