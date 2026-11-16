@@ -2,11 +2,10 @@
 from datetime import datetime, timezone
 from functools import lru_cache
 import hashlib
-import os
 from pathlib import Path
 from typing import Annotated, Literal
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from pydantic import BaseModel, ConfigDict
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
@@ -15,24 +14,19 @@ from sqlalchemy.orm import Session
 from app.detection.service import CombinedDetection, DetectionService, DetectionServiceError, RunNotFound, as_utc
 from app.models.events import Label, SourceType
 from app.persistence.core import DetectionRecord, EventRecord, RunRecord
-from app.persistence.database import build_engine, session_factory
+from app.persistence.database import session_factory
+from app.persistence.runtime import request_engine
 
 router = APIRouter()
 BUNDLE = Path(__file__).resolve().parents[3] / "data/releases/capstone-ml-v1"
 Limit = Annotated[int, Query(ge=1, le=100, description="Maximum records to return")]
 
 
-def database_session():
-    url = os.getenv("DATABASE_URL")
-    if not url:
-        raise HTTPException(status_code=503, detail="database is not configured")
+def database_session(request: Request):
     try:
-        engine = build_engine(url)
-        try:
+        with request_engine(request) as engine:
             with session_factory(engine)() as session:
                 yield session
-        finally:
-            engine.dispose()
     except IntegrityError as exc:
         raise HTTPException(status_code=409, detail="detection storage conflict; retry processing") from exc
     except (SQLAlchemyError, ValueError) as exc:
