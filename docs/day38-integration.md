@@ -21,10 +21,28 @@ python -m pytest -q backend/tests/test_day38_integration.py
 The local default is a temporary SQLite database. Hosted CI also runs the test
 with a disposable PostgreSQL 16 database.
 
-The capstone is now a solo project. The project owner is responsible for
-validation, evidence review, and the final verification record. The public
-benign test is automated. The owner’s attack-evidence verification is pending
-a fresh approved sample with matching run metadata. Keep the original log
-and run metadata in the private academic record, and publish only a
-non-sensitive reference, hashes, and verification results. The backend
-milestone tag follows that verification.
+## Private attack evidence verification
+
+The sole project owner supplied the approved capture and its metadata. The
+automated verification for the owner's validation record used PostgreSQL 16.
+The original files remain in the private academic record.
+
+| Evidence reference | SHA-256 |
+| --- | --- |
+| Authentication log | `5336c410badcb93d997e8fd71e9fd5b5076a32d63ce7c16157d1136e37d372d9` |
+| Run metadata | `cbf63b3f5553389b0201d8000e4422a5a576f6f604f00fe8889e93fd154a2d14` |
+
+The parser accepted three failed login events in one 60-second window. Trusted
+metadata labeled the run malicious. The frozen authentication rule counted
+three failures at its threshold of three and predicted malicious. The frozen
+Logistic Regression model independently predicted malicious with a score of
+0.8013. Both persisted decisions matched their processing responses and linked
+to all three accepted events after application restart. Reprocessing returned
+the same IDs. Both original hashes matched again after verification.
+
+The metadata reader now accepts a UTF-8 byte-order mark. The normalizer can
+resolve a declared log reference relative to an explicit evidence root, without
+editing the original metadata or opening a file outside that root.
+
+This verifies one backend integration case. The official held-out metrics
+remain those from Day 32.

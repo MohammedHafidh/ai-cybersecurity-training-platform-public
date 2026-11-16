@@ -56,3 +56,22 @@ jobs:
           backend/tests/test_day38_integration.py
         env:
           CAPSTONE_TEST_DATABASE_URL: postgresql+psycopg://capstone_fixture:fixture_only@127.0.0.1:${{ job.services.postgres.ports[5432] }}/capstone_fixture
+  tag-day38:
+    name: Tag the verified backend milestone
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.before == 'd2b59b971f6a5692a3dc743ab44ca539c01bffb3'
+    needs: [verify, postgres]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish backend-v1
+        run: |
+          existing="$(git ls-remote origin refs/tags/backend-v1 'refs/tags/backend-v1^{}')"
+          if [ -n "$existing" ]; then
+            printf '%s\n' "$existing" | grep -F "$GITHUB_SHA"
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' tag -a backend-v1 "$GITHUB_SHA" -m 'Day 38 verified backend milestone'
+          git push origin refs/tags/backend-v1

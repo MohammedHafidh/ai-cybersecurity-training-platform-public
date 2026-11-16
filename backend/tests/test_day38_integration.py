@@ -47,11 +47,11 @@ def test_fresh_benign_connection_through_persistent_detection_history(database, 
         "source": "loopback-client",
         "target": "loopback-listener",
         "tool_or_method": "single ordinary TCP connection",
-        "log_sources": [log.name],
-    }), encoding="utf-8")
+        "log_sources": [f"{tmp_path.name}/{log.name}"],
+    }), encoding="utf-8-sig")
     raw_hash = hashlib.sha256(log.read_bytes()).digest()
     run = load_run_metadata(metadata)
-    event, = normalize_log(log, run, "network")
+    event, = normalize_log(log, run, "network", source_root=tmp_path.parent)
     assert event.destination_port == port
     assert event.source_ip == peer[0]
 
@@ -86,7 +86,7 @@ def test_fresh_benign_connection_through_persistent_detection_history(database, 
             assert record["run_id"] == run_id
             assert record["event_id"] == event.event_id
             assert record["evidence"]["event_ids"] == [event.event_id]
-            assert record["evidence"]["raw_source_files"] == [log.name]
+            assert record["evidence"]["raw_source_files"] == run.log_sources
             assert record["predicted_label"] == observation[detector]["predicted_label"]
         assert detectors == {"rule", "ml"}
     assert hashlib.sha256(log.read_bytes()).digest() == raw_hash

@@ -10,7 +10,7 @@ from app.models.runs import RunMetadata
 
 
 def load_run_metadata(path: Path) -> RunMetadata:
-    metadata = RunMetadata.model_validate(json.loads(path.read_text(encoding="utf-8")))
+    metadata = RunMetadata.model_validate(json.loads(path.read_text(encoding="utf-8-sig")))
     errors = validate_run_metadata(metadata)
     if errors:
         raise ValueError("; ".join(errors))
@@ -29,11 +29,15 @@ def _event_id(
 
 
 def normalize_log(
-    log_path: Path, metadata: RunMetadata, source_type: str
+    log_path: Path, metadata: RunMetadata, source_type: str, *, source_root: Path | None = None
 ) -> list[NormalizedEvent]:
     """Normalize one immutable raw log and join its trusted run label."""
-    if log_path.name not in metadata.log_sources:
-        raise ValueError(f"{log_path.name} is not declared in metadata.log_sources")
+    source_file = (
+        log_path.name if source_root is None
+        else log_path.resolve().relative_to(source_root.resolve()).as_posix()
+    )
+    if source_file not in metadata.log_sources:
+        raise ValueError(f"{source_file} is not declared in metadata.log_sources")
 
     events: list[NormalizedEvent] = []
     for line_number, record_number, line, parsed in parsed_lines(
@@ -48,10 +52,10 @@ def normalize_log(
         events.append(
             NormalizedEvent(
                 event_id=_event_id(
-                    metadata.run_id, log_path.name, line_number, record_number, line
+                    metadata.run_id, source_file, line_number, record_number, line
                 ),
                 run_id=metadata.run_id,
-                raw_source_file=log_path.name,
+                raw_source_file=source_file,
                 attack_label=metadata.expected_label,
                 scenario=metadata.scenario,
                 **parsed,
