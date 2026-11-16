@@ -1,5 +1,6 @@
 import { ApiConnection } from './components/ApiConnection'
 import { AppShell } from './components/AppShell'
+import { RecentEvents } from './components/RecentEvents'
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
 
@@ -9,7 +10,7 @@ export default function App() {
       <div className="grid items-start gap-10 lg:grid-cols-[1.3fr_1fr]">
         <section id="overview" aria-labelledby="overview-title">
           <h1 id="overview-title" className="max-w-xl text-4xl font-semibold tracking-tight sm:text-6xl">
-            Investigate security events
+            Security activity dashboard
           </h1>
           <p className="mt-5 max-w-lg text-lg leading-8 text-slate-300">
             Learn to distinguish observed evidence from rule and machine learning predictions across authentication, web, and network activity.
@@ -22,6 +23,7 @@ export default function App() {
         </section>
         <ApiConnection baseUrl={apiBase} />
       </div>
+      <RecentEvents baseUrl={apiBase} />
     </AppShell>
   )
 }
