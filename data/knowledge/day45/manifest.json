@@ -1,0 +1,59 @@
+{
+  "version": "v1",
+  "purpose": "Ground learner-facing explanations of stored results for the three controlled lab scenarios.",
+  "sources": [
+    {
+      "scenario": "brute_force",
+      "title": "Brute force",
+      "sha256": "a712ca827d07df0c3086328e4ca6ca464edafcfc20591961da06eb10f3af4dad",
+      "references": [
+        {
+          "title": "MITRE ATT&CK T1110 Brute Force",
+          "location": "https://attack.mitre.org/techniques/T1110/"
+        },
+        {
+          "title": "Day 24 authentication rule",
+          "location": "docs/day24-auth-rule.md"
+        }
+      ]
+    },
+    {
+      "scenario": "reconnaissance",
+      "title": "Network reconnaissance",
+      "sha256": "08ff3969d7f1e8e6dddf36eacddd66c89043ccb40072190b2acc880f0cb337c2",
+      "references": [
+        {
+          "title": "MITRE ATT&CK T1046 Network Service Discovery",
+          "location": "https://attack.mitre.org/techniques/T1046/"
+        },
+        {
+          "title": "Day 19 network features",
+          "location": "docs/day19-network-features.md"
+        },
+        {
+          "title": "Day 25 SQLi and reconnaissance rules",
+          "location": "docs/day25-sqli-recon-rules.md"
+        }
+      ]
+    },
+    {
+      "scenario": "sql_injection",
+      "title": "SQL injection",
+      "sha256": "4ffd1a57bfe9db9954a6ff29ebd530db23e00eebc51b56dc9fbdd65c2486616a",
+      "references": [
+        {
+          "title": "OWASP Foundation SQL Injection",
+          "location": "https://community.owasp.org/attacks/SQL_Injection"
+        },
+        {
+          "title": "OWASP SQL Injection Prevention Cheat Sheet",
+          "location": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html"
+        },
+        {
+          "title": "Day 25 SQLi and reconnaissance rules",
+          "location": "docs/day25-sqli-recon-rules.md"
+        }
+      ]
+    }
+  ]
+}
