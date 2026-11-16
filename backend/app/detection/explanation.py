@@ -96,9 +96,15 @@ def ollama_chat(payload: dict) -> dict:
     return result
 
 
-def explain(detection_id: str, question: Question, facts: dict[str, str]) -> Explanation:
+def select_evidence(question: Question, facts: dict[str, str], context: dict[str, str] | None = None) -> list[str]:
     if os.getenv("CAPSTONE_OLLAMA_ENABLED") != "1":
         raise ExplanationUnavailable("local explanations are disabled")
+    candidates = {**facts, **(context or {})}
+    prompt = {"question": QUESTIONS[question], "facts": facts}
+    instruction = "Select and order evidence IDs for a brief security training explanation. "
+    if context:
+        prompt["trusted_context"] = context
+        instruction += "Select evidence about the run and at least one trusted background passage. "
     payload = {
         "model": MODEL,
         "stream": False,
@@ -107,27 +113,26 @@ def explain(detection_id: str, question: Question, facts: dict[str, str]) -> Exp
         "format": {
             "type": "object",
             "properties": {"evidence_ids": {
-                "type": "array", "minItems": 1, "maxItems": len(facts),
-                "items": {"type": "string", "enum": list(facts)},
+                "type": "array", "minItems": 1, "maxItems": len(candidates),
+                "items": {"type": "string", "enum": list(candidates)},
             }},
             "required": ["evidence_ids"],
             "additionalProperties": False,
         },
         "messages": [{
             "role": "system",
-            "content": "Select and order evidence IDs for a brief security training explanation. "
-                       "Use only IDs from the provided facts, once each. Return JSON only.",
+            "content": instruction + "Use only provided IDs, once each. Return JSON only.",
         }, {
             "role": "user",
-            "content": json.dumps({"question": QUESTIONS[question], "facts": facts}),
+            "content": json.dumps(prompt),
         }],
     }
     try:
         selection = json.loads(ollama_chat(payload)["message"]["content"])
         ids = selection["evidence_ids"]
         if (set(selection) != {"evidence_ids"} or not isinstance(ids, list)
-                or not 1 <= len(ids) <= len(facts)
-                or any(not isinstance(key, str) or key not in facts for key in ids)
+                or not 1 <= len(ids) <= len(candidates)
+                or any(not isinstance(key, str) or key not in candidates for key in ids)
                 or len(set(ids)) != len(ids)):
             raise ValueError("invalid evidence selection")
     except (KeyError, TypeError, ValueError) as exc:
@@ -138,6 +143,11 @@ def explain(detection_id: str, question: Question, facts: dict[str, str]) -> Exp
         Question.evidence: "events",
     }[question]
     if anchor in facts:
-        ids = [anchor, *(key for key in ids if key != anchor)]
+        return [anchor, *(key for key in ids if key != anchor)]
+    return ids
+
+
+def explain(detection_id: str, question: Question, facts: dict[str, str]) -> Explanation:
+    ids = select_evidence(question, facts)
     return Explanation(detection_id=detection_id, question=question, model=MODEL,
                        text=" ".join(facts[key] for key in ids), evidence_ids=ids)

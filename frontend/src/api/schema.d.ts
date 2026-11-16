@@ -255,6 +255,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/detections/{detection_id}/rag-explanation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Detection Rag Explanation
+         * @description Explain a stored prediction with cited context from the frozen lab corpus.
+         */
+        get: operations["detection_rag_explanation_detections__detection_id__rag_explanation_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -459,6 +479,23 @@ export interface components {
              * @enum {string}
              */
             expected_label: "benign" | "malicious";
+        };
+        /** GroundingSource */
+        GroundingSource: {
+            /** Chunk Id */
+            chunk_id: string;
+            /** Source Title */
+            source_title: string;
+            /** Source Path */
+            source_path: string;
+            /** Source Sha256 */
+            source_sha256: string;
+            /** Section */
+            section: string;
+            /** Text */
+            text: string;
+            /** References */
+            references: components["schemas"]["Reference"][];
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -699,6 +736,32 @@ export interface components {
          * @enum {string}
          */
         Question: "what_happened" | "why_suspicious" | "what_evidence";
+        /** RagExplanation */
+        RagExplanation: {
+            /** Detection Id */
+            detection_id: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "grounded" | "unsupported";
+            /** Text */
+            text: string;
+            question?: components["schemas"]["Question"] | null;
+            /** Model */
+            model?: string | null;
+            /** Evidence Ids */
+            evidence_ids: string[];
+            /** Sources */
+            sources: components["schemas"]["GroundingSource"][];
+        };
+        /** Reference */
+        Reference: {
+            /** Title */
+            title: string;
+            /** Location */
+            location: string;
+        };
         /**
          * RuleDetection
          * @description A rule prediction. Ground truth is deliberately not stored here.
@@ -1212,6 +1275,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Explanation"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    detection_rag_explanation_detections__detection_id__rag_explanation_get: {
+        parameters: {
+            query?: {
+                question?: string;
+            };
+            header?: never;
+            path: {
+                detection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RagExplanation"];
                 };
             };
             /** @description Validation Error */
