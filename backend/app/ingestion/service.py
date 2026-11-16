@@ -1,5 +1,7 @@
 """Validate and persist a normalized run as a single database transaction."""
 
+from datetime import timezone
+
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from sqlalchemy.orm import Session
 
@@ -80,13 +82,15 @@ def store_run(session: Session, request: RunIngestionRequest) -> RunIngestionRes
     run = request.run
     with session.begin():
         session.add(RunRecord(source_type=request.source_type, **run.model_dump(
-            include={"run_id", "scenario", "expected_label", "start_time", "end_time", "source", "target"}
-        )))
+            include={"run_id", "scenario", "expected_label", "source", "target"}
+        ), start_time=run.start_time.astimezone(timezone.utc),
+            end_time=run.end_time.astimezone(timezone.utc)))
         session.flush()
         for event in request.events:
             columns = {"event_id", "run_id", "source_type", "timestamp", "event_type", "raw_source_file"}
             session.add(EventRecord(
-                **event.model_dump(include=columns),
+                **event.model_dump(include=columns - {"timestamp"}),
+                timestamp=event.timestamp.astimezone(timezone.utc),
                 attributes=event.model_dump(mode="json", exclude=columns | {"attack_label", "scenario"}, exclude_none=True),
             ))
     return RunIngestionResult(run_id=run.run_id, event_count=len(request.events))
