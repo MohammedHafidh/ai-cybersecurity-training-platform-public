@@ -19,6 +19,8 @@ python -m uvicorn app.main:app --app-dir backend
 ```
 
 In a second terminal, run `npm install` and `npm run dev` from `frontend`.
+
+See the [training explanation guide](docs/day48-frontend-rag.md) for local Ollama setup, citation display, and the Day 48 feature freeze.
 The API liveness check is available at `http://127.0.0.1:8000/health`.
 The database readiness endpoint requires a configured database and installed
 schema. The legacy comparison endpoints still require their own model configuration.

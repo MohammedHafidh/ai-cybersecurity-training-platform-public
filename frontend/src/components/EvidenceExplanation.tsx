@@ -20,7 +20,6 @@ export function EvidenceExplanation({ rules }: { rules: { detection_id: string; 
     </ul> : <p className="mt-2 text-sm text-slate-200">No supported rule threshold is stored for this observation.</p>}
     <p className="mt-2 text-sm text-slate-300">
       This summary uses stored rule evidence. The ML panel shows the model prediction and its available probability.
-      LLM explanations are unavailable.
     </p>
   </aside>
 }

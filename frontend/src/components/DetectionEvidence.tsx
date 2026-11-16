@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { EvidenceExplanation } from './EvidenceExplanation'
+import { RagExplanationPanel } from './RagExplanationPanel'
 import { createApiClient, type DetectionDetail, type DetectionSummary } from '../api/client'
 import { evidenceList, evidenceObject, featureName, maliciousProbability, scenarioNames } from '../api/evidence'
 
@@ -82,11 +83,11 @@ export function DetectionEvidence({ baseUrl }: { baseUrl: string }) {
     </div> : <p role="status" className="mt-4">No stored detections yet.</p>)}
     {selected && !detail && <p role="status" className="mt-4">Loading evidence…</p>}
     {detail && 'error' in detail && <p role="alert" className="mt-4 text-amber-200">Could not load this prediction. Refresh to try again.</p>}
-    {detail && 'data' in detail && <Observation detail={detail.data} />}
+    {detail && 'data' in detail && <Observation detail={detail.data} baseUrl={baseUrl} />}
   </section>
 }
 
-function Observation({ detail }: { detail: DetectionDetail }) {
+function Observation({ detail, baseUrl }: { detail: DetectionDetail; baseUrl: string }) {
   const { run, evidence } = detail
   const predictions = [detail, ...detail.counterparts]
   const rule = predictions.filter(row => row.detector === 'rule')
@@ -146,5 +147,6 @@ function Observation({ detail }: { detail: DetectionDetail }) {
       <EvidenceReferences label="Log references" values={evidence.raw_source_files} />
     </div>
     <EvidenceExplanation rules={rule} />
+    <RagExplanationPanel key={detail.detection_id} baseUrl={baseUrl} detectionId={detail.detection_id} />
   </div>
 }
