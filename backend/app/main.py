@@ -6,6 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.detection.comparison import compare_detectors
+from app.ingestion.routes import router as ingestion_router
 from app.ml.inference import load_selected_model, predict_run
 from app.models.detections import DetectorComparison
 from app.models.ml import MLDetection, MLInferenceRequest
@@ -17,6 +18,7 @@ app = FastAPI(
     title="AI-Assisted Cybersecurity Training Platform API",
     version="0.1.0",
 )
+app.include_router(ingestion_router)
 
 
 @app.get("/health", tags=["system"])
