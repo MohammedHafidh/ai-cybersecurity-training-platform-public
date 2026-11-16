@@ -1,0 +1,668 @@
+[
+  {
+    "detection_id": "auth-det-8106f926e8bacff21982ac19",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-26901d9fb6dcc6cc7ec38ff2",
+        "evt-40425074374fbb18e6cc0dd7",
+        "evt-82d9f042322c903a2a80f3a5"
+      ],
+      "feature": "failed_login_count",
+      "observed": 1,
+      "operator": ">=",
+      "source_ip": "172.18.0.3",
+      "target": "auth-target",
+      "threshold": 3,
+      "window_end": "2026-11-06T07:46:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:45:00+00:00"
+    },
+    "predicted_label": "benign",
+    "predicted_scenario": "benign",
+    "row_id": "6a24d3f9c43c3e567e112e9a",
+    "rule_version": "auth-failed-burst-v1",
+    "run_id": "corpus-v01-auth-benign-02-42182808711-1",
+    "source_type": "auth",
+    "split": "train",
+    "triggered": false
+  },
+  {
+    "detection_id": "auth-det-a4061c65026525045c52983b",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-09383d99ff2e69cdd5496f9f",
+        "evt-45cc01f3f833336e97687031",
+        "evt-687d47cf8bbff8f5c709ce30",
+        "evt-cc45271ad99d466099c0bb08"
+      ],
+      "feature": "failed_login_count",
+      "observed": 1,
+      "operator": ">=",
+      "source_ip": "172.18.0.3",
+      "target": "auth-target",
+      "threshold": 3,
+      "window_end": "2026-11-06T07:46:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:45:00+00:00"
+    },
+    "predicted_label": "benign",
+    "predicted_scenario": "benign",
+    "row_id": "4227870a45d7f9dcf861855f",
+    "rule_version": "auth-failed-burst-v1",
+    "run_id": "corpus-v01-auth-benign-03-42182808711-1",
+    "source_type": "auth",
+    "split": "train",
+    "triggered": false
+  },
+  {
+    "detection_id": "auth-det-91e45bdc2b3797a919f463a6",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-0809839b4fa0a067585b3a21",
+        "evt-1dad59fe0b14bbbb8b600275",
+        "evt-297045d3f17be1ddee8afaa0",
+        "evt-32180f4e02e272d346b8ecaa",
+        "evt-e4c278cd6fad58069ebe9538"
+      ],
+      "feature": "failed_login_count",
+      "observed": 1,
+      "operator": ">=",
+      "source_ip": "172.18.0.2",
+      "target": "auth-target",
+      "threshold": 3,
+      "window_end": "2026-11-06T07:46:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:45:00+00:00"
+    },
+    "predicted_label": "benign",
+    "predicted_scenario": "benign",
+    "row_id": "9d6e205891b47c11347f3a5d",
+    "rule_version": "auth-failed-burst-v1",
+    "run_id": "corpus-v01-auth-benign-04-42182808711-1",
+    "source_type": "auth",
+    "split": "train",
+    "triggered": false
+  },
+  {
+    "detection_id": "auth-det-14e46c484d0f899f3a6a53a1",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-710ca2df19faff33f6359019",
+        "evt-75e2a7788b8ed23d2d7c0f8a",
+        "evt-fbc981a8363520247b95f468"
+      ],
+      "feature": "failed_login_count",
+      "observed": 3,
+      "operator": ">=",
+      "source_ip": "172.18.0.3",
+      "target": "auth-target",
+      "threshold": 3,
+      "window_end": "2026-11-06T07:47:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:46:00+00:00"
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "brute_force",
+    "row_id": "522d061cf251a6f6856a38d5",
+    "rule_version": "auth-failed-burst-v1",
+    "run_id": "corpus-v01-auth-malicious-01-42182808711-1",
+    "source_type": "auth",
+    "split": "train",
+    "triggered": true
+  },
+  {
+    "detection_id": "auth-det-20abbb5f9b06203eff4a4e2c",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-38389798553006234ffc76b0",
+        "evt-58425f81f1dd1f954b808ce9",
+        "evt-83e4f24d9424be28a0a4866b",
+        "evt-da66e7bf99a06d5adc29b83a"
+      ],
+      "feature": "failed_login_count",
+      "observed": 4,
+      "operator": ">=",
+      "source_ip": "172.18.0.2",
+      "target": "auth-target",
+      "threshold": 3,
+      "window_end": "2026-11-06T07:47:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:46:00+00:00"
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "brute_force",
+    "row_id": "9258a9a5d0b31a360d88ce84",
+    "rule_version": "auth-failed-burst-v1",
+    "run_id": "corpus-v01-auth-malicious-03-42182808711-1",
+    "source_type": "auth",
+    "split": "train",
+    "triggered": true
+  },
+  {
+    "detection_id": "auth-det-fd6c705b8d5c970a6c049097",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-653240c6dfc790e5e3da9eda",
+        "evt-85dd808c6063e331f7c6c2be",
+        "evt-f41f9578da8d633586b4ca7f",
+        "evt-fd910a29e6234e707fd94c4b"
+      ],
+      "feature": "failed_login_count",
+      "observed": 4,
+      "operator": ">=",
+      "source_ip": "172.18.0.2",
+      "target": "auth-target",
+      "threshold": 3,
+      "window_end": "2026-11-06T07:48:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:47:00+00:00"
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "brute_force",
+    "row_id": "946fe1cfd422d22e20b8a111",
+    "rule_version": "auth-failed-burst-v1",
+    "run_id": "corpus-v01-auth-malicious-04-42182808711-1",
+    "source_type": "auth",
+    "split": "train",
+    "triggered": true
+  },
+  {
+    "detection_id": "rule-det-cb2cb48389e41686e9ee00b0",
+    "detector_type": "rule_based",
+    "evidence": {
+      "aggregation_unit": "web run",
+      "event_ids": [
+        "evt-3eed31072d9c444a1825e68e",
+        "evt-b47ab4b030d41e6db7ca5deb"
+      ],
+      "feature": "suspicious_token_count",
+      "observed": 0,
+      "operator": ">=",
+      "threshold": 1
+    },
+    "predicted_label": "benign",
+    "predicted_scenario": "benign",
+    "row_id": "02954ab38e7675b6cff5f04c",
+    "rule_version": "web-sql-token-v1",
+    "run_id": "corpus-v01-web-benign-03-42182808711-1",
+    "source_type": "web",
+    "split": "train",
+    "triggered": false
+  },
+  {
+    "detection_id": "rule-det-dd1a775db94de94a8e3595f8",
+    "detector_type": "rule_based",
+    "evidence": {
+      "aggregation_unit": "web run",
+      "event_ids": [
+        "evt-1a84fceeae233ac303bfae6d",
+        "evt-27c0f9bd8910bde77a0a30f2",
+        "evt-4d9f65ae5141b3465be49b9c"
+      ],
+      "feature": "suspicious_token_count",
+      "observed": 0,
+      "operator": ">=",
+      "threshold": 1
+    },
+    "predicted_label": "benign",
+    "predicted_scenario": "benign",
+    "row_id": "edd95ef07d7802483916c9c1",
+    "rule_version": "web-sql-token-v1",
+    "run_id": "corpus-v01-web-benign-04-42182808711-1",
+    "source_type": "web",
+    "split": "train",
+    "triggered": false
+  },
+  {
+    "detection_id": "rule-det-e253566b37f470fb97589d8a",
+    "detector_type": "rule_based",
+    "evidence": {
+      "aggregation_unit": "web run",
+      "event_ids": [
+        "evt-01f37e812ea9d8ae13230204",
+        "evt-12486df4ef6a7d8fb47eadb5",
+        "evt-411b54d6bb978dcab0ae0f42"
+      ],
+      "feature": "suspicious_token_count",
+      "observed": 0,
+      "operator": ">=",
+      "threshold": 1
+    },
+    "predicted_label": "benign",
+    "predicted_scenario": "benign",
+    "row_id": "6a2e5404410be04ddcf23128",
+    "rule_version": "web-sql-token-v1",
+    "run_id": "corpus-v01-web-benign-05-42182808711-1",
+    "source_type": "web",
+    "split": "train",
+    "triggered": false
+  },
+  {
+    "detection_id": "rule-det-101e043fc66275a69507eac3",
+    "detector_type": "rule_based",
+    "evidence": {
+      "aggregation_unit": "web run",
+      "event_ids": [
+        "evt-b5b0287f765cbc772947f070"
+      ],
+      "feature": "suspicious_token_count",
+      "observed": 1,
+      "operator": ">=",
+      "threshold": 1
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "sql_injection",
+    "row_id": "28f7d8fed92ca0b4db604102",
+    "rule_version": "web-sql-token-v1",
+    "run_id": "corpus-v01-web-malicious-01-42182808711-1",
+    "source_type": "web",
+    "split": "train",
+    "triggered": true
+  },
+  {
+    "detection_id": "rule-det-6a953d8cae63f38551efcb78",
+    "detector_type": "rule_based",
+    "evidence": {
+      "aggregation_unit": "web run",
+      "event_ids": [
+        "evt-1eac9f4f9af4a1b73f2ca271"
+      ],
+      "feature": "suspicious_token_count",
+      "observed": 1,
+      "operator": ">=",
+      "threshold": 1
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "sql_injection",
+    "row_id": "095a499023bea759f25110ce",
+    "rule_version": "web-sql-token-v1",
+    "run_id": "corpus-v01-web-malicious-02-42182808711-1",
+    "source_type": "web",
+    "split": "train",
+    "triggered": true
+  },
+  {
+    "detection_id": "rule-det-829112e8625b4532b53aab89",
+    "detector_type": "rule_based",
+    "evidence": {
+      "aggregation_unit": "web run",
+      "event_ids": [
+        "evt-b0b9d47c852340413bb88bd8"
+      ],
+      "feature": "suspicious_token_count",
+      "observed": 1,
+      "operator": ">=",
+      "threshold": 1
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "sql_injection",
+    "row_id": "fb07e96e470a2587ca513930",
+    "rule_version": "web-sql-token-v1",
+    "run_id": "corpus-v01-web-malicious-03-42182808711-1",
+    "source_type": "web",
+    "split": "train",
+    "triggered": true
+  },
+  {
+    "detection_id": "rule-det-f4caf16683604032c016e8dd",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-6881f9e7d920a8f2072cb36a",
+        "evt-7cd6c26f9409cdc752cc9197"
+      ],
+      "feature": "unique_destination_port_count",
+      "observed": 1,
+      "operator": ">=",
+      "source_ip": "172.18.0.2",
+      "target": "recon-target",
+      "threshold": 2,
+      "window_end": "2026-11-06T07:49:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:48:00+00:00"
+    },
+    "predicted_label": "benign",
+    "predicted_scenario": "benign",
+    "row_id": "cb59407c37956c7415916d65",
+    "rule_version": "network-multiport-v1",
+    "run_id": "corpus-v01-network-benign-02-42182808711-1",
+    "source_type": "network",
+    "split": "train",
+    "triggered": false
+  },
+  {
+    "detection_id": "rule-det-0f390f80e9cc9d2b340b2c8a",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-267dd24016b162decf874b33",
+        "evt-2a8b6190363ce05c3a2d91bb",
+        "evt-48f9e4a1bce26b28f0a6eedf"
+      ],
+      "feature": "unique_destination_port_count",
+      "observed": 1,
+      "operator": ">=",
+      "source_ip": "172.18.0.3",
+      "target": "recon-target",
+      "threshold": 2,
+      "window_end": "2026-11-06T07:49:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:48:00+00:00"
+    },
+    "predicted_label": "benign",
+    "predicted_scenario": "benign",
+    "row_id": "b3e575b9c98625a83bb282c8",
+    "rule_version": "network-multiport-v1",
+    "run_id": "corpus-v01-network-benign-03-42182808711-1",
+    "source_type": "network",
+    "split": "train",
+    "triggered": false
+  },
+  {
+    "detection_id": "rule-det-56fc536d6910d3f4bcdc365c",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-328237f6ca9efac3c6ba937a",
+        "evt-4322d48cef5ddc66f54a1764",
+        "evt-5878dfe33bd71086c94d95ad",
+        "evt-664d23665d2ae7861179d391"
+      ],
+      "feature": "unique_destination_port_count",
+      "observed": 1,
+      "operator": ">=",
+      "source_ip": "172.18.0.2",
+      "target": "recon-target",
+      "threshold": 2,
+      "window_end": "2026-11-06T07:49:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:48:00+00:00"
+    },
+    "predicted_label": "benign",
+    "predicted_scenario": "benign",
+    "row_id": "4303b57267314b5c14b2f260",
+    "rule_version": "network-multiport-v1",
+    "run_id": "corpus-v01-network-benign-04-42182808711-1",
+    "source_type": "network",
+    "split": "train",
+    "triggered": false
+  },
+  {
+    "detection_id": "rule-det-676fa06237e0da1fa6b99039",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-2a9549eed1beddec3cbde96a",
+        "evt-3fd42ef96529d37d5b00a98e",
+        "evt-754e6af98c016cf6063b76ad",
+        "evt-9803ba8338e90006fe04ee28"
+      ],
+      "feature": "unique_destination_port_count",
+      "observed": 2,
+      "operator": ">=",
+      "source_ip": "172.18.0.2",
+      "target": "recon-target",
+      "threshold": 2,
+      "window_end": "2026-11-06T07:50:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:49:00+00:00"
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "reconnaissance",
+    "row_id": "df21356f243bc4a64bdff4c8",
+    "rule_version": "network-multiport-v1",
+    "run_id": "corpus-v01-network-malicious-02-42182808711-1",
+    "source_type": "network",
+    "split": "train",
+    "triggered": true
+  },
+  {
+    "detection_id": "rule-det-ef25d795cef5fe9cccbde7a0",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-3a7bb1d2fb350fbb57a0386e",
+        "evt-a8f6b13996fbf2d1943d7844"
+      ],
+      "feature": "unique_destination_port_count",
+      "observed": 2,
+      "operator": ">=",
+      "source_ip": "172.18.0.3",
+      "target": "recon-target",
+      "threshold": 2,
+      "window_end": "2026-11-06T07:50:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:49:00+00:00"
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "reconnaissance",
+    "row_id": "0b54f4a0c89029aaf5925cd0",
+    "rule_version": "network-multiport-v1",
+    "run_id": "corpus-v01-network-malicious-03-42182808711-1",
+    "source_type": "network",
+    "split": "train",
+    "triggered": true
+  },
+  {
+    "detection_id": "rule-det-0044eb4b5808c5657c25f021",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-5838103717ea54345be91e18",
+        "evt-9081c5a8bb2a3e396952371f",
+        "evt-a2063530bc6c5acabc535088",
+        "evt-e6b2cfc5634700d3f6bd0fb8"
+      ],
+      "feature": "unique_destination_port_count",
+      "observed": 2,
+      "operator": ">=",
+      "source_ip": "172.18.0.2",
+      "target": "recon-target",
+      "threshold": 2,
+      "window_end": "2026-11-06T07:50:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:49:00+00:00"
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "reconnaissance",
+    "row_id": "081c35370daf3091bde77875",
+    "rule_version": "network-multiport-v1",
+    "run_id": "corpus-v01-network-malicious-04-42182808711-1",
+    "source_type": "network",
+    "split": "train",
+    "triggered": true
+  },
+  {
+    "detection_id": "auth-det-987ebce5b5c2b7e8606c9b3f",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-3e368df4175a239d5ec1c305",
+        "evt-a3d7b0be7044a991d0b8ef08",
+        "evt-db637743b38504d6a95d310b"
+      ],
+      "feature": "failed_login_count",
+      "observed": 0,
+      "operator": ">=",
+      "source_ip": "172.18.0.3",
+      "target": "auth-target",
+      "threshold": 3,
+      "window_end": "2026-11-06T07:47:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:46:00+00:00"
+    },
+    "predicted_label": "benign",
+    "predicted_scenario": "benign",
+    "row_id": "12fdb247fbaa87235a740e5e",
+    "rule_version": "auth-failed-burst-v1",
+    "run_id": "corpus-v01-auth-benign-05-42182808711-1",
+    "source_type": "auth",
+    "split": "validation",
+    "triggered": false
+  },
+  {
+    "detection_id": "auth-det-373da3fb44320c51e521140a",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-4a81c7abf2a6d422cd6bea48",
+        "evt-6a982e180208cad472ba8ab9",
+        "evt-ae514232dbca0bb597badd42"
+      ],
+      "feature": "failed_login_count",
+      "observed": 1,
+      "operator": ">=",
+      "source_ip": "172.18.0.3",
+      "target": "auth-target",
+      "threshold": 3,
+      "window_end": "2026-11-06T07:46:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:45:00+00:00"
+    },
+    "predicted_label": "benign",
+    "predicted_scenario": "benign",
+    "row_id": "32205ba2e01e23f679a78407",
+    "rule_version": "auth-failed-burst-v1",
+    "run_id": "corpus-v01-auth-benign-05-42182808711-1",
+    "source_type": "auth",
+    "split": "validation",
+    "triggered": false
+  },
+  {
+    "detection_id": "auth-det-488b8ea9f3196dfd06009634",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-136d9311afc974f3a83685f0",
+        "evt-712ec44140ebdf8c3c586b6d",
+        "evt-8f2511e9405ccb9275a89180",
+        "evt-ed3e3a9f636cc37d0791792d"
+      ],
+      "feature": "failed_login_count",
+      "observed": 4,
+      "operator": ">=",
+      "source_ip": "172.18.0.2",
+      "target": "auth-target",
+      "threshold": 3,
+      "window_end": "2026-11-06T07:48:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:47:00+00:00"
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "brute_force",
+    "row_id": "ee71116a56b6a25e0d08da34",
+    "rule_version": "auth-failed-burst-v1",
+    "run_id": "corpus-v01-auth-malicious-05-42182808711-1",
+    "source_type": "auth",
+    "split": "validation",
+    "triggered": true
+  },
+  {
+    "detection_id": "rule-det-5aed3e00d570fc4c3ec95f28",
+    "detector_type": "rule_based",
+    "evidence": {
+      "aggregation_unit": "web run",
+      "event_ids": [
+        "evt-75e000c070b2df089fb18c4e",
+        "evt-e6dda0e1077687145e645e26"
+      ],
+      "feature": "suspicious_token_count",
+      "observed": 1,
+      "operator": ">=",
+      "threshold": 1
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "sql_injection",
+    "row_id": "ef2b94c40097c8cb03cb90e0",
+    "rule_version": "web-sql-token-v1",
+    "run_id": "corpus-v01-web-benign-01-42182808711-1",
+    "source_type": "web",
+    "split": "validation",
+    "triggered": true
+  },
+  {
+    "detection_id": "rule-det-a1782a00375d872c7228eb19",
+    "detector_type": "rule_based",
+    "evidence": {
+      "aggregation_unit": "web run",
+      "event_ids": [
+        "evt-20af20c42605595b55c85da2"
+      ],
+      "feature": "suspicious_token_count",
+      "observed": 2,
+      "operator": ">=",
+      "threshold": 1
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "sql_injection",
+    "row_id": "0c638a5b053279e5dd4344a2",
+    "rule_version": "web-sql-token-v1",
+    "run_id": "corpus-v01-web-malicious-04-42182808711-1",
+    "source_type": "web",
+    "split": "validation",
+    "triggered": true
+  },
+  {
+    "detection_id": "rule-det-1b0d2bbaccfe2ec0bcf9eed0",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-642b49f20a24a018fc7b687a"
+      ],
+      "feature": "unique_destination_port_count",
+      "observed": 1,
+      "operator": ">=",
+      "source_ip": "172.18.0.3",
+      "target": "recon-target",
+      "threshold": 2,
+      "window_end": "2026-11-06T07:49:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:48:00+00:00"
+    },
+    "predicted_label": "benign",
+    "predicted_scenario": "benign",
+    "row_id": "bba2758cceee59901276ad32",
+    "rule_version": "network-multiport-v1",
+    "run_id": "corpus-v01-network-benign-01-42182808711-1",
+    "source_type": "network",
+    "split": "validation",
+    "triggered": false
+  },
+  {
+    "detection_id": "rule-det-730b7dff28dd5e40cd5819cc",
+    "detector_type": "rule_based",
+    "evidence": {
+      "event_ids": [
+        "evt-2ba3442852eb857d027a407b",
+        "evt-4167880c595b0505cb474bf2",
+        "evt-8a38f22f2a6524ff830b6857",
+        "evt-91d9485f7a8260b9893ee700",
+        "evt-b17db67e3ec321483ab80868",
+        "evt-ca7bbe1983a4fdb896415685"
+      ],
+      "feature": "unique_destination_port_count",
+      "observed": 2,
+      "operator": ">=",
+      "source_ip": "172.18.0.2",
+      "target": "recon-target",
+      "threshold": 2,
+      "window_end": "2026-11-06T07:51:00+00:00",
+      "window_seconds": 60,
+      "window_start": "2026-11-06T07:50:00+00:00"
+    },
+    "predicted_label": "malicious",
+    "predicted_scenario": "reconnaissance",
+    "row_id": "817fa577a37501eb2db4c55f",
+    "rule_version": "network-multiport-v1",
+    "run_id": "corpus-v01-network-malicious-05-42182808711-1",
+    "source_type": "network",
+    "split": "validation",
+    "triggered": true
+  }
+]

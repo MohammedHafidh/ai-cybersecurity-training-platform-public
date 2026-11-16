@@ -1,0 +1,5 @@
+recon-target-1 | {"timestamp":"2026-10-17T09:30:01Z","event_type":"tcp_connection","run_id":"day7-network-malicious","source_ip":"172.30.0.3","destination_port":8080,"protocol":"tcp","request_line":""}
+recon-target-1 | {"timestamp":"2026-10-17T09:30:02Z","event_type":"tcp_connection","run_id":"day7-network-malicious","source_ip":"172.30.0.3","destination_port":9090,"protocol":"tcp","request_line":""}
+recon-target-1 | {"timestamp":"2026-10-17T09:30:03Z","event_type":"tcp_connection","run_id":"different-run","source_ip":"172.30.0.9","destination_port":8080,"protocol":"tcp","request_line":""}
+recon-target-1 | {"timestamp":"2026-10-17T10:30:00Z","event_type":"tcp_connection","run_id":"day7-network-malicious","source_ip":"172.30.0.3","destination_port":8080,"protocol":"tcp","request_line":""}
+

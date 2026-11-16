@@ -1,0 +1,8 @@
+{
+  "scope": "One development-only bounded improvement round; no test data",
+  "change": "Logistic Regression C from 1.0 to 0.1 only",
+  "rationale": "18 training runs versus 20 transformed inputs warrant testing stronger regularization against small-sample overfitting; no feature or label correction is justified by the benign SQL-like false positive",
+  "attempts": 1,
+  "selection_order": ["highest validation run F1", "highest validation run recall", "lowest validation run false-positive rate", "simplest pipeline: original Logistic Regression, regularized Logistic Regression, Random Forest, Gradient Boosting"],
+  "constraints": "Same membership, preprocessing, train-only fitting, weights and aggregation; default threshold; no further search regardless of result; final evidence sealed until Day 32"
+}

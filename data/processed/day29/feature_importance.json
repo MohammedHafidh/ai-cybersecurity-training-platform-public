@@ -1,0 +1,86 @@
+{
+  "features": [
+    {
+      "feature": "numeric__attempt_count",
+      "importance": 0.0
+    },
+    {
+      "feature": "numeric__attempts_per_second",
+      "importance": 0.0
+    },
+    {
+      "feature": "numeric__failed_login_count",
+      "importance": 0.3383951970401088
+    },
+    {
+      "feature": "numeric__successful_login_count",
+      "importance": 0.0
+    },
+    {
+      "feature": "numeric__success_after_failure",
+      "importance": 0.0
+    },
+    {
+      "feature": "numeric__unique_username_count",
+      "importance": 0.0
+    },
+    {
+      "feature": "numeric__request_count",
+      "importance": 0.0
+    },
+    {
+      "feature": "numeric__max_request_length",
+      "importance": 0.14320577478420435
+    },
+    {
+      "feature": "numeric__suspicious_token_count",
+      "importance": 0.1811683395461024
+    },
+    {
+      "feature": "numeric__error_response_count",
+      "importance": 0.0
+    },
+    {
+      "feature": "numeric__empty_input_count",
+      "importance": 0.0
+    },
+    {
+      "feature": "numeric__missing_input_count",
+      "importance": 0.0
+    },
+    {
+      "feature": "numeric__residual_encoded_count",
+      "importance": 0.0
+    },
+    {
+      "feature": "numeric__connection_count",
+      "importance": 2.880747374799314e-17
+    },
+    {
+      "feature": "numeric__connections_per_second",
+      "importance": 0.0
+    },
+    {
+      "feature": "numeric__observed_span_seconds",
+      "importance": 3.917816429727068e-17
+    },
+    {
+      "feature": "numeric__unique_destination_port_count",
+      "importance": 0.3372306886295843
+    },
+    {
+      "feature": "source__source_type_auth",
+      "importance": 0.0
+    },
+    {
+      "feature": "source__source_type_network",
+      "importance": 0.0
+    },
+    {
+      "feature": "source__source_type_web",
+      "importance": 0.0
+    }
+  ],
+  "limitations": "Correlated counts/rates split importance; source indicators and zero-filled fields can reflect lab structure. Not causal or deployment evidence; no final-test permutation used.",
+  "method": "training-only mean decrease in impurity"
+}

@@ -1,0 +1,20 @@
+{
+  "errors": [
+    {
+      "event_ids": [
+        "evt-75e000c070b2df089fb18c4e",
+        "evt-e6dda0e1077687145e645e26"
+      ],
+      "ground_truth": "benign",
+      "predicted_label": "malicious",
+      "row_ids": [
+        "ef2b94c40097c8cb03cb90e0"
+      ],
+      "run_id": "corpus-v01-web-benign-01-42182808711-1",
+      "source_type": "web",
+      "split": "validation"
+    }
+  ],
+  "interpretation": "Benign SQL-like input overlaps token/error indicators. Preserve trusted intent labels. No validation improvement establishes deployment performance; scripted counts, timing and source structure remain risks.",
+  "reviewer": "Agent review and automated development evidence checks; no independent teammate sign-off claimed"
+}

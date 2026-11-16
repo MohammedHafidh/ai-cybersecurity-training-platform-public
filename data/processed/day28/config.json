@@ -1,0 +1,62 @@
+{
+  "absent_source_features": "zero; applicable missing values fail closed",
+  "categorical_features": [
+    "source_type"
+  ],
+  "dataset_sha256": "b660122cadb05c6124d03573cebfcf27f07c0520813487960f1b5e7e8bd4b499",
+  "final_test_evaluated": false,
+  "model": "RandomForestClassifier",
+  "numeric_features": [
+    "attempt_count",
+    "attempts_per_second",
+    "failed_login_count",
+    "successful_login_count",
+    "success_after_failure",
+    "unique_username_count",
+    "request_count",
+    "max_request_length",
+    "suspicious_token_count",
+    "error_response_count",
+    "empty_input_count",
+    "missing_input_count",
+    "residual_encoded_count",
+    "connection_count",
+    "connections_per_second",
+    "observed_span_seconds",
+    "unique_destination_port_count"
+  ],
+  "parameters": {
+    "bootstrap": true,
+    "max_depth": 4,
+    "max_features": "sqrt",
+    "min_samples_leaf": 1,
+    "n_estimators": 100,
+    "n_jobs": 1,
+    "random_state": 42
+  },
+  "prohibited_inputs": [
+    "attack_label",
+    "scenario",
+    "run_id",
+    "row_id",
+    "event_ids",
+    "raw_source_files",
+    "source_ip",
+    "target",
+    "timestamps",
+    "split"
+  ],
+  "run_aggregation": "any malicious observation",
+  "sample_weight": "inverse observation count per run",
+  "scaler_fit": "training observations only",
+  "seed": 42,
+  "source_sha256": {
+    "backend/app/ml/dataset_v1.py": "af395a28a081144360eb92f791c4fdeecc4a73058c323819abe6aeab51ea7782",
+    "backend/app/ml/random_forest_v1.py": "29cee3cf37be778b64d5b6675bbc0a301ea64ec756fda5a02af2784e85518dd9",
+    "requirements/day27.txt": "bd2b0e83c7339d66ea7d539f7a74aae77c4d5ea2cbbfab5afea9be104a2105ae",
+    "scripts/train_day28.py": "17ee34349e298bc1cdfa06f1e0e2d3c65cb77416b962047557cbc8f7e0a162bd"
+  },
+  "threshold": "sklearn predict default",
+  "train_runs": 18,
+  "validation_runs": 6
+}

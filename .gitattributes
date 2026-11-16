@@ -1,0 +1,12 @@
+# Deterministic generated tables and hashes across Windows and Linux.
+data/processed/day20/* text eol=lf
+data/processed/day21/* text eol=lf
+data/processed/day22/* text eol=lf
+data/releases/dataset-v1/*.json text eol=lf
+data/processed/day24/* text eol=lf
+data/processed/day25/* text eol=lf
+data/processed/day26/* text eol=lf
+data/processed/day27/* text eol=lf
+data/processed/day28/* text eol=lf
+data/processed/day29/* text eol=lf
+data/processed/day30/* text eol=lf

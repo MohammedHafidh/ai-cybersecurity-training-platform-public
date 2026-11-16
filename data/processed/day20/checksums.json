@@ -1,0 +1,10 @@
+{
+  "auth.csv": "955a5ca9b3ffe574606171e517d733c4bdad28a442f10168496a8c20908784a2",
+  "auth.jsonl": "8ceea329ce63d9163512aaafc498e24325eb88a2dd9846ab27dbbd3cfbdbc1ad",
+  "coverage-report.json": "7b4587f48d5f97edb1c8c4becba9127e05a9f0e9dddcc20654dae8f6bd4a32ef",
+  "data-dictionary.json": "fee6a773c1fb5f827dd1f12a373f6cb336210f296e1a64ffb137242dc5a8d80e",
+  "network.csv": "62f3f212a97972fdcf70d75bc890ae6cfc6c7094bc32f41f8e7b764600f2fdc2",
+  "network.jsonl": "52139ae98429f6761cc28e6784490c60b57ce2a6faf3fb6800a39eae61a3ae3d",
+  "web.csv": "e6a9d391d180b7d503b0a39dc71275ba06797a83d27c428e2a04620c83929e55",
+  "web.jsonl": "65587d64fdb275d78d56f7fa77475206bd84d2dc1ba9350b4ccd684f5c6a0f12"
+}

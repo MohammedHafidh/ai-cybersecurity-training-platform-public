@@ -1,0 +1,271 @@
+[
+  {
+    "attack_label": "benign",
+    "event_ids": [
+      "evt-26901d9fb6dcc6cc7ec38ff2",
+      "evt-40425074374fbb18e6cc0dd7",
+      "evt-82d9f042322c903a2a80f3a5"
+    ],
+    "row_ids": [
+      "6a24d3f9c43c3e567e112e9a"
+    ],
+    "run_id": "corpus-v01-auth-benign-02-42182808711-1",
+    "scenario": "benign",
+    "source_type": "auth",
+    "split": "train"
+  },
+  {
+    "attack_label": "benign",
+    "event_ids": [
+      "evt-09383d99ff2e69cdd5496f9f",
+      "evt-45cc01f3f833336e97687031",
+      "evt-687d47cf8bbff8f5c709ce30",
+      "evt-cc45271ad99d466099c0bb08"
+    ],
+    "row_ids": [
+      "4227870a45d7f9dcf861855f"
+    ],
+    "run_id": "corpus-v01-auth-benign-03-42182808711-1",
+    "scenario": "benign",
+    "source_type": "auth",
+    "split": "train"
+  },
+  {
+    "attack_label": "benign",
+    "event_ids": [
+      "evt-0809839b4fa0a067585b3a21",
+      "evt-1dad59fe0b14bbbb8b600275",
+      "evt-297045d3f17be1ddee8afaa0",
+      "evt-32180f4e02e272d346b8ecaa",
+      "evt-e4c278cd6fad58069ebe9538"
+    ],
+    "row_ids": [
+      "9d6e205891b47c11347f3a5d"
+    ],
+    "run_id": "corpus-v01-auth-benign-04-42182808711-1",
+    "scenario": "benign",
+    "source_type": "auth",
+    "split": "train"
+  },
+  {
+    "attack_label": "malicious",
+    "event_ids": [
+      "evt-710ca2df19faff33f6359019",
+      "evt-75e2a7788b8ed23d2d7c0f8a",
+      "evt-fbc981a8363520247b95f468"
+    ],
+    "row_ids": [
+      "522d061cf251a6f6856a38d5"
+    ],
+    "run_id": "corpus-v01-auth-malicious-01-42182808711-1",
+    "scenario": "brute_force",
+    "source_type": "auth",
+    "split": "train"
+  },
+  {
+    "attack_label": "malicious",
+    "event_ids": [
+      "evt-38389798553006234ffc76b0",
+      "evt-58425f81f1dd1f954b808ce9",
+      "evt-83e4f24d9424be28a0a4866b",
+      "evt-da66e7bf99a06d5adc29b83a"
+    ],
+    "row_ids": [
+      "9258a9a5d0b31a360d88ce84"
+    ],
+    "run_id": "corpus-v01-auth-malicious-03-42182808711-1",
+    "scenario": "brute_force",
+    "source_type": "auth",
+    "split": "train"
+  },
+  {
+    "attack_label": "malicious",
+    "event_ids": [
+      "evt-653240c6dfc790e5e3da9eda",
+      "evt-85dd808c6063e331f7c6c2be",
+      "evt-f41f9578da8d633586b4ca7f",
+      "evt-fd910a29e6234e707fd94c4b"
+    ],
+    "row_ids": [
+      "946fe1cfd422d22e20b8a111"
+    ],
+    "run_id": "corpus-v01-auth-malicious-04-42182808711-1",
+    "scenario": "brute_force",
+    "source_type": "auth",
+    "split": "train"
+  },
+  {
+    "attack_label": "benign",
+    "event_ids": [
+      "evt-6881f9e7d920a8f2072cb36a",
+      "evt-7cd6c26f9409cdc752cc9197"
+    ],
+    "row_ids": [
+      "cb59407c37956c7415916d65"
+    ],
+    "run_id": "corpus-v01-network-benign-02-42182808711-1",
+    "scenario": "benign",
+    "source_type": "network",
+    "split": "train"
+  },
+  {
+    "attack_label": "benign",
+    "event_ids": [
+      "evt-267dd24016b162decf874b33",
+      "evt-2a8b6190363ce05c3a2d91bb",
+      "evt-48f9e4a1bce26b28f0a6eedf"
+    ],
+    "row_ids": [
+      "b3e575b9c98625a83bb282c8"
+    ],
+    "run_id": "corpus-v01-network-benign-03-42182808711-1",
+    "scenario": "benign",
+    "source_type": "network",
+    "split": "train"
+  },
+  {
+    "attack_label": "benign",
+    "event_ids": [
+      "evt-328237f6ca9efac3c6ba937a",
+      "evt-4322d48cef5ddc66f54a1764",
+      "evt-5878dfe33bd71086c94d95ad",
+      "evt-664d23665d2ae7861179d391"
+    ],
+    "row_ids": [
+      "4303b57267314b5c14b2f260"
+    ],
+    "run_id": "corpus-v01-network-benign-04-42182808711-1",
+    "scenario": "benign",
+    "source_type": "network",
+    "split": "train"
+  },
+  {
+    "attack_label": "malicious",
+    "event_ids": [
+      "evt-2a9549eed1beddec3cbde96a",
+      "evt-3fd42ef96529d37d5b00a98e",
+      "evt-754e6af98c016cf6063b76ad",
+      "evt-9803ba8338e90006fe04ee28"
+    ],
+    "row_ids": [
+      "df21356f243bc4a64bdff4c8"
+    ],
+    "run_id": "corpus-v01-network-malicious-02-42182808711-1",
+    "scenario": "reconnaissance",
+    "source_type": "network",
+    "split": "train"
+  },
+  {
+    "attack_label": "malicious",
+    "event_ids": [
+      "evt-3a7bb1d2fb350fbb57a0386e",
+      "evt-a8f6b13996fbf2d1943d7844"
+    ],
+    "row_ids": [
+      "0b54f4a0c89029aaf5925cd0"
+    ],
+    "run_id": "corpus-v01-network-malicious-03-42182808711-1",
+    "scenario": "reconnaissance",
+    "source_type": "network",
+    "split": "train"
+  },
+  {
+    "attack_label": "malicious",
+    "event_ids": [
+      "evt-5838103717ea54345be91e18",
+      "evt-9081c5a8bb2a3e396952371f",
+      "evt-a2063530bc6c5acabc535088",
+      "evt-e6b2cfc5634700d3f6bd0fb8"
+    ],
+    "row_ids": [
+      "081c35370daf3091bde77875"
+    ],
+    "run_id": "corpus-v01-network-malicious-04-42182808711-1",
+    "scenario": "reconnaissance",
+    "source_type": "network",
+    "split": "train"
+  },
+  {
+    "attack_label": "benign",
+    "event_ids": [
+      "evt-3eed31072d9c444a1825e68e",
+      "evt-b47ab4b030d41e6db7ca5deb"
+    ],
+    "row_ids": [
+      "02954ab38e7675b6cff5f04c"
+    ],
+    "run_id": "corpus-v01-web-benign-03-42182808711-1",
+    "scenario": "benign",
+    "source_type": "web",
+    "split": "train"
+  },
+  {
+    "attack_label": "benign",
+    "event_ids": [
+      "evt-1a84fceeae233ac303bfae6d",
+      "evt-27c0f9bd8910bde77a0a30f2",
+      "evt-4d9f65ae5141b3465be49b9c"
+    ],
+    "row_ids": [
+      "edd95ef07d7802483916c9c1"
+    ],
+    "run_id": "corpus-v01-web-benign-04-42182808711-1",
+    "scenario": "benign",
+    "source_type": "web",
+    "split": "train"
+  },
+  {
+    "attack_label": "benign",
+    "event_ids": [
+      "evt-01f37e812ea9d8ae13230204",
+      "evt-12486df4ef6a7d8fb47eadb5",
+      "evt-411b54d6bb978dcab0ae0f42"
+    ],
+    "row_ids": [
+      "6a2e5404410be04ddcf23128"
+    ],
+    "run_id": "corpus-v01-web-benign-05-42182808711-1",
+    "scenario": "benign",
+    "source_type": "web",
+    "split": "train"
+  },
+  {
+    "attack_label": "malicious",
+    "event_ids": [
+      "evt-b5b0287f765cbc772947f070"
+    ],
+    "row_ids": [
+      "28f7d8fed92ca0b4db604102"
+    ],
+    "run_id": "corpus-v01-web-malicious-01-42182808711-1",
+    "scenario": "sql_injection",
+    "source_type": "web",
+    "split": "train"
+  },
+  {
+    "attack_label": "malicious",
+    "event_ids": [
+      "evt-1eac9f4f9af4a1b73f2ca271"
+    ],
+    "row_ids": [
+      "095a499023bea759f25110ce"
+    ],
+    "run_id": "corpus-v01-web-malicious-02-42182808711-1",
+    "scenario": "sql_injection",
+    "source_type": "web",
+    "split": "train"
+  },
+  {
+    "attack_label": "malicious",
+    "event_ids": [
+      "evt-b0b9d47c852340413bb88bd8"
+    ],
+    "row_ids": [
+      "fb07e96e470a2587ca513930"
+    ],
+    "run_id": "corpus-v01-web-malicious-03-42182808711-1",
+    "scenario": "sql_injection",
+    "source_type": "web",
+    "split": "train"
+  }
+]

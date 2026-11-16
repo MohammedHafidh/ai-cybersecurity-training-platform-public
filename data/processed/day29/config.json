@@ -1,0 +1,63 @@
+{
+  "absent_source_features": "zero; applicable missing values fail closed",
+  "categorical_features": [
+    "source_type"
+  ],
+  "dataset_sha256": "b660122cadb05c6124d03573cebfcf27f07c0520813487960f1b5e7e8bd4b499",
+  "final_test_evaluated": false,
+  "model": "GradientBoostingClassifier",
+  "numeric_features": [
+    "attempt_count",
+    "attempts_per_second",
+    "failed_login_count",
+    "successful_login_count",
+    "success_after_failure",
+    "unique_username_count",
+    "request_count",
+    "max_request_length",
+    "suspicious_token_count",
+    "error_response_count",
+    "empty_input_count",
+    "missing_input_count",
+    "residual_encoded_count",
+    "connection_count",
+    "connections_per_second",
+    "observed_span_seconds",
+    "unique_destination_port_count"
+  ],
+  "parameters": {
+    "learning_rate": 0.1,
+    "loss": "log_loss",
+    "max_depth": 2,
+    "min_samples_leaf": 1,
+    "n_estimators": 100,
+    "n_iter_no_change": null,
+    "random_state": 42,
+    "subsample": 1.0
+  },
+  "prohibited_inputs": [
+    "attack_label",
+    "scenario",
+    "run_id",
+    "row_id",
+    "event_ids",
+    "raw_source_files",
+    "source_ip",
+    "target",
+    "timestamps",
+    "split"
+  ],
+  "run_aggregation": "any malicious observation",
+  "sample_weight": "inverse observation count per run",
+  "scaler_fit": "training observations only",
+  "seed": 42,
+  "source_sha256": {
+    "backend/app/ml/dataset_v1.py": "af395a28a081144360eb92f791c4fdeecc4a73058c323819abe6aeab51ea7782",
+    "backend/app/ml/gradient_boosting_v1.py": "6b5c87629e6cfb56007482255550c72ac03a40dbe8e10e3b153319d64f7eedf8",
+    "requirements/day27.txt": "bd2b0e83c7339d66ea7d539f7a74aae77c4d5ea2cbbfab5afea9be104a2105ae",
+    "scripts/train_day29.py": "24ff219c80426b3ee853af01b5c4d935aa1a3135663030701a1297e72b039a19"
+  },
+  "threshold": "sklearn predict default",
+  "train_runs": 18,
+  "validation_runs": 6
+}

@@ -1,0 +1,2 @@
+2026-10-06T10:00:01+04:00 sshd[101]: Accepted password for student from 172.30.0.3 port 50222 ssh2
+2026-10-06T10:00:03+04:00 sshd[101]: pam_unix(sshd:session): session opened for user student

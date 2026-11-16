@@ -1,0 +1,13 @@
+{
+  "run_id": "day7-auth-malicious",
+  "scenario": "brute_force",
+  "expected_label": "malicious",
+  "start_time": "2026-10-17T09:00:00Z",
+  "end_time": "2026-10-17T09:01:00Z",
+  "source": "auth-client",
+  "target": "auth-target",
+  "tool_or_method": "bounded failed SSH logins",
+  "log_sources": ["auth.log"],
+  "status": "valid"
+}
+

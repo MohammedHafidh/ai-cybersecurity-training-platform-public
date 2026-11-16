@@ -1,0 +1,317 @@
+{
+  "corpus_quality": {
+    "counts": {
+      "accepted_records": 90,
+      "background_or_non_event": 342,
+      "input_lines": 614,
+      "other_run": 172,
+      "outside_window": 10,
+      "parsed_records": 272
+    },
+    "coverage": {
+      "auth:benign": 20,
+      "auth:malicious": 19,
+      "network:benign": 15,
+      "network:malicious": 18,
+      "web:benign": 12,
+      "web:malicious": 6
+    },
+    "missing_web_input_count": 1,
+    "policy": "Exact semantic duplicates within a run are excluded; distinct timestamps remain distinct. All exclusions are logged. Unknown/malformed candidate lines require review."
+  },
+  "input_sha256": {
+    "data/processed/day20/auth.jsonl": "8ceea329ce63d9163512aaafc498e24325eb88a2dd9846ab27dbbd3cfbdbc1ad",
+    "data/processed/day20/network.jsonl": "52139ae98429f6761cc28e6784490c60b57ce2a6faf3fb6800a39eae61a3ae3d",
+    "data/processed/day20/web.jsonl": "65587d64fdb275d78d56f7fa77475206bd84d2dc1ba9350b4ccd684f5c6a0f12",
+    "data/processed/day21/test.json": "36b73dfc2f17521ddfd477d9ffdf047672e0ef27113df38b6050421b42e6e89a",
+    "data/processed/day21/train.json": "f01bd1194d3216553762dea6136b150a32f66a23b9c644824fb3181d75669396",
+    "data/processed/day21/validation.json": "e1417bbcd8572199d8b1f8bac2fb9f03d01d34d1ad5c7521a19d5bb4925d61a7",
+    "data/raw-corpus-v0.1/raw-corpus-v0.1.tar.gz": "e35bfe2e7d5d4bc2638ed31dc0d830db57e35a0def8578277586d334d9b096b9"
+  },
+  "inventory": {
+    "exploratory_test_role": "Inventory only; no feature distributions. Not the final benchmark.",
+    "reserved_final_test_accessed": false,
+    "split_run_counts": {
+      "test": 6,
+      "train": 18,
+      "validation": 6
+    },
+    "total_events": 90,
+    "total_rows": 31,
+    "total_runs": 30
+  },
+  "limitations": [
+    "Small scripted controlled-lab corpus; distributions do not establish detector performance.",
+    "Window rows are not independent runs; authentication has one extra boundary window.",
+    "Zero null feature cells coexist with explicitly counted missing/empty raw web inputs.",
+    "SQL token matches can occur in benign look-alikes; labels remain trusted metadata.",
+    "Network logs observe accepted service connections, not all packets or closed-port attempts.",
+    "No data changes, model tuning, threshold selection or reserved final-test analysis performed."
+  ],
+  "scope": "Training and validation descriptive analysis only",
+  "sources": {
+    "auth": {
+      "features": {
+        "attempt_count": {
+          "count": 9,
+          "distinct_count": 3,
+          "maximum": 5,
+          "mean": 3.66666667,
+          "median": 4,
+          "minimum": 3,
+          "zero_count": 0
+        },
+        "attempts_per_second": {
+          "count": 9,
+          "distinct_count": 3,
+          "maximum": 0.08333333333333333,
+          "mean": 0.06111111,
+          "median": 0.06666666666666667,
+          "minimum": 0.05,
+          "zero_count": 0
+        },
+        "failed_login_count": {
+          "count": 9,
+          "distinct_count": 4,
+          "maximum": 4,
+          "mean": 2.11111111,
+          "median": 1,
+          "minimum": 0,
+          "zero_count": 1
+        },
+        "success_after_failure": {
+          "count": 9,
+          "distinct_count": 2,
+          "maximum": 1,
+          "mean": 0.44444444,
+          "median": 0,
+          "minimum": 0,
+          "zero_count": 5
+        },
+        "successful_login_count": {
+          "count": 9,
+          "distinct_count": 4,
+          "maximum": 4,
+          "mean": 1.55555556,
+          "median": 2,
+          "minimum": 0,
+          "zero_count": 4
+        },
+        "unique_username_count": {
+          "count": 9,
+          "distinct_count": 4,
+          "maximum": 4,
+          "mean": 1.66666667,
+          "median": 1,
+          "minimum": 1,
+          "zero_count": 0
+        }
+      },
+      "missing_cells": {
+        "attack_label": 0,
+        "attempt_count": 0,
+        "attempts_per_second": 0,
+        "event_ids": 0,
+        "failed_login_count": 0,
+        "raw_source_files": 0,
+        "row_id": 0,
+        "run_id": 0,
+        "scenario": 0,
+        "source_ip": 0,
+        "source_type": 0,
+        "success_after_failure": 0,
+        "successful_login_count": 0,
+        "target": 0,
+        "unique_username_count": 0,
+        "window_end": 0,
+        "window_start": 0
+      },
+      "row_count": 9,
+      "row_label_counts": {
+        "benign": 5,
+        "malicious": 4
+      },
+      "run_count": 8,
+      "run_label_counts": {
+        "benign": 4,
+        "malicious": 4
+      },
+      "scenario_row_counts": {
+        "benign": 5,
+        "brute_force": 4
+      }
+    },
+    "network": {
+      "features": {
+        "connection_count": {
+          "count": 8,
+          "distinct_count": 5,
+          "maximum": 6,
+          "mean": 3.25,
+          "median": 3.5,
+          "minimum": 1,
+          "zero_count": 0
+        },
+        "connections_per_second": {
+          "count": 8,
+          "distinct_count": 5,
+          "maximum": 0.1,
+          "mean": 0.05416667,
+          "median": 0.058333333333333334,
+          "minimum": 0.016666666666666666,
+          "zero_count": 0
+        },
+        "observed_span_seconds": {
+          "count": 8,
+          "distinct_count": 8,
+          "maximum": 0.575993,
+          "mean": 0.23410662,
+          "median": 0.178572,
+          "minimum": 0.0,
+          "zero_count": 1
+        },
+        "unique_destination_port_count": {
+          "count": 8,
+          "distinct_count": 2,
+          "maximum": 2,
+          "mean": 1.5,
+          "median": 1.5,
+          "minimum": 1,
+          "zero_count": 0
+        }
+      },
+      "missing_cells": {
+        "attack_label": 0,
+        "connection_count": 0,
+        "connections_per_second": 0,
+        "event_ids": 0,
+        "observed_span_seconds": 0,
+        "raw_source_files": 0,
+        "row_id": 0,
+        "run_id": 0,
+        "scenario": 0,
+        "source_ip": 0,
+        "source_type": 0,
+        "target": 0,
+        "unique_destination_port_count": 0,
+        "window_end": 0,
+        "window_start": 0
+      },
+      "row_count": 8,
+      "row_label_counts": {
+        "benign": 4,
+        "malicious": 4
+      },
+      "run_count": 8,
+      "run_label_counts": {
+        "benign": 4,
+        "malicious": 4
+      },
+      "scenario_row_counts": {
+        "benign": 4,
+        "reconnaissance": 4
+      }
+    },
+    "web": {
+      "features": {
+        "empty_input_count": {
+          "count": 8,
+          "distinct_count": 2,
+          "maximum": 1,
+          "mean": 0.125,
+          "median": 0.0,
+          "minimum": 0,
+          "zero_count": 7
+        },
+        "error_response_count": {
+          "count": 8,
+          "distinct_count": 2,
+          "maximum": 1,
+          "mean": 0.5,
+          "median": 0.5,
+          "minimum": 0,
+          "zero_count": 4
+        },
+        "max_request_length": {
+          "count": 8,
+          "distinct_count": 6,
+          "maximum": 34,
+          "mean": 9.125,
+          "median": 7.0,
+          "minimum": 2,
+          "zero_count": 0
+        },
+        "missing_input_count": {
+          "count": 8,
+          "distinct_count": 2,
+          "maximum": 1,
+          "mean": 0.125,
+          "median": 0.0,
+          "minimum": 0,
+          "zero_count": 7
+        },
+        "request_count": {
+          "count": 8,
+          "distinct_count": 3,
+          "maximum": 3,
+          "mean": 1.75,
+          "median": 1.5,
+          "minimum": 1,
+          "zero_count": 0
+        },
+        "residual_encoded_count": {
+          "count": 8,
+          "distinct_count": 2,
+          "maximum": 1,
+          "mean": 0.125,
+          "median": 0.0,
+          "minimum": 0,
+          "zero_count": 7
+        },
+        "suspicious_token_count": {
+          "count": 8,
+          "distinct_count": 3,
+          "maximum": 2,
+          "mean": 0.75,
+          "median": 1.0,
+          "minimum": 0,
+          "zero_count": 3
+        }
+      },
+      "missing_cells": {
+        "attack_label": 0,
+        "empty_input_count": 0,
+        "error_response_count": 0,
+        "event_ids": 0,
+        "max_request_length": 0,
+        "missing_input_count": 0,
+        "raw_source_files": 0,
+        "request_count": 0,
+        "residual_encoded_count": 0,
+        "row_id": 0,
+        "run_id": 0,
+        "scenario": 0,
+        "source_type": 0,
+        "suspicious_token_count": 0
+      },
+      "row_count": 8,
+      "row_label_counts": {
+        "benign": 4,
+        "malicious": 4
+      },
+      "run_count": 8,
+      "run_label_counts": {
+        "benign": 4,
+        "malicious": 4
+      },
+      "scenario_row_counts": {
+        "benign": 4,
+        "sql_injection": 4
+      }
+    }
+  },
+  "traceability_checks": {
+    "all_events_traced": true,
+    "representative_rows": 12
+  }
+}

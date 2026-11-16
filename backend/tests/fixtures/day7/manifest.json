@@ -1,0 +1,9 @@
+{
+  "runs": [
+    {"metadata": "auth-metadata.json", "log": "auth.log", "source_type": "auth"},
+    {"metadata": "web-benign-metadata.json", "log": "web.log", "source_type": "web"},
+    {"metadata": "web-malicious-metadata.json", "log": "web-malicious.log", "source_type": "web"},
+    {"metadata": "network-metadata.json", "log": "network.log", "source_type": "network"}
+  ]
+}
+

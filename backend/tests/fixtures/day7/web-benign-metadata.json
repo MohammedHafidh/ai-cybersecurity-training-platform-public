@@ -1,0 +1,13 @@
+{
+  "run_id": "day7-web-benign",
+  "scenario": "benign",
+  "expected_label": "benign",
+  "start_time": "2026-10-17T09:10:00Z",
+  "end_time": "2026-10-17T09:11:00Z",
+  "source": "sql-client",
+  "target": "sql-target",
+  "tool_or_method": "normal bounded web request",
+  "log_sources": ["web.log"],
+  "status": "valid"
+}
+

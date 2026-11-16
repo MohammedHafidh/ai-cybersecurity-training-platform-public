@@ -1,0 +1,360 @@
+{
+  "error_count": 1,
+  "evaluation_scope": "18 training and six validation runs; reserved final benchmark not evaluated",
+  "input_sha256": {
+    "data/processed/day20/auth.jsonl": "8ceea329ce63d9163512aaafc498e24325eb88a2dd9846ab27dbbd3cfbdbc1ad",
+    "data/processed/day20/network.jsonl": "52139ae98429f6761cc28e6784490c60b57ce2a6faf3fb6800a39eae61a3ae3d",
+    "data/processed/day20/web.jsonl": "65587d64fdb275d78d56f7fa77475206bd84d2dc1ba9350b4ccd684f5c6a0f12",
+    "data/processed/day21/train.json": "f01bd1194d3216553762dea6136b150a32f66a23b9c644824fb3181d75669396",
+    "data/processed/day21/validation.json": "e1417bbcd8572199d8b1f8bac2fb9f03d01d34d1ad5c7521a19d5bb4925d61a7"
+  },
+  "limitations": [
+    "Token matches are heuristic and can flag benign words or miss syntax/encoding variants.",
+    "Two observed ports can be legitimate maintenance. Single-port or distributed scans can evade.",
+    "Network evidence covers accepted service connections only. Fixed windows may divide activity.",
+    "Small scripted development sample; no final test, historical test or ML evaluation performed."
+  ],
+  "metrics": {
+    "train": {
+      "by_source": {
+        "auth": {
+          "observation_metrics": {
+            "accuracy": 1.0,
+            "confusion_matrix": [
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                3
+              ]
+            ],
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "label_order": [
+              "benign",
+              "malicious"
+            ],
+            "precision": 1.0,
+            "recall": 1.0,
+            "sample_count": 6
+          },
+          "run_metrics": {
+            "accuracy": 1.0,
+            "confusion_matrix": [
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                3
+              ]
+            ],
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "label_order": [
+              "benign",
+              "malicious"
+            ],
+            "precision": 1.0,
+            "recall": 1.0,
+            "sample_count": 6
+          }
+        },
+        "network": {
+          "observation_metrics": {
+            "accuracy": 1.0,
+            "confusion_matrix": [
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                3
+              ]
+            ],
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "label_order": [
+              "benign",
+              "malicious"
+            ],
+            "precision": 1.0,
+            "recall": 1.0,
+            "sample_count": 6
+          },
+          "run_metrics": {
+            "accuracy": 1.0,
+            "confusion_matrix": [
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                3
+              ]
+            ],
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "label_order": [
+              "benign",
+              "malicious"
+            ],
+            "precision": 1.0,
+            "recall": 1.0,
+            "sample_count": 6
+          }
+        },
+        "web": {
+          "observation_metrics": {
+            "accuracy": 1.0,
+            "confusion_matrix": [
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                3
+              ]
+            ],
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "label_order": [
+              "benign",
+              "malicious"
+            ],
+            "precision": 1.0,
+            "recall": 1.0,
+            "sample_count": 6
+          },
+          "run_metrics": {
+            "accuracy": 1.0,
+            "confusion_matrix": [
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                3
+              ]
+            ],
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "label_order": [
+              "benign",
+              "malicious"
+            ],
+            "precision": 1.0,
+            "recall": 1.0,
+            "sample_count": 6
+          }
+        }
+      },
+      "overall_run_metrics": {
+        "accuracy": 1.0,
+        "confusion_matrix": [
+          [
+            9,
+            0
+          ],
+          [
+            0,
+            9
+          ]
+        ],
+        "f1": 1.0,
+        "false_positive_rate": 0.0,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 1.0,
+        "recall": 1.0,
+        "sample_count": 18
+      }
+    },
+    "validation": {
+      "by_source": {
+        "auth": {
+          "observation_metrics": {
+            "accuracy": 1.0,
+            "confusion_matrix": [
+              [
+                2,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "label_order": [
+              "benign",
+              "malicious"
+            ],
+            "precision": 1.0,
+            "recall": 1.0,
+            "sample_count": 3
+          },
+          "run_metrics": {
+            "accuracy": 1.0,
+            "confusion_matrix": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "label_order": [
+              "benign",
+              "malicious"
+            ],
+            "precision": 1.0,
+            "recall": 1.0,
+            "sample_count": 2
+          }
+        },
+        "network": {
+          "observation_metrics": {
+            "accuracy": 1.0,
+            "confusion_matrix": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "label_order": [
+              "benign",
+              "malicious"
+            ],
+            "precision": 1.0,
+            "recall": 1.0,
+            "sample_count": 2
+          },
+          "run_metrics": {
+            "accuracy": 1.0,
+            "confusion_matrix": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "label_order": [
+              "benign",
+              "malicious"
+            ],
+            "precision": 1.0,
+            "recall": 1.0,
+            "sample_count": 2
+          }
+        },
+        "web": {
+          "observation_metrics": {
+            "accuracy": 0.5,
+            "confusion_matrix": [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "f1": 0.6666666666666666,
+            "false_positive_rate": 1.0,
+            "label_order": [
+              "benign",
+              "malicious"
+            ],
+            "precision": 0.5,
+            "recall": 1.0,
+            "sample_count": 2
+          },
+          "run_metrics": {
+            "accuracy": 0.5,
+            "confusion_matrix": [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "f1": 0.6666666666666666,
+            "false_positive_rate": 1.0,
+            "label_order": [
+              "benign",
+              "malicious"
+            ],
+            "precision": 0.5,
+            "recall": 1.0,
+            "sample_count": 2
+          }
+        }
+      },
+      "overall_run_metrics": {
+        "accuracy": 0.8333333333333334,
+        "confusion_matrix": [
+          [
+            2,
+            1
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "f1": 0.8571428571428571,
+        "false_positive_rate": 0.3333333333333333,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 0.75,
+        "recall": 1.0,
+        "sample_count": 6
+      }
+    }
+  },
+  "security_review": {
+    "auth": "Retries and attacks pass this small development set; legitimate repeated mistakes and distributed/slow attacks remain risks.",
+    "network": "Small development set passes; legitimate multi-port activity can trigger and service logs omit closed-port/SYN attempts.",
+    "reviewer": "Automated trace checks and agent review; no independent teammate sign-off claimed.",
+    "web": "Observed benign SQL-like text triggers one false positive. Preserve it; do not tune to remove it."
+  },
+  "stage": "rule-engine-v1 frozen development results",
+  "threshold_changes": "None: Day 24 auth retained; token>=1 and ports>=2 retain earlier heuristic values in validated contracts.",
+  "thresholds": {
+    "auth_failed_logins": 3,
+    "network_unique_ports": 2,
+    "web_suspicious_tokens": 1
+  }
+}

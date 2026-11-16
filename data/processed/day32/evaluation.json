@@ -1,0 +1,187 @@
+{
+  "metrics": {
+    "ml": {
+      "auth": {
+        "accuracy": 0.75,
+        "confusion_matrix": [
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "f1": 0.8,
+        "false_positive_rate": 0.5,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "sample_count": 4
+      },
+      "network": {
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        "f1": 0.0,
+        "false_positive_rate": 0.0,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 0.0,
+        "recall": 0.0,
+        "sample_count": 4
+      },
+      "overall": {
+        "accuracy": 0.75,
+        "confusion_matrix": [
+          [
+            5,
+            1
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "f1": 0.7272727272727272,
+        "false_positive_rate": 0.16666666666666666,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 0.8,
+        "recall": 0.6666666666666666,
+        "sample_count": 12
+      },
+      "web": {
+        "accuracy": 1.0,
+        "confusion_matrix": [
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "f1": 1.0,
+        "false_positive_rate": 0.0,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 1.0,
+        "recall": 1.0,
+        "sample_count": 4
+      }
+    },
+    "rule": {
+      "auth": {
+        "accuracy": 0.75,
+        "confusion_matrix": [
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "f1": 0.8,
+        "false_positive_rate": 0.5,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "sample_count": 4
+      },
+      "network": {
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "f1": 0.6666666666666666,
+        "false_positive_rate": 1.0,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 0.5,
+        "recall": 1.0,
+        "sample_count": 4
+      },
+      "overall": {
+        "accuracy": 0.4166666666666667,
+        "confusion_matrix": [
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "f1": 0.5333333333333333,
+        "false_positive_rate": 0.8333333333333334,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 0.4444444444444444,
+        "recall": 0.6666666666666666,
+        "sample_count": 12
+      },
+      "web": {
+        "accuracy": 0.0,
+        "confusion_matrix": [
+          [
+            0,
+            2
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        "f1": 0.0,
+        "false_positive_rate": 1.0,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 0.0,
+        "recall": 0.0,
+        "sample_count": 4
+      }
+    }
+  },
+  "model_version": "capstone-ml-v1",
+  "rule_version": "rule-engine-v1",
+  "run_aggregation": "any malicious observation"
+}

@@ -1,0 +1,12 @@
+{
+  "dataset_sha256": "b660122cadb05c6124d03573cebfcf27f07c0520813487960f1b5e7e8bd4b499",
+  "model_sha256": "c2390fa275bbbebf929af438098b0e66e764c2203049526fd29b1397e7859ad4",
+  "source_sha256": {
+    "backend/app/ml/dataset_v1.py": "af395a28a081144360eb92f791c4fdeecc4a73058c323819abe6aeab51ea7782",
+    "backend/app/ml/gradient_boosting_v1.py": "6b5c87629e6cfb56007482255550c72ac03a40dbe8e10e3b153319d64f7eedf8",
+    "backend/app/ml/random_forest_v1.py": "29cee3cf37be778b64d5b6675bbc0a301ea64ec756fda5a02af2784e85518dd9",
+    "docs/day30-protocol.json": "13fd2285576031c3454ed1a7febf69a97a313db70b0a27921be6bab30333fd8b",
+    "requirements/day27.txt": "bd2b0e83c7339d66ea7d539f7a74aae77c4d5ea2cbbfab5afea9be104a2105ae",
+    "scripts/select_day30.py": "9d9bd8597e7b6df09f4dcb7f0e9c390af3bf300752651a3cc0eddd1b054a3b10"
+  }
+}

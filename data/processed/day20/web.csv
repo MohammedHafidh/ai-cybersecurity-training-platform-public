@@ -1,0 +1,11 @@
+row_id,run_id,source_type,attack_label,scenario,event_ids,raw_source_files,request_count,missing_input_count,empty_input_count,max_request_length,suspicious_token_count,residual_encoded_count,error_response_count
+ef2b94c40097c8cb03cb90e0,corpus-v01-web-benign-01-42182808711-1,web,benign,benign,"[""evt-75e000c070b2df089fb18c4e"", ""evt-e6dda0e1077687145e645e26""]","[""web.log""]",2,0,0,6,1,0,1
+81d2ebecb44c2a9ad5a304c7,corpus-v01-web-benign-02-42182808711-1,web,benign,benign,"[""evt-244244b1ae8d57969bf82de2"", ""evt-6ab035a16047202331c381c3""]","[""web.log""]",2,0,0,9,0,0,1
+02954ab38e7675b6cff5f04c,corpus-v01-web-benign-03-42182808711-1,web,benign,benign,"[""evt-3eed31072d9c444a1825e68e"", ""evt-b47ab4b030d41e6db7ca5deb""]","[""web.log""]",2,1,0,3,0,0,1
+edd95ef07d7802483916c9c1,corpus-v01-web-benign-04-42182808711-1,web,benign,benign,"[""evt-1a84fceeae233ac303bfae6d"", ""evt-27c0f9bd8910bde77a0a30f2"", ""evt-4d9f65ae5141b3465be49b9c""]","[""web.log""]",3,0,1,2,0,0,1
+6a2e5404410be04ddcf23128,corpus-v01-web-benign-05-42182808711-1,web,benign,benign,"[""evt-01f37e812ea9d8ae13230204"", ""evt-12486df4ef6a7d8fb47eadb5"", ""evt-411b54d6bb978dcab0ae0f42""]","[""web.log""]",3,0,0,4,0,1,1
+28f7d8fed92ca0b4db604102,corpus-v01-web-malicious-01-42182808711-1,web,malicious,sql_injection,"[""evt-b5b0287f765cbc772947f070""]","[""web.log""]",1,0,0,8,1,0,0
+095a499023bea759f25110ce,corpus-v01-web-malicious-02-42182808711-1,web,malicious,sql_injection,"[""evt-1eac9f4f9af4a1b73f2ca271""]","[""web.log""]",1,0,0,8,1,0,0
+fb07e96e470a2587ca513930,corpus-v01-web-malicious-03-42182808711-1,web,malicious,sql_injection,"[""evt-b0b9d47c852340413bb88bd8""]","[""web.log""]",1,0,0,8,1,0,0
+0c638a5b053279e5dd4344a2,corpus-v01-web-malicious-04-42182808711-1,web,malicious,sql_injection,"[""evt-20af20c42605595b55c85da2""]","[""web.log""]",1,0,0,34,2,0,0
+a3b9a686f3751dea3db6c139,corpus-v01-web-malicious-05-42182808711-1,web,malicious,sql_injection,"[""evt-0a4a64ac4cbd02ff3afb717f"", ""evt-81fa0e1eaa5921ab32288ac0""]","[""web.log""]",2,0,0,11,3,0,0

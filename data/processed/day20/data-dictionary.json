@@ -1,0 +1,316 @@
+{
+  "auth": {
+    "columns": {
+      "attack_label": {
+        "definition": "Trusted run metadata label",
+        "encoding": "benign=0, malicious=1",
+        "role": "target",
+        "type": "string"
+      },
+      "attempt_count": {
+        "definition": "Observed SSH password events in window",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      },
+      "attempts_per_second": {
+        "definition": "Attempt count divided by fixed 60 seconds",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "number"
+      },
+      "event_ids": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "array[string]"
+      },
+      "failed_login_count": {
+        "definition": "Failed password events in window",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      },
+      "raw_source_files": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "array[string]"
+      },
+      "row_id": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "run_id": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "scenario": {
+        "definition": "Trusted scenario context; excluded to prevent label leakage",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "source_ip": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "source_type": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "success_after_failure": {
+        "definition": "Success strictly later than failure in same window",
+        "encoding": "0/1",
+        "role": "feature",
+        "type": "boolean"
+      },
+      "successful_login_count": {
+        "definition": "Successful password events in window",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      },
+      "target": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "unique_username_count": {
+        "definition": "Distinct observed usernames in window",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      },
+      "window_end": {
+        "definition": "Exclusive UTC window end",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "window_start": {
+        "definition": "Inclusive UTC window start",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      }
+    },
+    "feature_columns": [
+      "attempt_count",
+      "failed_login_count",
+      "successful_login_count",
+      "unique_username_count",
+      "attempts_per_second",
+      "success_after_failure"
+    ],
+    "unit": "run/source/target/60-second UTC window"
+  },
+  "network": {
+    "columns": {
+      "attack_label": {
+        "definition": "Trusted run metadata label",
+        "encoding": "benign=0, malicious=1",
+        "role": "target",
+        "type": "string"
+      },
+      "connection_count": {
+        "definition": "Connections accepted by logged services in window",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      },
+      "connections_per_second": {
+        "definition": "Connections divided by fixed 60 seconds",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "number"
+      },
+      "event_ids": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "array[string]"
+      },
+      "observed_span_seconds": {
+        "definition": "Last minus first connection timestamp",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "number"
+      },
+      "raw_source_files": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "array[string]"
+      },
+      "row_id": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "run_id": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "scenario": {
+        "definition": "Trusted scenario context; excluded to prevent label leakage",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "source_ip": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "source_type": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "target": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "unique_destination_port_count": {
+        "definition": "Distinct observed listening ports in window",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      },
+      "window_end": {
+        "definition": "Exclusive UTC window end",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "window_start": {
+        "definition": "Inclusive UTC window start",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      }
+    },
+    "feature_columns": [
+      "connection_count",
+      "unique_destination_port_count",
+      "connections_per_second",
+      "observed_span_seconds"
+    ],
+    "unit": "run/source/target/60-second UTC window"
+  },
+  "web": {
+    "columns": {
+      "attack_label": {
+        "definition": "Trusted run metadata label",
+        "encoding": "benign=0, malicious=1",
+        "role": "target",
+        "type": "string"
+      },
+      "empty_input_count": {
+        "definition": "Requests with empty id input",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      },
+      "error_response_count": {
+        "definition": "Responses with HTTP status at least 400",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      },
+      "event_ids": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "array[string]"
+      },
+      "max_request_length": {
+        "definition": "Maximum decoded id character length; zero if absent",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      },
+      "missing_input_count": {
+        "definition": "Requests without id input",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      },
+      "raw_source_files": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "array[string]"
+      },
+      "request_count": {
+        "definition": "HTTP requests in run",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      },
+      "residual_encoded_count": {
+        "definition": "Requests retaining percent escapes after one decode",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      },
+      "row_id": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "run_id": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "scenario": {
+        "definition": "Trusted scenario context; excluded to prevent label leakage",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "source_type": {
+        "definition": "Identity or traceability context",
+        "encoding": "not encoded as model input",
+        "role": "context; excluded from model inputs",
+        "type": "string"
+      },
+      "suspicious_token_count": {
+        "definition": "Regex token matches; heuristic, never ground truth",
+        "encoding": "numeric; fit any scaling on training only",
+        "role": "feature",
+        "type": "integer"
+      }
+    },
+    "feature_columns": [
+      "request_count",
+      "missing_input_count",
+      "empty_input_count",
+      "max_request_length",
+      "suspicious_token_count",
+      "residual_encoded_count",
+      "error_response_count"
+    ],
+    "unit": "run"
+  }
+}

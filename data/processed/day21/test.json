@@ -1,0 +1,91 @@
+[
+  {
+    "attack_label": "benign",
+    "event_ids": [
+      "evt-19ed7745715917be9279cbc9",
+      "evt-44f5f4a05a5d3562483035a8"
+    ],
+    "row_ids": [
+      "c0c30b39d82ddc4636d57ca2"
+    ],
+    "run_id": "corpus-v01-auth-benign-01-42182808711-1",
+    "scenario": "benign",
+    "source_type": "auth",
+    "split": "test"
+  },
+  {
+    "attack_label": "malicious",
+    "event_ids": [
+      "evt-0f985ebf90d4218a1800ed37",
+      "evt-b10a6e3816c9580f67eef9e6",
+      "evt-d0e6cc2276d08c7681f5d1cb",
+      "evt-f4c2f6de6781c3053b2204f8"
+    ],
+    "row_ids": [
+      "effdee073a7bd2895fc8277a"
+    ],
+    "run_id": "corpus-v01-auth-malicious-02-42182808711-1",
+    "scenario": "brute_force",
+    "source_type": "auth",
+    "split": "test"
+  },
+  {
+    "attack_label": "benign",
+    "event_ids": [
+      "evt-373635f6a3ba9c319a9a17e4",
+      "evt-74397ae08e9a15788c5b0602",
+      "evt-8aabbb8c5ca5a85fab1ef8c2",
+      "evt-931b5ee4ba71d6e3ed71fcf0",
+      "evt-d20027b6ed056d313228155b"
+    ],
+    "row_ids": [
+      "97b9db764603ab3df691ba54"
+    ],
+    "run_id": "corpus-v01-network-benign-05-42182808711-1",
+    "scenario": "benign",
+    "source_type": "network",
+    "split": "test"
+  },
+  {
+    "attack_label": "malicious",
+    "event_ids": [
+      "evt-685a47326f199ae07532da3c",
+      "evt-9777bba6bcb7eb20e9d9c104"
+    ],
+    "row_ids": [
+      "ebc48a1f12174c61e7bb19c2"
+    ],
+    "run_id": "corpus-v01-network-malicious-01-42182808711-1",
+    "scenario": "reconnaissance",
+    "source_type": "network",
+    "split": "test"
+  },
+  {
+    "attack_label": "benign",
+    "event_ids": [
+      "evt-244244b1ae8d57969bf82de2",
+      "evt-6ab035a16047202331c381c3"
+    ],
+    "row_ids": [
+      "81d2ebecb44c2a9ad5a304c7"
+    ],
+    "run_id": "corpus-v01-web-benign-02-42182808711-1",
+    "scenario": "benign",
+    "source_type": "web",
+    "split": "test"
+  },
+  {
+    "attack_label": "malicious",
+    "event_ids": [
+      "evt-0a4a64ac4cbd02ff3afb717f",
+      "evt-81fa0e1eaa5921ab32288ac0"
+    ],
+    "row_ids": [
+      "a3b9a686f3751dea3db6c139"
+    ],
+    "run_id": "corpus-v01-web-malicious-05-42182808711-1",
+    "scenario": "sql_injection",
+    "source_type": "web",
+    "split": "test"
+  }
+]

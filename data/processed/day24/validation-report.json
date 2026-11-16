@@ -1,0 +1,111 @@
+{
+  "input_sha256": {
+    "data/processed/day20/auth.jsonl": "8ceea329ce63d9163512aaafc498e24325eb88a2dd9846ab27dbbd3cfbdbc1ad",
+    "data/processed/day21/train.json": "f01bd1194d3216553762dea6136b150a32f66a23b9c644824fb3181d75669396",
+    "data/processed/day21/validation.json": "e1417bbcd8572199d8b1f8bac2fb9f03d01d34d1ad5c7521a19d5bb4925d61a7"
+  },
+  "limitations": [
+    "Small scripted development corpus; validation does not establish general accuracy.",
+    "Legitimate repeated mistakes may trigger; slow/distributed attempts may evade.",
+    "Successful logins do not cancel failures. Fixed window boundaries can divide activity.",
+    "No final-test archive, historical test partition or ML model consumed."
+  ],
+  "metrics": {
+    "train": {
+      "run_metrics": {
+        "accuracy": 1.0,
+        "confusion_matrix": [
+          [
+            3,
+            0
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "f1": 1.0,
+        "false_positive_rate": 0.0,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 1.0,
+        "recall": 1.0,
+        "sample_count": 6
+      },
+      "window_metrics": {
+        "accuracy": 1.0,
+        "confusion_matrix": [
+          [
+            3,
+            0
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "f1": 1.0,
+        "false_positive_rate": 0.0,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 1.0,
+        "recall": 1.0,
+        "sample_count": 6
+      }
+    },
+    "validation": {
+      "run_metrics": {
+        "accuracy": 1.0,
+        "confusion_matrix": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "f1": 1.0,
+        "false_positive_rate": 0.0,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 1.0,
+        "recall": 1.0,
+        "sample_count": 2
+      },
+      "window_metrics": {
+        "accuracy": 1.0,
+        "confusion_matrix": [
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "f1": 1.0,
+        "false_positive_rate": 0.0,
+        "label_order": [
+          "benign",
+          "malicious"
+        ],
+        "precision": 1.0,
+        "recall": 1.0,
+        "sample_count": 3
+      }
+    }
+  },
+  "rule_version": "auth-failed-burst-v1",
+  "threshold": 3,
+  "threshold_selection": "Fixed three-failure baseline; no parameter search or test tuning",
+  "window_seconds": 60
+}

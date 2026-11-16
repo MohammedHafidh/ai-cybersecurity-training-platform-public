@@ -1,0 +1,2 @@
+sql-target-1 | {"timestamp":"2026-10-17T09:20:02Z","event_type":"http_request","run_id":"day7-web-malicious","source_ip":"172.29.0.3","method":"GET","path":"/users","raw_query":"id=1%20OR%201%3D1","id_input":"1 OR 1=1","status_code":200,"result_count":3}
+

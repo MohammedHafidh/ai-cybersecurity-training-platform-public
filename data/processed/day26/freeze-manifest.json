@@ -1,0 +1,30 @@
+{
+  "final_test_evaluated": false,
+  "input_sha256": {
+    "data/processed/day20/auth.jsonl": "8ceea329ce63d9163512aaafc498e24325eb88a2dd9846ab27dbbd3cfbdbc1ad",
+    "data/processed/day20/network.jsonl": "52139ae98429f6761cc28e6784490c60b57ce2a6faf3fb6800a39eae61a3ae3d",
+    "data/processed/day20/web.jsonl": "65587d64fdb275d78d56f7fa77475206bd84d2dc1ba9350b4ccd684f5c6a0f12",
+    "data/processed/day21/train.json": "f01bd1194d3216553762dea6136b150a32f66a23b9c644824fb3181d75669396",
+    "data/processed/day21/validation.json": "e1417bbcd8572199d8b1f8bac2fb9f03d01d34d1ad5c7521a19d5bb4925d61a7"
+  },
+  "output_sha256": {
+    "error-review.json": "eb623b711e73b181830d3cd1651ddc0f094a18d6cb30c25ec84b724cfb00ff3a",
+    "metrics.json": "a054a1abd1dbfee310d175ae0abae34fdbd31861dfd297944c90d14cd6d975b7",
+    "observation-decisions.json": "6e770c960863cd24a7eeaeecc4333ed95722716f02eed3d95c1bf3bf8403cd29",
+    "report.md": "58ab12f87f293dfb45c1ed97c0dd560ee24570bf3c33223f64560afb2bab5882",
+    "run-decisions.json": "c8225393d29b48494f4e36fe24994b7f6f492deaf82149e76f66decc4b9503ab"
+  },
+  "source_sha256": {
+    "backend/app/detection/auth_baseline.py": "ddcf9d1f0ac1712bfe78e4c4a48a3e5ff43588522cee69a0f75854c11f75f6cd",
+    "backend/app/detection/scenario_baselines.py": "a5e50150389efa29e4946da8c53d46d3012d218cab689408491892b0ffe5aea7",
+    "scripts/build_day25_rules.py": "0d94effd6b514214d3e401cda31b9277ec30e27a8265922b5354cc3e4e964014",
+    "scripts/freeze_day26_rules.py": "d534e8ef51b7768d8c0e2c1fa571434bd1d8e96bb50864c5d0a9f5895d6d5181"
+  },
+  "threshold_changes": false,
+  "thresholds": {
+    "auth_failed_logins": 3,
+    "network_unique_ports": 2,
+    "web_suspicious_tokens": 1
+  },
+  "version": "rule-engine-v1"
+}

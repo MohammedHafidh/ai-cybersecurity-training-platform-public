@@ -1,0 +1,42 @@
+{
+  "errors": [
+    {
+      "error_type": "false_positive",
+      "ground_truth": "benign",
+      "interpretation": "Benign SQL-like text can share suspicious tokens and error responses with injection; these observables do not establish intent.",
+      "observations": [
+        {
+          "event_ids": [
+            "evt-75e000c070b2df089fb18c4e",
+            "evt-e6dda0e1077687145e645e26"
+          ],
+          "observable_features": {
+            "empty_input_count": 0,
+            "error_response_count": 1,
+            "max_request_length": 6,
+            "missing_input_count": 0,
+            "request_count": 2,
+            "residual_encoded_count": 0,
+            "suspicious_token_count": 1
+          },
+          "raw_source_files": [
+            "web.log"
+          ],
+          "row_id": "ef2b94c40097c8cb03cb90e0"
+        }
+      ],
+      "predicted_label": "malicious",
+      "row_ids": [
+        "ef2b94c40097c8cb03cb90e0"
+      ],
+      "run_id": "corpus-v01-web-benign-01-42182808711-1",
+      "source_type": "web",
+      "split": "validation"
+    }
+  ],
+  "evidence_archive_sha256": "b660122cadb05c6124d03573cebfcf27f07c0520813487960f1b5e7e8bd4b499",
+  "false_negatives": 0,
+  "false_positives": 1,
+  "final_test_evaluated": false,
+  "reviewer": "Agent review of development features and trusted labels; no independent teammate sign-off claimed"
+}

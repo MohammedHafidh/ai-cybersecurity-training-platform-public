@@ -1,0 +1,243 @@
+[
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "benign",
+    "row_ids": [
+      "6a24d3f9c43c3e567e112e9a"
+    ],
+    "run_id": "corpus-v01-auth-benign-02-42182808711-1",
+    "source_type": "auth",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "benign",
+    "row_ids": [
+      "4227870a45d7f9dcf861855f"
+    ],
+    "run_id": "corpus-v01-auth-benign-03-42182808711-1",
+    "source_type": "auth",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "benign",
+    "row_ids": [
+      "9d6e205891b47c11347f3a5d"
+    ],
+    "run_id": "corpus-v01-auth-benign-04-42182808711-1",
+    "source_type": "auth",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "522d061cf251a6f6856a38d5"
+    ],
+    "run_id": "corpus-v01-auth-malicious-01-42182808711-1",
+    "source_type": "auth",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "9258a9a5d0b31a360d88ce84"
+    ],
+    "run_id": "corpus-v01-auth-malicious-03-42182808711-1",
+    "source_type": "auth",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "946fe1cfd422d22e20b8a111"
+    ],
+    "run_id": "corpus-v01-auth-malicious-04-42182808711-1",
+    "source_type": "auth",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "benign",
+    "row_ids": [
+      "02954ab38e7675b6cff5f04c"
+    ],
+    "run_id": "corpus-v01-web-benign-03-42182808711-1",
+    "source_type": "web",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "benign",
+    "row_ids": [
+      "edd95ef07d7802483916c9c1"
+    ],
+    "run_id": "corpus-v01-web-benign-04-42182808711-1",
+    "source_type": "web",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "benign",
+    "row_ids": [
+      "6a2e5404410be04ddcf23128"
+    ],
+    "run_id": "corpus-v01-web-benign-05-42182808711-1",
+    "source_type": "web",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "28f7d8fed92ca0b4db604102"
+    ],
+    "run_id": "corpus-v01-web-malicious-01-42182808711-1",
+    "source_type": "web",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "095a499023bea759f25110ce"
+    ],
+    "run_id": "corpus-v01-web-malicious-02-42182808711-1",
+    "source_type": "web",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "fb07e96e470a2587ca513930"
+    ],
+    "run_id": "corpus-v01-web-malicious-03-42182808711-1",
+    "source_type": "web",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "benign",
+    "row_ids": [
+      "cb59407c37956c7415916d65"
+    ],
+    "run_id": "corpus-v01-network-benign-02-42182808711-1",
+    "source_type": "network",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "benign",
+    "row_ids": [
+      "b3e575b9c98625a83bb282c8"
+    ],
+    "run_id": "corpus-v01-network-benign-03-42182808711-1",
+    "source_type": "network",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "benign",
+    "row_ids": [
+      "4303b57267314b5c14b2f260"
+    ],
+    "run_id": "corpus-v01-network-benign-04-42182808711-1",
+    "source_type": "network",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "df21356f243bc4a64bdff4c8"
+    ],
+    "run_id": "corpus-v01-network-malicious-02-42182808711-1",
+    "source_type": "network",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "0b54f4a0c89029aaf5925cd0"
+    ],
+    "run_id": "corpus-v01-network-malicious-03-42182808711-1",
+    "source_type": "network",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "081c35370daf3091bde77875"
+    ],
+    "run_id": "corpus-v01-network-malicious-04-42182808711-1",
+    "source_type": "network",
+    "split": "train"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "benign",
+    "row_ids": [
+      "12fdb247fbaa87235a740e5e",
+      "32205ba2e01e23f679a78407"
+    ],
+    "run_id": "corpus-v01-auth-benign-05-42182808711-1",
+    "source_type": "auth",
+    "split": "validation"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "ee71116a56b6a25e0d08da34"
+    ],
+    "run_id": "corpus-v01-auth-malicious-05-42182808711-1",
+    "source_type": "auth",
+    "split": "validation"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "ef2b94c40097c8cb03cb90e0"
+    ],
+    "run_id": "corpus-v01-web-benign-01-42182808711-1",
+    "source_type": "web",
+    "split": "validation"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "0c638a5b053279e5dd4344a2"
+    ],
+    "run_id": "corpus-v01-web-malicious-04-42182808711-1",
+    "source_type": "web",
+    "split": "validation"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "benign",
+    "row_ids": [
+      "bba2758cceee59901276ad32"
+    ],
+    "run_id": "corpus-v01-network-benign-01-42182808711-1",
+    "source_type": "network",
+    "split": "validation"
+  },
+  {
+    "aggregation": "any window/run rule triggered",
+    "predicted_label": "malicious",
+    "row_ids": [
+      "817fa577a37501eb2db4c55f"
+    ],
+    "run_id": "corpus-v01-network-malicious-05-42182808711-1",
+    "source_type": "network",
+    "split": "validation"
+  }
+]

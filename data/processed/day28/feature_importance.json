@@ -1,0 +1,86 @@
+{
+  "features": [
+    {
+      "feature": "numeric__attempt_count",
+      "importance": 0.02799919451206278
+    },
+    {
+      "feature": "numeric__attempts_per_second",
+      "importance": 0.034360259774433105
+    },
+    {
+      "feature": "numeric__failed_login_count",
+      "importance": 0.10223456323783445
+    },
+    {
+      "feature": "numeric__successful_login_count",
+      "importance": 0.0722880265247844
+    },
+    {
+      "feature": "numeric__success_after_failure",
+      "importance": 0.05770253265359683
+    },
+    {
+      "feature": "numeric__unique_username_count",
+      "importance": 0.05132208469756783
+    },
+    {
+      "feature": "numeric__request_count",
+      "importance": 0.09134240498857087
+    },
+    {
+      "feature": "numeric__max_request_length",
+      "importance": 0.08993251915385997
+    },
+    {
+      "feature": "numeric__suspicious_token_count",
+      "importance": 0.055150510406891715
+    },
+    {
+      "feature": "numeric__error_response_count",
+      "importance": 0.041674218584233855
+    },
+    {
+      "feature": "numeric__empty_input_count",
+      "importance": 0.007656225553043236
+    },
+    {
+      "feature": "numeric__missing_input_count",
+      "importance": 0.007077137229408739
+    },
+    {
+      "feature": "numeric__residual_encoded_count",
+      "importance": 0.012652468268963643
+    },
+    {
+      "feature": "numeric__connection_count",
+      "importance": 0.03020085174575438
+    },
+    {
+      "feature": "numeric__connections_per_second",
+      "importance": 0.04971272842042022
+    },
+    {
+      "feature": "numeric__observed_span_seconds",
+      "importance": 0.1029574538137366
+    },
+    {
+      "feature": "numeric__unique_destination_port_count",
+      "importance": 0.14050309189042282
+    },
+    {
+      "feature": "source__source_type_auth",
+      "importance": 0.0035441558441558444
+    },
+    {
+      "feature": "source__source_type_network",
+      "importance": 0.008144993744234611
+    },
+    {
+      "feature": "source__source_type_web",
+      "importance": 0.013544578956024289
+    }
+  ],
+  "limitations": "Correlated counts/rates split importance; source indicators and zero-filled fields can reflect lab structure. Not causal or deployment evidence; no final-test permutation used.",
+  "method": "training-only mean decrease in impurity"
+}
