@@ -26,6 +26,16 @@ jobs:
         working-directory: frontend
       - run: npm run build
         working-directory: frontend
+      - run: npm run api:check
+        working-directory: frontend
+      - name: Verify frontend health against FastAPI
+        working-directory: frontend
+        run: |
+          FRONTEND_ORIGIN=http://localhost:5173 python -m uvicorn app.main:app --app-dir ../backend --host 127.0.0.1 --port 8765 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          curl --silent --show-error --fail --retry 20 --retry-connrefused --retry-delay 1 http://127.0.0.1:8765/health
+          npm test
   postgres:
     runs-on: ubuntu-latest
     timeout-minutes: 10
