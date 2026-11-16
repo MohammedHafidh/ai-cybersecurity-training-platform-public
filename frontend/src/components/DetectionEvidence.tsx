@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { EvidenceExplanation } from './EvidenceExplanation'
 import { createApiClient, type DetectionDetail, type DetectionSummary } from '../api/client'
 import { evidenceList, evidenceObject, featureName, maliciousProbability, scenarioNames } from '../api/evidence'
 
@@ -144,5 +145,6 @@ function Observation({ detail }: { detail: DetectionDetail }) {
       <EvidenceReferences label="Event IDs" values={evidence.event_ids} />
       <EvidenceReferences label="Log references" values={evidence.raw_source_files} />
     </div>
+    <EvidenceExplanation rules={rule} />
   </div>
 }

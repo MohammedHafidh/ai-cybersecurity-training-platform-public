@@ -16,6 +16,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <a className="hover:text-teal-200" href="#overview">Overview</a>
             <a className="hover:text-teal-200" href="#recent-events">Recent events</a>
             <a className="hover:text-teal-200" href="#detection-evidence">Detection evidence</a>
+            <a className="hover:text-teal-200" href="#evaluation">Evaluation</a>
             <a className="hover:text-teal-200" href="#connection">API connection</a>
           </nav>
         </div>
