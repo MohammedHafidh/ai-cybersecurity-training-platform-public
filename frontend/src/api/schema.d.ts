@@ -298,6 +298,39 @@ export interface components {
             evidence: {
                 [key: string]: unknown;
             };
+            run: components["schemas"]["RunContext"];
+            /** Counterparts */
+            counterparts: components["schemas"]["DetectionEvidence"][];
+        };
+        /** DetectionEvidence */
+        DetectionEvidence: {
+            /** Detection Id */
+            detection_id: string;
+            /** Run Id */
+            run_id: string;
+            /** Event Id */
+            event_id: string | null;
+            /**
+             * Detector
+             * @enum {string}
+             */
+            detector: "rule" | "ml";
+            /** Detector Version */
+            detector_version: string;
+            /**
+             * Predicted Label
+             * @enum {string}
+             */
+            predicted_label: "benign" | "malicious";
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Evidence */
+            evidence: {
+                [key: string]: unknown;
+            };
         };
         /** DetectionSummary */
         DetectionSummary: {
@@ -696,6 +729,38 @@ export interface components {
             evidence: {
                 [key: string]: unknown;
             };
+        };
+        /** RunContext */
+        RunContext: {
+            /**
+             * Source Type
+             * @enum {string}
+             */
+            source_type: "auth" | "web" | "network";
+            /**
+             * Scenario
+             * @enum {string}
+             */
+            scenario: "benign" | "brute_force" | "sql_injection" | "reconnaissance";
+            /**
+             * Expected Label
+             * @enum {string}
+             */
+            expected_label: "benign" | "malicious";
+            /**
+             * Start Time
+             * Format: date-time
+             */
+            start_time: string;
+            /**
+             * End Time
+             * Format: date-time
+             */
+            end_time: string;
+            /** Source */
+            source: string;
+            /** Target */
+            target: string;
         };
         /** RunIngestionRequest */
         RunIngestionRequest: {

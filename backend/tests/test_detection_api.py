@@ -37,6 +37,10 @@ def test_ingest_process_list_and_read(database):
             assert detail["event_id"] is None
             assert set(detail["evidence"]["event_ids"]) == {first["event_id"], "day36-second"}
             assert "expected_label" not in detail["evidence"]
+            assert detail["run"]["scenario"] == "reconnaissance"
+            counterpart, = detail["counterparts"]
+            assert counterpart["detector"] != detail["detector"]
+            assert counterpart["evidence"]["row_id"] == detail["evidence"]["row_id"]
             if detail["detector"] == "rule":
                 assert detail["evidence"]["rule"]["observed"] == 2
             else:
