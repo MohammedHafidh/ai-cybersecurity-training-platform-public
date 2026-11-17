@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
-import { readFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { expect, test } from '@playwright/test'
 
 const api = process.env.API_SMOKE_URL ?? 'http://127.0.0.1:8765'
@@ -94,7 +94,7 @@ async function traceCapture(request, script, countFeature, eventLabel) {
   return { rule, scenario: capture.run.scenario, threshold, observed, capture, eventIds, eventLabel, before, details, visibleFeatures }
 }
 
-test('the learner sees a grounded answer and citations for each scenario', async ({ page, request }) => {
+test('the learner sees a grounded answer and citations for each scenario', async ({ page, request }, testInfo) => {
   test.setTimeout(120_000)
   const auth = await traceCapture(request, 'auth_browser_capture.py', 'failed_login_count', 'SSH password event')
   const web = await traceCapture(request, 'web_browser_capture.py', 'request_count', 'HTTP request')
@@ -146,6 +146,36 @@ test('the learner sees a grounded answer and citations for each scenario', async
     }
   }
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+  if (process.env.CAPSTONE_DEMO_BACKUP === '1') {
+    for (const source of ['AUTH', 'WEB', 'NETWORK']) {
+      expect(process.env[`CAPSTONE_${source}_LOG`], 'backup requires public fixtures').toBeUndefined()
+    }
+    expect(auth.capture.run.run_id).toMatch(/^day49-auth-/)
+    await page.unroute(endpoint)
+    const panel = await select(page, auth.rule)
+    const unavailable = page.waitForResponse(response => response.url().includes('/rag-explanation?'))
+    await panel.getByRole('button', { name: 'Get explanation' }).click()
+    expect((await unavailable).status()).toBe(503)
+    await expect(panel.getByRole('alert')).toContainText('The local explanation is unavailable')
+    await expect(page.getByRole('complementary', { name: 'Explanation preview' })).toContainText('3 met the rule threshold of 3')
+    expect(await auth.details()).toEqual(auth.before)
+
+    const screenshot = 'demo-evidence.png'
+    await page.locator('#detection-evidence').screenshot({ path: testInfo.outputPath(screenshot) })
+    await writeFile(testInfo.outputPath('demo-evidence.json'), JSON.stringify({
+      evidence_kind: 'synthetic raw authentication fixture',
+      screenshot,
+      run_id: auth.capture.run.run_id,
+      expected_label: auth.capture.run.expected_label,
+      event_ids: auth.eventIds,
+      threshold: auth.threshold,
+      observed: auth.observed,
+      predictions: auth.before.map(({ detector, detection_id, predicted_label }) => ({
+        detector, detection_id, predicted_label,
+      })),
+      rag_http_status: 503,
+    }, null, 2) + '\n')
+  }
 })
 
 test('the dashboard keeps a benign expected label visible when both detectors flag the request', async ({ page, request }) => {

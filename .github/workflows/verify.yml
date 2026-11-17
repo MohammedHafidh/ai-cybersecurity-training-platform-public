@@ -39,13 +39,22 @@ jobs:
           fixture="$(mktemp -d)"
           export DATABASE_URL="sqlite:///$fixture/dashboard.db"
           export FRONTEND_ORIGIN=http://localhost:5173
+          export CAPSTONE_OLLAMA_ENABLED=0
           PYTHONPATH=../backend python -m app.persistence.setup_core
           python -m uvicorn app.main:app --app-dir ../backend --host 127.0.0.1 --port 8765 &
           pid=$!
           trap 'kill "$pid" 2>/dev/null || true' EXIT
           curl --silent --show-error --fail --retry 20 --retry-connrefused --retry-delay 1 http://127.0.0.1:8765/health
           npm test
-          npx playwright test
+          CAPSTONE_DEMO_BACKUP=1 npx playwright test
+      - name: Save synthetic demo fallback evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: day55-demo-fallback
+          path: |
+            frontend/test-results/**/demo-evidence.png
+            frontend/test-results/**/demo-evidence.json
+          if-no-files-found: error
       - name: Verify the clean PostgreSQL demo, browser trace, and reset
         env:
           DATABASE_URL: postgresql+psycopg://capstone_demo:demo_fixture_only@127.0.0.1:55433/capstone_demo
@@ -126,6 +135,24 @@ jobs:
       - run: python -m pip install -r backend/requirements.txt -r requirements/day27.txt -r requirements/day46.txt
       - run: python -c "import faiss, sentence_transformers"
       - run: python -m pytest -q backend/tests/test_day46_retrieval.py backend/tests/test_day47_rag.py
+  tag-day55:
+    name: Tag the verified integrated system
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.before == '306203fa4893ff002d910ac4056a4472fc085474'
+    needs: [verify, postgres, retrieval]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish integrated-system
+        run: |
+          existing="$(git ls-remote origin refs/tags/integrated-system 'refs/tags/integrated-system^{}')"
+          if [ -n "$existing" ]; then
+            printf '%s\n' "$existing" | grep -F "$GITHUB_SHA"
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' tag -a integrated-system "$GITHUB_SHA" -m 'Day 55 verified integrated system'
+          git push origin refs/tags/integrated-system
   tag-day38:
     name: Tag the verified backend milestone
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.before == 'd2b59b971f6a5692a3dc743ab44ca539c01bffb3'
