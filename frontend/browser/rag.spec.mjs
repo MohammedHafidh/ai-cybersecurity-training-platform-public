@@ -11,15 +11,15 @@ const scenarios = [
   ['auth', 'brute_force', 'ssh_password', Array.from({ length: 3 }, () => ({ username: 'fixture', outcome: 'failure' })), 3],
 ]
 
-async function store(request, [source, scenario, event_type, attributes]) {
+async function store(request, [source, scenario, event_type, attributes], expectedLabel = 'malicious') {
   const run_id = `day48-${randomUUID()}`
   const run = {
-    run_id, scenario, expected_label: 'malicious', start_time: timestamp, end_time: timestamp,
+    run_id, scenario, expected_label: expectedLabel, start_time: timestamp, end_time: timestamp,
     source: 'fixture-client', target: 'fixture-server', tool_or_method: 'synthetic training evidence',
     log_sources: ['fixture.log'],
   }
   const events = attributes.map((fields, index) => ({
-    ...fields, event_id: `${run_id}-${index}`, run_id, timestamp, event_type, scenario, attack_label: 'malicious',
+    ...fields, event_id: `${run_id}-${index}`, run_id, timestamp, event_type, scenario, attack_label: expectedLabel,
     raw_source_file: 'fixture.log', source_type: source, source_ip: '192.0.2.48',
   }))
   return processCapture(request, { source_type: source, run, events }).then(result => result.detection_ids)
@@ -146,6 +146,21 @@ test('the learner sees a grounded answer and citations for each scenario', async
     }
   }
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+})
+
+test('the dashboard keeps a benign expected label visible when both detectors flag the request', async ({ page, request }) => {
+  const [rule, ml] = await store(request, [
+    'web', 'benign', 'http_request',
+    [{ method: 'GET', status_code: 200, request_data: 'select a category' }],
+  ], 'benign')
+  await page.goto('/')
+  for (const id of [rule, ml]) {
+    await select(page, id)
+    const detail = page.locator('#detection-evidence')
+    await expect(detail.getByText('Expected label benign', { exact: false })).toBeVisible()
+    await expect(detail.getByText('fixture-client → fixture-server')).toBeVisible()
+    await expect(detail.getByText(/Prediction malicious/)).toHaveCount(2)
+  }
 })
 
 test('loading, retry, empty results, and unsupported questions keep the stored evidence visible', async ({ page, request }) => {
