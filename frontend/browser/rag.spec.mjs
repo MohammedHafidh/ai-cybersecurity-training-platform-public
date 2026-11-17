@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto'
+import { execFileSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { expect, test } from '@playwright/test'
 
@@ -23,11 +24,16 @@ async function store(request, [source, scenario, event_type, attributes]) {
     ...fields, event_id: `${run_id}-${index}`, run_id, timestamp, event_type, scenario, attack_label: 'malicious',
     raw_source_file: 'fixture.log', source_type: source, source_ip: '192.0.2.48',
   }))
-  const ingest = await request.post(`${api}/ingestion/runs`, { data: { source_type: source, run, events } })
+  return processCapture(request, { source_type: source, run, events }).then(result => result.detection_ids)
+}
+
+async function processCapture(request, capture) {
+  const ingest = await request.post(`${api}/ingestion/runs`, { data: capture })
   expect(ingest.status()).toBe(201)
-  const scored = await request.post(`${api}/runs/${run_id}/process`)
+  expect(await ingest.json()).toEqual({ run_id: capture.run.run_id, event_count: capture.events.length })
+  const scored = await request.post(`${api}/runs/${encodeURIComponent(capture.run.run_id)}/process`)
   await expect(scored).toBeOK()
-  return (await scored.json()).detection_ids
+  return scored.json()
 }
 
 async function select(page, id) {
@@ -40,7 +46,32 @@ async function select(page, id) {
 test('the learner sees a grounded answer and citations for each scenario', async ({ page, request }) => {
   test.setTimeout(120_000)
   const trials = []
-  for (const fixture of scenarios) {
+  const capture = JSON.parse(execFileSync('python', ['../backend/tests/auth_browser_capture.py'], {
+    encoding: 'utf8', env: { ...process.env, PYTHONPATH: '../backend' },
+  }))
+  const processed = await processCapture(request, capture)
+  const [rule, ml] = processed.detection_ids
+  const [observation] = processed.result.observations
+  const eventIds = capture.events.map(event => event.event_id).sort()
+  expect(processed.result.run_id).toBe(capture.run.run_id)
+  expect(processed.result.observations).toHaveLength(1)
+  expect([...observation.event_ids].sort()).toEqual(eventIds)
+  expect(observation.observed_features.failed_login_count).toBe(eventIds.length)
+  expect(observation.rule.predicted_label).toBe('malicious')
+  const details = async () => Promise.all([rule, ml].map(async id => {
+    const response = await request.get(`${api}/detections/${id}`)
+    await expect(response).toBeOK()
+    return response.json()
+  }))
+  const before = await details()
+  for (const row of before) {
+    expect(row.run_id).toBe(capture.run.run_id)
+    expect([...row.evidence.event_ids].sort()).toEqual(eventIds)
+    expect(row.predicted_label).toBe(observation[row.detector].predicted_label)
+  }
+  expect(before[1].evidence.malicious_probability).toBe(observation.ml.malicious_probability)
+  trials.push({ rule, scenario: 'brute_force', threshold: observation.rule.evidence.threshold })
+  for (const fixture of scenarios.slice(1)) {
     const [rule] = await store(request, fixture)
     trials.push({ rule, scenario: fixture[1], threshold: fixture[4] })
   }
@@ -58,6 +89,9 @@ test('the learner sees a grounded answer and citations for each scenario', async
   }
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
+  const authRows = page.getByRole('row').filter({ hasText: capture.run.run_id })
+  await expect(authRows).toHaveCount(eventIds.length)
+  for (const row of await authRows.all()) await expect(row).toContainText('SSH password event')
   for (const { rule, scenario, threshold } of trials) {
     const panel = await select(page, rule)
     await expect(panel.getByText('Trusted sources')).toHaveCount(0)
@@ -72,6 +106,12 @@ test('the learner sees a grounded answer and citations for each scenario', async
     }
     await expect(page.getByRole('heading', { name: 'Rule output' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'ML output' })).toBeVisible()
+    if (scenario === 'brute_force') {
+      await expect(page.getByText(`Run ${capture.run.run_id} · Expected label malicious`)).toBeVisible()
+      for (const id of eventIds) await expect(page.locator('#detection-evidence')).toContainText(id)
+      await expect(page.locator('#detection-evidence')).toContainText(capture.events[0].raw_source_file)
+      expect(await details()).toEqual(before)
+    }
   }
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
 })
