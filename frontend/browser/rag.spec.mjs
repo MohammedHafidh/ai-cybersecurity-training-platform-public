@@ -69,6 +69,7 @@ test('the learner sees a grounded answer and citations for each scenario', async
     expect([...row.evidence.event_ids].sort()).toEqual(eventIds)
     expect(row.predicted_label).toBe(observation[row.detector].predicted_label)
   }
+  expect(before[1].evidence.malicious_probability).toBe(observation.ml.malicious_probability)
   trials.push({ rule, scenario: 'brute_force', threshold: observation.rule.evidence.threshold })
   for (const fixture of scenarios.slice(1)) {
     const [rule] = await store(request, fixture)
