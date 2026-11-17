@@ -14,7 +14,7 @@ def normalize(log, metadata, source="auth"):
     declared, = run.log_sources
     root = log.resolve().parents[len(declared.split("/")) - 1]
     events = normalize_log(log, run, source, source_root=root)
-    scenario = {"auth": "brute_force", "web": "sql_injection"}[source]
+    scenario = {"auth": "brute_force", "web": "sql_injection", "network": "reconnaissance"}[source]
     if run.scenario != scenario or run.expected_label != "malicious" or not events:
         raise ValueError("expected a labeled scenario capture with normalized events")
     return {"source_type": source, "run": run.model_dump(mode="json"),

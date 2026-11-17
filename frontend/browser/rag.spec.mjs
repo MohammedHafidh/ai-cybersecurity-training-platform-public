@@ -9,7 +9,6 @@ const { chunks } = JSON.parse(await readFile(new URL('../../data/knowledge/day45
 const timestamp = '2026-01-01T12:00:00Z'
 const scenarios = [
   ['auth', 'brute_force', 'ssh_password', Array.from({ length: 3 }, () => ({ username: 'fixture', outcome: 'failure' })), 3],
-  ['network', 'reconnaissance', 'tcp_connection', [8080, 8081].map(destination_port => ({ destination_port, protocol: 'tcp' })), 2],
 ]
 
 async function store(request, [source, scenario, event_type, attributes]) {
@@ -42,6 +41,12 @@ async function select(page, id) {
   return panel
 }
 
+function timestampMicros(timestamp) {
+  // Date.parse retains only milliseconds. The raw log can carry six fractional digits.
+  const fraction = timestamp.match(/\.(\d+)(?:Z|[+-]\d\d:\d\d)$/)?.[1] ?? ''
+  return Date.parse(timestamp) * 1000 + Number(fraction.padEnd(6, '0').slice(3, 6))
+}
+
 async function traceCapture(request, script, countFeature, eventLabel) {
   const capture = JSON.parse(execFileSync('python', [`../backend/tests/${script}`], {
     encoding: 'utf8', env: { ...process.env, PYTHONPATH: '../backend' },
@@ -55,6 +60,23 @@ async function traceCapture(request, script, countFeature, eventLabel) {
   expect([...observation.event_ids].sort()).toEqual(eventIds)
   expect(observation.observed_features[countFeature]).toBe(eventIds.length)
   expect(observation.rule.predicted_label).toBe('malicious')
+  let visibleFeatures = []
+  if (capture.source_type === 'network') {
+    const times = capture.events.map(event => timestampMicros(event.timestamp))
+    const ports = new Set(capture.events.map(event => event.destination_port)).size
+    const span = (Math.max(...times) - Math.min(...times)) / 1_000_000
+    const rate = eventIds.length / 60
+    expect(observation.rule.evidence.observed).toBe(ports)
+    expect(observation.observed_features.unique_destination_port_count).toBe(ports)
+    expect(observation.observed_features.connections_per_second).toBeCloseTo(rate)
+    expect(observation.observed_features.observed_span_seconds).toBe(span)
+    visibleFeatures = [
+      ['Distinct observed destination ports', ports],
+      ['connection count', eventIds.length],
+      ['connections per second', rate],
+      ['observed span seconds', span],
+    ]
+  }
   const details = async () => Promise.all([rule, ml].map(async id => {
     const response = await request.get(`${api}/detections/${id}`)
     await expect(response).toBeOK()
@@ -65,19 +87,19 @@ async function traceCapture(request, script, countFeature, eventLabel) {
     expect(row.run_id).toBe(capture.run.run_id)
     expect([...row.evidence.event_ids].sort()).toEqual(eventIds)
     expect(row.predicted_label).toBe(observation[row.detector].predicted_label)
+    expect(row.evidence.observed_features).toEqual(observation.observed_features)
   }
   expect(before[1].evidence.malicious_probability).toBe(observation.ml.malicious_probability)
   const { observed, threshold } = observation.rule.evidence
-  return { rule, scenario: capture.run.scenario, threshold, observed, capture, eventIds, eventLabel, before, details }
+  return { rule, scenario: capture.run.scenario, threshold, observed, capture, eventIds, eventLabel, before, details, visibleFeatures }
 }
 
 test('the learner sees a grounded answer and citations for each scenario', async ({ page, request }) => {
   test.setTimeout(120_000)
   const auth = await traceCapture(request, 'auth_browser_capture.py', 'failed_login_count', 'SSH password event')
   const web = await traceCapture(request, 'web_browser_capture.py', 'request_count', 'HTTP request')
-  const network = scenarios[1]
-  const [networkRule] = await store(request, network)
-  const trials = [auth, web, { rule: networkRule, scenario: network[1], threshold: network[4] }]
+  const network = await traceCapture(request, 'network_browser_capture.py', 'connection_count', 'TCP connection')
+  const trials = [auth, web, network]
   if (process.env.CAPSTONE_TEST_LIVE_RAG !== '1') {
     await page.route(endpoint, route => {
       const url = new URL(route.request().url())
@@ -92,7 +114,7 @@ test('the learner sees a grounded answer and citations for each scenario', async
   }
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
-  for (const { rule, scenario, threshold, observed, capture, eventIds, eventLabel, before, details } of trials) {
+  for (const { rule, scenario, threshold, observed, capture, eventIds, eventLabel, before, details, visibleFeatures } of trials) {
     if (capture) {
       const rows = page.getByRole('row').filter({ hasText: capture.run.run_id })
       await expect(rows).toHaveCount(eventIds.length)
@@ -116,6 +138,10 @@ test('the learner sees a grounded answer and citations for each scenario', async
       await expect(page.locator('#detection-evidence')).toContainText(`observed ${observed} · trigger threshold ≥ ${threshold}`)
       for (const id of eventIds) await expect(page.locator('#detection-evidence')).toContainText(id)
       await expect(page.locator('#detection-evidence')).toContainText(capture.events[0].raw_source_file)
+      for (const [label, value] of visibleFeatures) {
+        const displayed = page.locator('dt').filter({ hasText: new RegExp(`^${label}$`) }).locator('..').locator('dd')
+        await expect(displayed).toHaveText(String(value))
+      }
       expect(await details()).toEqual(before)
     }
   }
