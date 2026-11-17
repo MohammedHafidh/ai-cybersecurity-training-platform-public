@@ -9,7 +9,6 @@ const { chunks } = JSON.parse(await readFile(new URL('../../data/knowledge/day45
 const timestamp = '2026-01-01T12:00:00Z'
 const scenarios = [
   ['auth', 'brute_force', 'ssh_password', Array.from({ length: 3 }, () => ({ username: 'fixture', outcome: 'failure' })), 3],
-  ['web', 'sql_injection', 'http_request', [{ method: 'GET', status_code: 400, request_data: 'select a category' }], 1],
   ['network', 'reconnaissance', 'tcp_connection', [8080, 8081].map(destination_port => ({ destination_port, protocol: 'tcp' })), 2],
 ]
 
@@ -43,10 +42,8 @@ async function select(page, id) {
   return panel
 }
 
-test('the learner sees a grounded answer and citations for each scenario', async ({ page, request }) => {
-  test.setTimeout(120_000)
-  const trials = []
-  const capture = JSON.parse(execFileSync('python', ['../backend/tests/auth_browser_capture.py'], {
+async function traceCapture(request, script, countFeature, eventLabel) {
+  const capture = JSON.parse(execFileSync('python', [`../backend/tests/${script}`], {
     encoding: 'utf8', env: { ...process.env, PYTHONPATH: '../backend' },
   }))
   const processed = await processCapture(request, capture)
@@ -56,7 +53,7 @@ test('the learner sees a grounded answer and citations for each scenario', async
   expect(processed.result.run_id).toBe(capture.run.run_id)
   expect(processed.result.observations).toHaveLength(1)
   expect([...observation.event_ids].sort()).toEqual(eventIds)
-  expect(observation.observed_features.failed_login_count).toBe(eventIds.length)
+  expect(observation.observed_features[countFeature]).toBe(eventIds.length)
   expect(observation.rule.predicted_label).toBe('malicious')
   const details = async () => Promise.all([rule, ml].map(async id => {
     const response = await request.get(`${api}/detections/${id}`)
@@ -70,11 +67,17 @@ test('the learner sees a grounded answer and citations for each scenario', async
     expect(row.predicted_label).toBe(observation[row.detector].predicted_label)
   }
   expect(before[1].evidence.malicious_probability).toBe(observation.ml.malicious_probability)
-  trials.push({ rule, scenario: 'brute_force', threshold: observation.rule.evidence.threshold })
-  for (const fixture of scenarios.slice(1)) {
-    const [rule] = await store(request, fixture)
-    trials.push({ rule, scenario: fixture[1], threshold: fixture[4] })
-  }
+  const { observed, threshold } = observation.rule.evidence
+  return { rule, scenario: capture.run.scenario, threshold, observed, capture, eventIds, eventLabel, before, details }
+}
+
+test('the learner sees a grounded answer and citations for each scenario', async ({ page, request }) => {
+  test.setTimeout(120_000)
+  const auth = await traceCapture(request, 'auth_browser_capture.py', 'failed_login_count', 'SSH password event')
+  const web = await traceCapture(request, 'web_browser_capture.py', 'request_count', 'HTTP request')
+  const network = scenarios[1]
+  const [networkRule] = await store(request, network)
+  const trials = [auth, web, { rule: networkRule, scenario: network[1], threshold: network[4] }]
   if (process.env.CAPSTONE_TEST_LIVE_RAG !== '1') {
     await page.route(endpoint, route => {
       const url = new URL(route.request().url())
@@ -89,10 +92,12 @@ test('the learner sees a grounded answer and citations for each scenario', async
   }
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
-  const authRows = page.getByRole('row').filter({ hasText: capture.run.run_id })
-  await expect(authRows).toHaveCount(eventIds.length)
-  for (const row of await authRows.all()) await expect(row).toContainText('SSH password event')
-  for (const { rule, scenario, threshold } of trials) {
+  for (const { rule, scenario, threshold, observed, capture, eventIds, eventLabel, before, details } of trials) {
+    if (capture) {
+      const rows = page.getByRole('row').filter({ hasText: capture.run.run_id })
+      await expect(rows).toHaveCount(eventIds.length)
+      for (const row of await rows.all()) await expect(row).toContainText(eventLabel)
+    }
     const panel = await select(page, rule)
     await expect(panel.getByText('Trusted sources')).toHaveCount(0)
     await panel.getByLabel('Training question').selectOption('why_suspicious')
@@ -106,8 +111,9 @@ test('the learner sees a grounded answer and citations for each scenario', async
     }
     await expect(page.getByRole('heading', { name: 'Rule output' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'ML output' })).toBeVisible()
-    if (scenario === 'brute_force') {
+    if (capture) {
       await expect(page.getByText(`Run ${capture.run.run_id} · Expected label malicious`)).toBeVisible()
+      await expect(page.locator('#detection-evidence')).toContainText(`observed ${observed} · trigger threshold ≥ ${threshold}`)
       for (const id of eventIds) await expect(page.locator('#detection-evidence')).toContainText(id)
       await expect(page.locator('#detection-evidence')).toContainText(capture.events[0].raw_source_file)
       expect(await details()).toEqual(before)

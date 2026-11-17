@@ -9,14 +9,15 @@ from uuid import uuid4
 from app.ingestion.pipeline import load_run_metadata, normalize_log
 
 
-def normalize(log, metadata):
+def normalize(log, metadata, source="auth"):
     run = load_run_metadata(metadata)
     declared, = run.log_sources
     root = log.resolve().parents[len(declared.split("/")) - 1]
-    events = normalize_log(log, run, "auth", source_root=root)
-    if run.scenario != "brute_force" or run.expected_label != "malicious" or not events:
-        raise ValueError("expected a labeled brute-force capture with normalized events")
-    return {"source_type": "auth", "run": run.model_dump(mode="json"),
+    events = normalize_log(log, run, source, source_root=root)
+    scenario = {"auth": "brute_force", "web": "sql_injection"}[source]
+    if run.scenario != scenario or run.expected_label != "malicious" or not events:
+        raise ValueError("expected a labeled scenario capture with normalized events")
+    return {"source_type": source, "run": run.model_dump(mode="json"),
             "events": [event.model_dump(mode="json") for event in events]}
 
 
@@ -24,14 +25,15 @@ def evidence_hash(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def private_capture():
-    log = Path(os.environ["CAPSTONE_AUTH_LOG"])
-    metadata = Path(os.environ["CAPSTONE_AUTH_METADATA"])
-    expected = (os.environ["CAPSTONE_AUTH_LOG_SHA256"].lower(),
-                os.environ["CAPSTONE_AUTH_METADATA_SHA256"].lower())
+def private_capture(source="auth"):
+    prefix = f"CAPSTONE_{source.upper()}"
+    log = Path(os.environ[f"{prefix}_LOG"])
+    metadata = Path(os.environ[f"{prefix}_METADATA"])
+    expected = (os.environ[f"{prefix}_LOG_SHA256"].lower(),
+                os.environ[f"{prefix}_METADATA_SHA256"].lower())
     if (evidence_hash(log), evidence_hash(metadata)) != expected:
         raise ValueError("private evidence hashes differ from the approved manifest")
-    result = normalize(log, metadata)
+    result = normalize(log, metadata, source)
     if (evidence_hash(log), evidence_hash(metadata)) != expected:
         raise ValueError("private evidence changed during normalization")
     return result
