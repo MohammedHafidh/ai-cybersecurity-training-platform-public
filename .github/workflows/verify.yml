@@ -46,7 +46,7 @@ jobs:
           curl --silent --show-error --fail --retry 20 --retry-connrefused --retry-delay 1 http://127.0.0.1:8765/health
           npm test
           npx playwright test
-      - name: Rehearse the demo and verify a clean reset
+      - name: Verify the clean PostgreSQL demo, browser trace, and reset
         env:
           DATABASE_URL: postgresql+psycopg://capstone_demo:demo_fixture_only@127.0.0.1:55433/capstone_demo
           PYTHONPATH: backend
@@ -65,6 +65,13 @@ jobs:
             test "$(curl --silent --fail http://127.0.0.1:8000/events)" = '[]'
             test "$(curl --silent --fail http://127.0.0.1:8000/detections)" = '[]'
             python scripts/demo_replay.py
+            if [ "$pass" = 1 ]; then
+              (
+                cd frontend
+                VITE_API_BASE_URL=http://127.0.0.1:8000 npm run build
+                API_SMOKE_URL=http://127.0.0.1:8000 npx playwright test browser/rag.spec.mjs --grep "learner sees"
+              )
+            fi
             kill "$pid"
             wait "$pid" || true
             pid=''
