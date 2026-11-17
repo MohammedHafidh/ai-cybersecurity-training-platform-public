@@ -6,6 +6,13 @@ The regression reuses the [Day 49 checklist](day49-brute-force-trace.md). It ver
 
 Hosted Chromium uses a controlled RAG response. The existing hosted PostgreSQL and real FAISS retrieval checks still run. A local replay can use live FAISS and Ollama by setting `CAPSTONE_TEST_LIVE_RAG=1` as in Day 49. For an existing approved private web capture, the same test reads the log and metadata from `CAPSTONE_WEB_LOG` and `CAPSTONE_WEB_METADATA` and verifies their SHA-256 values from `CAPSTONE_WEB_LOG_SHA256` and `CAPSTONE_WEB_METADATA_SHA256`. Keep the input files and browser artifacts private.
 
-## Acceptance status
+## Fresh Day 50 acceptance
 
-Fresh Day 50 evidence has yet to be supplied. The synthetic regression establishes the software path. Acceptance still requires matching the displayed evidence to the fresh approved capture through PostgreSQL, the dashboard, and live RAG.
+The project owner supplied the approved fresh capture from the isolated private lab. Both hashes matched before and after replay. The raw files remained private.
+
+| Evidence | SHA-256 |
+| --- | --- |
+| HTTP log | `d139a4e5c6c3c056b138daca285283eef349bd0ee08de1d47b49ea3ea568452e` |
+| Run metadata | `914035d529f698fd31b105e9f1460d68d4e9b8e7ae5d4a950c36ea72a180df19` |
+
+The parser produced one linked HTTP request. PostgreSQL 16 preserved its method, path, response status and normalized input. Chromium showed the same run, event ID, log reference and rule count. The frozen rule counted one SQL-like token match at its threshold of one and predicted malicious. The frozen ML model separately predicted malicious with a malicious-class score of 0.9111. Live FAISS and Gemma returned the matching rule explanation with the approved OWASP references. Both stored predictions were identical before and after explanation. The token match supports the detector's reason for flagging the request. It cannot establish that the injection succeeded.
