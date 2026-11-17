@@ -46,6 +46,30 @@ jobs:
           curl --silent --show-error --fail --retry 20 --retry-connrefused --retry-delay 1 http://127.0.0.1:8765/health
           npm test
           npx playwright test
+      - name: Rehearse the demo and verify a clean reset
+        env:
+          DATABASE_URL: postgresql+psycopg://capstone_demo:demo_fixture_only@127.0.0.1:55433/capstone_demo
+          PYTHONPATH: backend
+        run: |
+          cleanup() {
+            if [ -n "${pid:-}" ]; then kill "$pid" 2>/dev/null || true; fi
+            docker compose -f compose.demo.yml down --volumes
+          }
+          trap cleanup EXIT
+          for pass in 1 2; do
+            docker compose -f compose.demo.yml up -d --wait
+            python -m app.persistence.setup_core
+            python -m uvicorn app.main:app --app-dir backend &
+            pid=$!
+            curl --silent --show-error --fail --retry 20 --retry-connrefused --retry-delay 1 http://127.0.0.1:8000/health/database
+            test "$(curl --silent --fail http://127.0.0.1:8000/events)" = '[]'
+            test "$(curl --silent --fail http://127.0.0.1:8000/detections)" = '[]'
+            python scripts/demo_replay.py
+            kill "$pid"
+            wait "$pid" || true
+            pid=''
+            docker compose -f compose.demo.yml down --volumes
+          done
   postgres:
     runs-on: ubuntu-latest
     timeout-minutes: 10

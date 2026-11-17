@@ -8,6 +8,8 @@ and the frozen Logistic Regression pipeline.
 See [architecture](docs/architecture.md) and
 [PostgreSQL setup](docs/day33-postgresql.md).
 
+For a disposable database and rehearsed replay sequence, see the [demo runbook](docs/day53-demo-rehearsal.md).
+
 ## Run locally
 
 Use Python 3.12 and Node.js 22. From the repository root:
