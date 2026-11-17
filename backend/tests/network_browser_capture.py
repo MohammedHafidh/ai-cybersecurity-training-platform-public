@@ -10,7 +10,11 @@ from auth_browser_capture import normalize, private_capture
 
 def synthetic_capture():
     run_id = f"day51-network-{uuid4().hex}"
-    timestamps = [f"2026-01-01T12:00:0{second}Z" for second in (1, 3, 5)]
+    timestamps = [
+        "2026-01-01T12:00:01.000088Z",
+        "2026-01-01T12:00:03Z",
+        "2026-01-01T12:00:05.002556Z",
+    ]
     with TemporaryDirectory() as directory:
         root = Path(directory)
         log = root / "network.jsonl"

@@ -41,6 +41,12 @@ async function select(page, id) {
   return panel
 }
 
+function timestampMicros(timestamp) {
+  // Date.parse retains only milliseconds. The raw log can carry six fractional digits.
+  const fraction = timestamp.match(/\.(\d+)(?:Z|[+-]\d\d:\d\d)$/)?.[1] ?? ''
+  return Date.parse(timestamp) * 1000 + Number(fraction.padEnd(6, '0').slice(3, 6))
+}
+
 async function traceCapture(request, script, countFeature, eventLabel) {
   const capture = JSON.parse(execFileSync('python', [`../backend/tests/${script}`], {
     encoding: 'utf8', env: { ...process.env, PYTHONPATH: '../backend' },
@@ -56,9 +62,9 @@ async function traceCapture(request, script, countFeature, eventLabel) {
   expect(observation.rule.predicted_label).toBe('malicious')
   let visibleFeatures = []
   if (capture.source_type === 'network') {
-    const times = capture.events.map(event => Date.parse(event.timestamp))
+    const times = capture.events.map(event => timestampMicros(event.timestamp))
     const ports = new Set(capture.events.map(event => event.destination_port)).size
-    const span = (Math.max(...times) - Math.min(...times)) / 1000
+    const span = (Math.max(...times) - Math.min(...times)) / 1_000_000
     const rate = eventIds.length / 60
     expect(observation.rule.evidence.observed).toBe(ports)
     expect(observation.observed_features.unique_destination_port_count).toBe(ports)
