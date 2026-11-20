@@ -224,3 +224,37 @@ test('loading, retry, empty results, and unsupported questions keep the stored e
   await expect(panel.getByText('Trusted sources')).toHaveCount(0)
   await expect(page.getByRole('heading', { name: 'ML output' })).toBeVisible()
 })
+
+test('slow inference times out with retry while the saved prediction stays visible', async ({ page, request }) => {
+  test.setTimeout(70_000)
+  const [rule] = await store(request, scenarios[0])
+  let started
+  let release
+  const intercepted = new Promise(resolve => { started = resolve })
+  const pending = new Promise(resolve => { release = resolve })
+  await page.route(endpoint, async route => {
+    started()
+    await pending
+    await route.abort().catch(() => {})
+  })
+  await page.goto('/')
+  const panel = await select(page, rule)
+  await panel.getByRole('button', { name: 'Get explanation' }).click()
+  await intercepted
+  await expect(panel.getByRole('status')).toHaveText('Preparing the local explanation…')
+  await expect(panel.getByRole('alert')).toContainText('The local explanation is unavailable', { timeout: 55_000 })
+  await expect(panel.getByRole('button', { name: 'Retry explanation' })).toBeEnabled()
+  await expect(page.getByRole('complementary', { name: 'Explanation preview' })).toContainText('3 met the rule threshold of 3')
+  release()
+})
+
+test('database read errors leave evaluation available and explain the missing evidence', async ({ page }) => {
+  for (const path of ['events', 'detections']) {
+    await page.route(`**/${path}?limit=20`, route => route.fulfill({ status: 503, body: '{}' }))
+  }
+  await page.goto('/')
+  await expect(page.locator('#recent-events').getByRole('alert')).toContainText('Could not load recent events')
+  await expect(page.locator('#detection-evidence').getByRole('alert')).toContainText('Could not load detections')
+  await expect(page.getByText('Confusion matrix · 12 runs')).toHaveCount(2)
+  await expect(page.getByRole('button', { name: 'Refresh detections' })).toBeEnabled()
+})
