@@ -1,0 +1,90 @@
+[
+  {
+    "reference": "day49",
+    "run_id": "day49-auth-bruteforce-20261117T071818Z",
+    "scenario": "brute_force",
+    "expected_label": "malicious",
+    "files": [
+      {
+        "name": "auth-timestamped.log",
+        "sha256": "abc121016253040c74c1b1c4ecf763c343bf0fc437eb7c68bba11b73fd2f12de"
+      },
+      {
+        "name": "metadata.json",
+        "sha256": "9895b4ebd4b517321fdb12242eafc7a1982012180ca00694119ef466321455e8"
+      }
+    ]
+  },
+  {
+    "reference": "day50",
+    "run_id": "day50-sqli-20261117",
+    "scenario": "sql_injection",
+    "expected_label": "malicious",
+    "files": [
+      {
+        "name": "http-timestamped.log",
+        "sha256": "d139a4e5c6c3c056b138daca285283eef349bd0ee08de1d47b49ea3ea568452e"
+      },
+      {
+        "name": "metadata.json",
+        "sha256": "914035d529f698fd31b105e9f1460d68d4e9b8e7ae5d4a950c36ea72a180df19"
+      }
+    ]
+  },
+  {
+    "reference": "day51",
+    "run_id": "day51-recon-20261117T081048Z",
+    "scenario": "reconnaissance",
+    "expected_label": "malicious",
+    "files": [
+      {
+        "name": "nmap-scan.txt",
+        "sha256": "00a0e1a9bed05f5a987f62200c344ee76f93cf2570131955d1c56620a30cc942"
+      },
+      {
+        "name": "nmap-scan.xml",
+        "sha256": "305f65028f6f99aa01d2172ea46e7c4225b13909ea764b2bc1602d5ddf1d62ad"
+      },
+      {
+        "name": "metadata.json",
+        "sha256": "0fd8ebb07bd8dcfc456ad5ff8f433f6a877cb159f7fe3b9a3ddb3fdf2348f450"
+      },
+      {
+        "name": "target-connection-evidence.log",
+        "sha256": "845c2979e97a47b5ef025e2a1e05d9ebb716d0ad56b9c2633941ddb750d4cf72"
+      }
+    ]
+  },
+  {
+    "reference": "day54",
+    "run_id": "day54-clean-auth-20261117T130518Z",
+    "scenario": "brute_force",
+    "expected_label": "malicious",
+    "files": [
+      {
+        "name": "auth-timestamped.log",
+        "sha256": "6cc6f143d32bd4dc191238ca14bc7630085d6fbf770559a097b0ada00efca1a1"
+      },
+      {
+        "name": "metadata.json",
+        "sha256": "c1b4196c58450b01d94bd9a2fd2d43786db2621f761a607fec5a6bf2151711d7"
+      }
+    ]
+  },
+  {
+    "reference": "day59",
+    "run_id": "day59-auth-20261120T123332Z",
+    "scenario": "brute_force",
+    "expected_label": "malicious",
+    "files": [
+      {
+        "name": "auth-timestamped.log",
+        "sha256": "7cbaafa154a7ba2c06ba83ac827338a4816c3f186225253e48d73a68e8de553f"
+      },
+      {
+        "name": "metadata.json",
+        "sha256": "9bdd1bc77473a33d5030afa105880a70ee771ec26ad88a0ae71ad2f0f0eb24bd"
+      }
+    ]
+  }
+]

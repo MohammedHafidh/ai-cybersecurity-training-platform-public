@@ -1,98 +1,41 @@
-# System Architecture and Data Flow
+# System architecture and data flow
 
-> Historical design record. Commands that require the original lab or private evidence are documented for context. See the public README for runnable checks.
+The platform supports learning from controlled authentication, web and network observations. It preserves collection labels, compares transparent rules with a frozen Logistic Regression model, and displays the supporting evidence.
 
-## Project
-AI-Assisted Cybersecurity Training Platform Using Log Analysis and a Local LLM
+```mermaid
+flowchart TD
+    A[Private isolated Docker lab] --> B[Raw logs and trusted run metadata]
+    B --> C[Parsers and normalized events]
+    C --> D[Validated ingestion]
+    D --> E[(PostgreSQL runs and events)]
+    E --> F[Observable feature builders]
+    F --> G[Frozen rules]
+    F --> H[Frozen ML pipeline]
+    G --> I[(Saved predictions and evidence)]
+    H --> I
+    I --> J[FastAPI reads]
+    J --> K[React dashboard]
+    I --> L[Read-only explanation facts]
+    M[Frozen trusted corpus] --> N[Sentence Transformer and FAISS]
+    N --> L
+    L --> O[Local Ollama selects supplied facts and passages]
+    O --> K
+    P[Frozen Day 32 aggregate evaluation] --> J
+```
 
-## Core Flow
-Controlled local cybersecurity attacks → real security logs → log ingestion and normalization → structured/labeled dataset → rule-based detection + machine-learning detection → evaluation → FastAPI/PostgreSQL application layer → React training interface → local Ollama LLM + RAG explanations.
+The training branch uses curated lab observations to build dataset v1, perform run-disjoint development splits, select a model, and freeze its pipeline. The separately reserved final collection supplies the Day 32 held-out evaluation. Online detection reuses the frozen feature and inference code and stores results before explanation.
 
-## Component Responsibilities
+| Component | Responsibility |
+| --- | --- |
+| Private lab | Produce bounded scenario runs and benign comparisons. Preserve original logs and trusted metadata outside the public repository. |
+| Normalization | Parse timestamped SSH events, structured HTTP requests and accepted TCP connections. Join the trusted run identity and labels. |
+| Feature builders | Aggregate authentication and network events by fixed 60-second run/source/target windows; aggregate web requests by run. |
+| Rules and ML | Independently produce predictions from observable features. Preserve detector version, evidence and source references. |
+| PostgreSQL | Store runs, normalized events and detector records. Foreign keys maintain run/event linkage. |
+| FastAPI | Validate ingestion, process a stored run, expose evidence and frozen evaluation, and serve optional local explanations. |
+| React/TypeScript | Display recent activity, separate rule/ML outputs, trusted expected labels, evidence, metrics and citations. Types are generated from OpenAPI. |
+| Local RAG | Retrieve relevant approved scenario passages from FAISS. Gemma selects supplied fact and passage IDs; the server renders approved text and returns references. |
 
-### Cybersecurity Lab
+Ground truth comes from the controlled collection protocol. It stays in run metadata, distinct from predictions. Explanation reads saved results and has no database write or detector-update path. Explanation responses return to the client without a dedicated persistence table.
 
-Purpose:
-- Run only controlled local attack scenarios.
-- Generate authentic benign and malicious security logs.
-- Record exact run metadata so labels can be defended.
-
-Required scenarios:
-1. Brute-force attack
-2. SQL injection
-3. Reconnaissance / network scanning
-
-### Data Processing
-
-Purpose:
-- Preserve raw evidence.
-- Parse different log formats.
-- Normalize them into a consistent event representation.
-- Join events to trusted run metadata for labels.
-- Engineer features for rules and ML.
-
-### Rule-Based Detection
-
-Purpose:
-- Provide transparent baseline rules for all three attacks.
-- Return both a decision and evidence explaining why the rule fired.
-
-### Machine Learning
-
-Technology:
-- Python
-- Pandas
-- scikit-learn
-
-Purpose:
-- Train only on data generated from the project lab.
-- Compare a small number of sensible classical models.
-- Evaluate using accuracy, precision, recall, F1-score, confusion matrix, and false-positive rate.
-
-### Backend and Database
-
-Technology:
-- FastAPI
-- PostgreSQL
-
-Purpose:
-- Store runs, events, detections, and later explanations.
-- Expose a small API to the frontend.
-- Keep ground truth, rule predictions, and ML predictions clearly separate.
-
-### Frontend
-
-Technology:
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-
-Purpose:
-- Show runs, detections, evidence, evaluation metrics, and learning-oriented explanations.
-
-### Local LLM and RAG
-
-Technology:
-- Ollama
-- Sentence Transformers
-- FAISS
-
-Purpose:
-- Explain existing detection evidence.
-- Retrieve trusted cybersecurity/project documentation.
-- Never replace, alter, or become the actual detection system.
-
-## Architecture Rule
-Detection and explanation are separate:
-
-Security evidence → Rules/ML → Detection result → LLM/RAG explanation
-
-The LLM receives detection evidence as input. It does not decide whether an attack occurred.
-
-## Main Boundaries
-- Raw logs are preserved and not silently edited.
-- Labels come from controlled run metadata, not detector output.
-- ML is not trained before a usable lab-generated dataset exists.
-- RAG is not used as a detector.
-- Only the three mandatory attack scenarios are required.
+The local demo supports one user. PostgreSQL is the standard database, with a disposable SQLite fallback. The dashboard lists up to 20 recent events and predictions. The [technical guide](final-technical-guide.md) records setup, API and version details, and the [lab reference](final-lab-reference.md) defines the evidence boundaries.
