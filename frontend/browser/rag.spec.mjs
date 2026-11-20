@@ -211,7 +211,7 @@ test('loading, retry, empty results, and unsupported questions keep the stored e
 
   await page.unroute(endpoint)
   await page.route(endpoint, route => route.fulfill({ json: {
-    detection_id: ml, status: 'grounded', text: '', sources: [],
+    detection_id: ml, status: 'grounded', text: '', sources: [], evidence_ids: [],
   } }))
   await panel.getByRole('button', { name: 'Retry explanation' }).click()
   await expect(panel.getByText('No explanation text was returned.')).toBeVisible()
@@ -257,4 +257,22 @@ test('database read errors leave evaluation available and explain the missing ev
   await expect(page.locator('#detection-evidence').getByRole('alert')).toContainText('Could not load detections')
   await expect(page.getByText('Confusion matrix · 12 runs')).toHaveCount(2)
   await expect(page.getByRole('button', { name: 'Refresh detections' })).toBeEnabled()
+})
+
+test('malformed citation data produces retry instead of breaking the evidence view', async ({ page, request }) => {
+  const [rule] = await store(request, scenarios[0])
+  const errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.route(endpoint, route => route.fulfill({ json: {
+    detection_id: rule, status: 'grounded', text: 'Invalid citation response',
+    evidence_ids: ['prediction'], sources: [null],
+  } }))
+  await page.goto('/')
+  const panel = await select(page, rule)
+  await panel.getByRole('button', { name: 'Get explanation' }).click()
+  await expect(panel.getByRole('alert')).toContainText('The local explanation is unavailable')
+  await expect(panel.getByRole('button', { name: 'Retry explanation' })).toBeEnabled()
+  await expect(page.getByRole('heading', { name: 'Rule output' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'ML output' })).toBeVisible()
+  expect(errors).toEqual([])
 })

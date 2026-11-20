@@ -8,6 +8,25 @@ export type EvaluationSummary = components['schemas']['EvaluationSummary']
 export type RagExplanation = components['schemas']['RagExplanation']
 export type ExplanationQuestion = components['schemas']['Question']
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+}
+
+function hasStrings(value: Record<string, unknown>, fields: string[]): boolean {
+  return fields.every(field => typeof value[field] === 'string')
+}
+
+function isRagExplanation(value: unknown): value is RagExplanation {
+  if (!isRecord(value) || !hasStrings(value, ['detection_id', 'text'])
+    || !['grounded', 'unsupported'].includes(String(value.status))
+    || !Array.isArray(value.evidence_ids) || !value.evidence_ids.every(id => typeof id === 'string')
+    || !Array.isArray(value.sources)) return false
+  return value.sources.every(source => isRecord(source)
+    && hasStrings(source, ['chunk_id', 'source_title', 'source_path', 'source_sha256', 'section', 'text'])
+    && Array.isArray(source.references) && source.references.every(reference =>
+      isRecord(reference) && hasStrings(reference, ['title', 'location'])))
+}
+
 function isRecentEvent(value: unknown): value is RecentEvent {
   if (!value || typeof value !== 'object') return false
   const row = value as Record<string, unknown>
@@ -31,7 +50,9 @@ export function createApiClient(baseUrl: string, request: typeof fetch = fetch) 
         headers: { Accept: 'application/json' }, signal,
       })
       if (!response.ok) throw new Error(`Explanation request failed (HTTP ${response.status}).`)
-      return response.json()
+      const body: unknown = await response.json()
+      if (!isRagExplanation(body)) throw new Error('The API returned an unexpected explanation.')
+      return body
     },
     async evaluation(signal: AbortSignal): Promise<EvaluationSummary> {
       const response = await request(`${base}/evaluation/summary`, {
