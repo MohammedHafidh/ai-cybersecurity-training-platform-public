@@ -19,6 +19,7 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install -r backend/requirements.txt -r requirements/day27.txt
       - run: python scripts/build_day45_corpus.py --check
+      - run: python scripts/package_day56_evaluation.py --check
       - run: python -m pytest -q
       - uses: actions/setup-node@v4
         with:

@@ -1,0 +1,14 @@
+{
+  "dataset_version": "dataset-v1",
+  "development_dataset_sha256": "b660122cadb05c6124d03573cebfcf27f07c0520813487960f1b5e7e8bd4b499",
+  "evaluation": "day32-reserved-lab-results",
+  "evaluation_hash_encoding": "UTF-8 with LF line endings",
+  "evaluation_population": "12 reserved lab runs; two benign and two malicious per source",
+  "evaluation_sha256": "895d05d55c5c8752ce795933dbf3636cecaad6e50101d8610373bd90b93708b4",
+  "integrated_system_commit": "6eac44f562c6db31dcdf42db7cd725917169e838",
+  "model_metadata_context": "Day 31 training freeze; final_test_evaluated=false records the state before Day 32",
+  "model_sha256": "8309f7db2d560176a06fa37a50e1357c1c2e9ca1064caf0b50da0756ed0729e5",
+  "model_version": "capstone-ml-v1",
+  "rule_version": "rule-engine-v1",
+  "run_aggregation": "any malicious observation"
+}
