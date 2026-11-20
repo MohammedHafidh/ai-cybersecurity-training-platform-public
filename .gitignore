@@ -35,3 +35,4 @@ Thumbs.db
 demo-fallback*.db
 demo-fallback*.db-wal
 demo-fallback*.db-shm
+build/release-candidate/
