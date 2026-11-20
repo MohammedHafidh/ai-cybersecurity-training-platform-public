@@ -81,12 +81,12 @@ def explain_with_context(detection_id: str, source_type: str, value: str, facts:
     scenario, topic = SCENARIOS[source_type]
     try:
         ranked = load_retriever().search(f"{topic}. {QUERY_FOCUS[question]}", top_k=6)
-    except (ImportError, OSError, ValueError, RuntimeError) as exc:
+        sources = {
+            hit["chunk_id"]: GroundingSource.model_validate(hit)
+            for hit in ranked if hit["scenario"] == scenario
+        }
+    except (ImportError, OSError, ValueError, RuntimeError, KeyError, TypeError) as exc:
         raise ExplanationUnavailable("local retrieval is unavailable") from exc
-    sources = {
-        hit["chunk_id"]: GroundingSource.model_validate(hit)
-        for hit in ranked if hit["scenario"] == scenario
-    }
     if not sources:
         raise ExplanationUnavailable("trusted context is unavailable for this scenario")
     passages = {key: source.text for key, source in sources.items()}
