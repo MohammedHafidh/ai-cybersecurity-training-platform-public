@@ -38,7 +38,8 @@ def package():
     provenance = {
         "integrated_system_commit": "6eac44f562c6db31dcdf42db7cd725917169e838",
         "evaluation": "day32-reserved-lab-results",
-        "evaluation_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+        "evaluation_sha256": hashlib.sha256(source.read_text(encoding="utf-8").encode("utf-8")).hexdigest(),
+        "evaluation_hash_encoding": "UTF-8 with LF line endings",
         "dataset_version": "dataset-v1",
         "development_dataset_sha256": metadata["dataset_sha256"],
         "evaluation_population": "12 reserved lab runs; two benign and two malicious per source",
