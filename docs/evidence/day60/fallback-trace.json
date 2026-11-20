@@ -1,0 +1,26 @@
+{
+  "evidence_kind": "synthetic raw authentication fixture",
+  "screenshot": "fallback-evidence.png",
+  "run_id": "day49-auth-102182a69b03443aa15aab546d884bc0",
+  "expected_label": "malicious",
+  "event_ids": [
+    "evt-335b9e519d20186037244e22",
+    "evt-8d179a7916bb8bcf167e4b56",
+    "evt-8da226f24c9a586ad9a897e0"
+  ],
+  "threshold": 3,
+  "observed": 3,
+  "predictions": [
+    {
+      "detector": "rule",
+      "detection_id": "det-cfd19356b30c3ab28e126a5997b751fd7f384435c3293bd9866ace361328f79e",
+      "predicted_label": "malicious"
+    },
+    {
+      "detector": "ml",
+      "detection_id": "det-77a2817c3d7d1423bab85d13503a1c53840a4e12b4113591346495bf4b793754",
+      "predicted_label": "malicious"
+    }
+  ],
+  "rag_http_status": 503
+}

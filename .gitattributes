@@ -11,3 +11,4 @@ data/processed/day28/* text eol=lf
 data/processed/day29/* text eol=lf
 data/processed/day30/* text eol=lf
 frontend/src/api/schema.d.ts text eol=lf
+docs/evidence/day60/*.json text eol=lf
