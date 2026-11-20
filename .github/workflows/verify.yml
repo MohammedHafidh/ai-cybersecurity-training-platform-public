@@ -87,6 +87,18 @@ jobs:
             pid=''
             docker compose -f compose.demo.yml down --volumes
           done
+      - name: Package the verified release candidate
+        run: |
+          python scripts/package_rc1.py
+          cp build/release-candidate/manifest.json /tmp/rc1-first-manifest.json
+          python scripts/package_rc1.py
+          cmp /tmp/rc1-first-manifest.json build/release-candidate/manifest.json
+      - name: Save Release Candidate 1
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-candidate-1
+          path: build/release-candidate/
+          if-no-files-found: error
   postgres:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -137,6 +149,24 @@ jobs:
       - run: python -m pip install -r backend/requirements.txt -r requirements/day27.txt -r requirements/day46.txt
       - run: python -c "import faiss, sentence_transformers"
       - run: python -m pytest -q backend/tests/test_day46_retrieval.py backend/tests/test_day47_rag.py
+  tag-rc1:
+    name: Tag the verified release candidate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.before == '6cf6c91990f195069c89f9fdfbae48991c74ea06'
+    needs: [verify, postgres, retrieval]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish rc1
+        run: |
+          existing="$(git ls-remote origin refs/tags/rc1 'refs/tags/rc1^{}')"
+          if [ -n "$existing" ]; then
+            printf '%s\n' "$existing" | grep -F "$GITHUB_SHA"
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' tag -a rc1 "$GITHUB_SHA" -m 'Day 59 verified Release Candidate 1'
+          git push origin refs/tags/rc1
   tag-day55:
     name: Tag the verified integrated system
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.before == '306203fa4893ff002d910ac4056a4472fc085474'
