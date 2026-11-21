@@ -99,6 +99,17 @@ jobs:
           name: release-candidate-1
           path: build/release-candidate/
           if-no-files-found: error
+      - name: Verify reproducible final submission package
+        run: |
+          python scripts/package_final_release.py
+          cp build/final-release/SHA256SUMS /tmp/final-first-checksums
+          python scripts/package_final_release.py
+          cmp /tmp/final-first-checksums build/final-release/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: final-source-verification
+          path: build/final-release/
+          if-no-files-found: error
   postgres:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -149,6 +160,38 @@ jobs:
       - run: python -m pip install -r backend/requirements.txt -r requirements/day27.txt -r requirements/day46.txt
       - run: python -c "import faiss, sentence_transformers"
       - run: python -m pytest -q backend/tests/test_day46_retrieval.py backend/tests/test_day47_rag.py
+  final-release:
+    name: Publish verified final release
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.before == '5b0c73acd00d2d50e8482e6c2653e5995e7e64d3'
+    needs: [verify, postgres, retrieval]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify package and preserve prior baseline
+        run: |
+          test "$(git ls-remote origin 'refs/tags/rc1^{}' | cut -f1)" = bc7e7c15cfeb9ab89b1dc8d757f7962aba70ceaa
+          python scripts/package_final_release.py
+          (cd build/final-release && sha256sum --check SHA256SUMS)
+      - name: Publish immutable final tag and downloadable submission files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          existing="$(git ls-remote origin refs/tags/v1.0.0 'refs/tags/v1.0.0^{}')"
+          if [ -n "$existing" ]; then
+            test "$(printf '%s\n' "$existing" | grep 'refs/tags/v1.0.0\^{}' | cut -f1)" = "$GITHUB_SHA"
+          else
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' tag -a v1.0.0 "$GITHUB_SHA" -m 'Day 63 verified final capstone release'
+            git push origin refs/tags/v1.0.0
+          fi
+          if ! gh release view v1.0.0 >/dev/null 2>&1; then
+            gh release create v1.0.0 --verify-tag --title 'Capstone v1.0.0 — final verified submission' --notes-file docs/day63-final-release.md build/final-release/capstone-v1.0.0-source.zip build/final-release/manifest.json build/final-release/SHA256SUMS
+          fi
   tag-rc1:
     name: Tag the verified release candidate
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.before == '6cf6c91990f195069c89f9fdfbae48991c74ea06'
