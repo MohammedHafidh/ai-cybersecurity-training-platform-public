@@ -17,6 +17,8 @@ and [evidence index](docs/evidence/day60/README.md).
 
 The [solo defense/demo notes](docs/day61-defense-demo.md) give the short presentation sequence and failure fallbacks.
 
+The [clean-checkout rehearsal](docs/day62-final-rehearsal.md) and [submission checklist](docs/day62-submission-checklist.md) record final reproducibility and packaging readiness.
+
 For a disposable database and rehearsed replay sequence, see the [demo runbook](docs/day53-demo-rehearsal.md).
 
 ## Run locally
