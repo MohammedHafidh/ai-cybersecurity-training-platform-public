@@ -1,6 +1,6 @@
 # Day 62 submission checklist
 
-This is the solo owner's submission inventory. Day 63 final packaging is pending; this checklist does not claim the project has already been submitted.
+This is the solo owner's submission inventory. The [Day 63 final release guide](day63-final-release.md) completes the packaging/release checklist; this does not claim the project has already been submitted to an institution.
 
 | Area | Required contents and verified reference |
 | --- | --- |

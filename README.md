@@ -19,6 +19,8 @@ The [solo defense/demo notes](docs/day61-defense-demo.md) give the short present
 
 The [clean-checkout rehearsal](docs/day62-final-rehearsal.md) and [submission checklist](docs/day62-submission-checklist.md) record final reproducibility and packaging readiness.
 
+See the [final release guide](docs/day63-final-release.md) for the verified submission package, checksums, release gates and remaining limitations.
+
 For a disposable database and rehearsed replay sequence, see the [demo runbook](docs/day53-demo-rehearsal.md).
 
 ## Run locally
