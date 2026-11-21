@@ -19,6 +19,8 @@ Get-FileHash manifest.json -Algorithm SHA256
 
 Run packaging from the clean verified Git checkout. Packaging reads committed blobs with `git archive`, checks every member's SHA-256 against Git, verifies ZIP CRCs, and confirms required deliverables. It does not copy ignored files, the Git credential store, virtual environments, model caches, private logs or local databases. The archive itself has no `.git`; after extracting it, use the manifest and documented setup rather than attempting to regenerate a Git archive there. Keep the source ZIP, manifest and checksums together.
 
+Final packaging explicitly disables machine-specific CRLF conversion. The Windows package verification detected this difference before release; a regression test now verifies exact LF bytes even when the checkout uses `core.autocrlf=true`.
+
 ## Final owner checklist
 
 | Item | Verification and release condition |

@@ -31,6 +31,12 @@ def sha(contents):
     return hashlib.sha256(contents).hexdigest()
 
 
+def archive_source(root, commit, archive):
+    # git archive otherwise honors the machine's core.autocrlf setting.
+    subprocess.run(["git", "-c", "core.autocrlf=false", "-c", "core.eol=lf",
+                    "-C", str(root), "archive", "--format=zip", "-o", str(archive), commit], check=True)
+
+
 def safe_path(name):
     path = PurePosixPath(name)
     blocked = {".git", ".venv", "node_modules", "private-evidence", "__pycache__", "test-results"}
@@ -71,7 +77,7 @@ def main():
         parser.exit(1, "Use a dedicated output directory.\n")
     output.mkdir(parents=True, exist_ok=True)
     archive = output / f"capstone-{RELEASE}-source.zip"
-    subprocess.run(["git", "-C", str(ROOT), "archive", "--format=zip", "-o", str(archive), commit], check=True)
+    archive_source(ROOT, commit, archive)
     verify_archive(archive, hashes)
     manifest = {
         "release": RELEASE, "commit": commit,
