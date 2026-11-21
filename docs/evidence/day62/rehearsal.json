@@ -1,0 +1,44 @@
+{
+  "source_commit": "df30767e4be8b76148a45c67f25c091f150af03a",
+  "baseline": "rc1",
+  "python": "3.12.16",
+  "node": "v22.23.5",
+  "timing_scope": "Automated Day 61 recorded-attack demo sequence; fresh lab capture was completed before this timed replay; includes evidence parsing, application startup, browser RAG/evaluation, fallback and cleanup; excludes dependency installation, prior lab execution, and spoken delivery.",
+  "stages": [
+    {
+      "name": "fresh_lab_evidence_validation_and_normalization",
+      "seconds": 0.23
+    },
+    {
+      "name": "clean_postgresql_and_api_start",
+      "seconds": 13.766
+    },
+    {
+      "name": "browser_rule_ml_persistence_rag_and_evaluation",
+      "seconds": 32.24
+    },
+    {
+      "name": "sqlite_llm_outage_and_offline_backup",
+      "seconds": 12.525
+    },
+    {
+      "name": "lab_cleanup",
+      "seconds": 0.191
+    }
+  ],
+  "run_id": "day62-auth-20261121T071701Z",
+  "evidence_sha256": {
+    "authentication_log": "ce9bf46f894a6a5326ba7d675e5b1c49641ff58acb2265523a7cc2c63c6e9bd5",
+    "metadata": "fe4122f8a467ccaf94214f926e09b30af1d8823b60a650c17836c3b444198138"
+  },
+  "lab_capture_seconds": 3.550233,
+  "lab_reset_capture_cleanup": "completed before timing",
+  "earlier_harness_issue": "Bare child python selected the base interpreter; fixed to sys.executable before the measured successful replay.",
+  "predictions": {
+    "rule": "malicious",
+    "ml": "malicious"
+  },
+  "normal_demo_seconds": 47.57,
+  "total_rehearsal_seconds": 60.454,
+  "result": "passed"
+}
