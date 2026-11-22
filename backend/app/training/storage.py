@@ -13,7 +13,9 @@ class Exercise(Base):
     status: Mapped[str] = mapped_column(String(20), default="running")
     stage: Mapped[str] = mapped_column(String(20), default="preparing")
     active_slot: Mapped[int | None] = mapped_column(Integer, unique=True, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
+    )
     completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     run_id: Mapped[str | None] = mapped_column(ForeignKey(RunRecord.run_id), nullable=True)
     history: Mapped[list] = mapped_column(JSON, default=list)
@@ -29,7 +31,9 @@ class QuizAttempt(Base):
     answers: Mapped[list] = mapped_column(JSON)
     score: Mapped[int] = mapped_column(Integer)
     passed: Mapped[int] = mapped_column(Integer)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
+    )
 
 
 def setup_training(engine):

@@ -1,5 +1,11 @@
 # AI-Assisted Cybersecurity Training Platform
 
+## Training platform remediation
+
+The `remediation/training-platform-v2` branch adds a guided student journey around the existing engine. See [operator setup and browser training](docs/training-platform-setup.md) and the [phased implementation record](docs/training-v2-remediation.md). The existing `v1.0.0` and `rc1` releases remain unchanged; this branch does not authorize a new release tag.
+
+Once configured, use `start-platform.ps1` to start the platform and `stop-platform.ps1` to stop it. Students perform the exercises, evidence review, grounded questions and quizzes in the browser.
+
 This public snapshot demonstrates defensive security log analysis across
 authentication, web, and network scenarios. It contains the FastAPI backend,
 React frontend, PostgreSQL schema, feature processing, rule detectors,

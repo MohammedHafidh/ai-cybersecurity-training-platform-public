@@ -28,3 +28,13 @@ The new exercise-scoped question endpoint uses stored detector facts and sanitiz
 
 ## Phase 6 — deterministic quizzes and completion
 Each scenario has four curated questions. The browser submits answers for server-side deterministic grading; score, pass/fail and attempt time persist in the additive quiz table. A failed attempt cannot complete a scenario; 3/4 passes and retry is allowed. All three browser paths passed scoring, feedback, completion and Home completion-state checks. Twenty-four targeted training tests passed. No accounts or model-based grading were added.
+
+## Phase 7 — startup, recovery, regression and acceptance
+
+The Windows setup/start/stop entrypoints provision the existing stack, serve one same-origin production application and preserve private data. Start/stop/restart were exercised using the documented existing-environment option. A new PostgreSQL advisory lock prevents competing training workers; interrupted owned jobs are recovered explicitly. Recovery tests cover failed/interrupted work without silently substituting samples. The full one-time installer was inspected and its scripts parsed, but a completely new Python environment installation was not repeated locally.
+
+Local verification passed: 239 backend tests; 8 API-client checks on a clean PostgreSQL fixture; 10 existing/read-only browser checks; 4 dedicated sample checks; and 4 dedicated live checks. Build, generated API contract, responsive guides and keyboard activation also passed. Dedicated modes are deliberately skipped during the ordinary browser suite and executed separately, rather than claiming a hosted private lab.
+
+The final real browser acceptance started fresh approved Docker exercises for all three scenarios, captured 3 authentication events / 1 SQLi event / 2 reconnaissance connections, processed them with the unchanged engine and persisted them in PostgreSQL. Each journey reached evidence, normalized fields, features, independent predictions, a live local grounded answer with citations, deterministic 4/4 grading, explicit completion and Home progress. Stored detector records stayed identical after explanation. Owned exercise resources were removed. The three timed automated journeys took 80.344 seconds in total; this is not a human presentation timing.
+
+See [safe machine-readable acceptance](evidence/training-v2/acceptance.json), [operator instructions](training-platform-setup.md), and [implementation report](training-v2-implementation-report.md). Hosted verification is required on the final PR; its result is recorded by GitHub rather than inferred from local success. No final release tag is created.

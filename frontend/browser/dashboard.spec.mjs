@@ -17,7 +17,7 @@ test('a real loopback capture is traceable through the non-LLM dashboard', async
   const errors = []
   page.on('pageerror', error => errors.push(error.message))
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/')
+  await page.goto('/#/evidence')
   await expect(page.getByText('API is reachable')).toBeVisible()
   const nav = page.getByRole('navigation', { name: 'Main navigation' })
   await nav.getByRole('link', { name: 'Recent events' }).click()

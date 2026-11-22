@@ -87,6 +87,25 @@ jobs:
             pid=''
             docker compose -f compose.demo.yml down --volumes
           done
+      - name: Verify complete sample learning journeys on PostgreSQL
+        env:
+          DATABASE_URL: postgresql+psycopg://capstone_demo:demo_fixture_only@127.0.0.1:55433/capstone_demo
+          PYTHONPATH: backend
+          CAPSTONE_TRAINING_ENABLED: '1'
+          FRONTEND_ORIGIN: http://localhost:5173
+          CAPSTONE_OLLAMA_ENABLED: '0'
+        run: |
+          cleanup() {
+            if [ -n "${pid:-}" ]; then kill "$pid" 2>/dev/null || true; fi
+            docker compose -f compose.demo.yml down --volumes
+          }
+          trap cleanup EXIT
+          docker compose -f compose.demo.yml up -d --wait
+          python -m app.persistence.setup_core
+          python -m uvicorn app.main:app --app-dir backend &
+          pid=$!
+          curl --silent --show-error --fail --retry 20 --retry-connrefused --retry-delay 1 http://127.0.0.1:8000/health/database
+          (cd frontend && VITE_API_BASE_URL=http://127.0.0.1:8000 npm run build && API_SMOKE_URL=http://127.0.0.1:8000 CAPSTONE_SAMPLE_ACCEPTANCE=1 npx playwright test browser/training.spec.mjs)
       - name: Package the verified release candidate
         run: |
           python scripts/package_rc1.py
@@ -101,13 +120,13 @@ jobs:
           if-no-files-found: error
       - name: Verify reproducible final submission package
         run: |
-          python scripts/package_final_release.py
+          python scripts/package_final_release.py --release-name training-v2-preview
           cp build/final-release/SHA256SUMS /tmp/final-first-checksums
-          python scripts/package_final_release.py
+          python scripts/package_final_release.py --release-name training-v2-preview
           cmp /tmp/final-first-checksums build/final-release/SHA256SUMS
       - uses: actions/upload-artifact@v4
         with:
-          name: final-source-verification
+          name: training-v2-source-verification
           path: build/final-release/
           if-no-files-found: error
   postgres:
@@ -142,6 +161,8 @@ jobs:
           backend/tests/test_day47_rag.py
           backend/tests/test_day52_contract.py
           backend/tests/test_day57_failures.py
+          backend/tests/test_training_content.py backend/tests/test_training_safety.py
+          backend/tests/test_training_quiz.py backend/tests/test_training_explanations.py
         env:
           CAPSTONE_TEST_DATABASE_URL: postgresql+psycopg://capstone_fixture:fixture_only@127.0.0.1:${{ job.services.postgres.ports[5432] }}/capstone_fixture
   retrieval:

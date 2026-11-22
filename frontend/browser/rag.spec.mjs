@@ -113,7 +113,7 @@ test('the learner sees a grounded answer and citations for each scenario', async
     })
   }
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/')
+  await page.goto('/#/evidence')
   for (const { rule, scenario, threshold, observed, capture, eventIds, eventLabel, before, details, visibleFeatures } of trials) {
     if (capture) {
       const rows = page.getByRole('row').filter({ hasText: capture.run.run_id })
@@ -183,7 +183,7 @@ test('the dashboard keeps a benign expected label visible when both detectors fl
     'web', 'benign', 'http_request',
     [{ method: 'GET', status_code: 200, request_data: 'select a category' }],
   ], 'benign')
-  await page.goto('/')
+  await page.goto('/#/evidence')
   for (const id of [rule, ml]) {
     await select(page, id)
     const detail = page.locator('#detection-evidence')
@@ -201,7 +201,7 @@ test('loading, retry, empty results, and unsupported questions keep the stored e
     await pending
     await route.fulfill({ status: 503, body: '{}' })
   })
-  await page.goto('/')
+  await page.goto('/#/evidence')
   const panel = await select(page, ml)
   await panel.getByRole('button', { name: 'Get explanation' }).click()
   await expect(panel.getByRole('status')).toHaveText('Preparing the local explanation…')
@@ -237,7 +237,7 @@ test('slow inference times out with retry while the saved prediction stays visib
     await pending
     await route.abort().catch(() => {})
   })
-  await page.goto('/')
+  await page.goto('/#/evidence')
   const panel = await select(page, rule)
   await panel.getByRole('button', { name: 'Get explanation' }).click()
   await intercepted
@@ -252,7 +252,7 @@ test('database read errors leave evaluation available and explain the missing ev
   for (const path of ['events', 'detections']) {
     await page.route(`**/${path}?limit=20`, route => route.fulfill({ status: 503, body: '{}' }))
   }
-  await page.goto('/')
+  await page.goto('/#/evidence')
   await expect(page.locator('#recent-events').getByRole('alert')).toContainText('Could not load recent events')
   await expect(page.locator('#detection-evidence').getByRole('alert')).toContainText('Could not load detections')
   await expect(page.getByText('Confusion matrix · 12 runs')).toHaveCount(2)
@@ -267,7 +267,7 @@ test('malformed citation data produces retry instead of breaking the evidence vi
     detection_id: rule, status: 'grounded', text: 'Invalid citation response',
     evidence_ids: ['prediction'], sources: [null],
   } }))
-  await page.goto('/')
+  await page.goto('/#/evidence')
   const panel = await select(page, rule)
   await panel.getByRole('button', { name: 'Get explanation' }).click()
   await expect(panel.getByRole('alert')).toContainText('The local explanation is unavailable')
