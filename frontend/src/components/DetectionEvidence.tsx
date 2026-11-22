@@ -87,7 +87,7 @@ export function DetectionEvidence({ baseUrl }: { baseUrl: string }) {
   </section>
 }
 
-function Observation({ detail, baseUrl }: { detail: DetectionDetail; baseUrl: string }) {
+export function Observation({ detail, baseUrl, showRag = true }: { detail: DetectionDetail; baseUrl: string; showRag?: boolean }) {
   const { run, evidence } = detail
   const predictions = [detail, ...detail.counterparts]
   const rule = predictions.filter(row => row.detector === 'rule')
@@ -147,6 +147,6 @@ function Observation({ detail, baseUrl }: { detail: DetectionDetail; baseUrl: st
       <EvidenceReferences label="Log references" values={evidence.raw_source_files} />
     </div>
     <EvidenceExplanation rules={rule} />
-    <RagExplanationPanel key={detail.detection_id} baseUrl={baseUrl} detectionId={detail.detection_id} />
+    {showRag && <RagExplanationPanel key={detail.detection_id} baseUrl={baseUrl} detectionId={detail.detection_id} />}
   </div>
 }

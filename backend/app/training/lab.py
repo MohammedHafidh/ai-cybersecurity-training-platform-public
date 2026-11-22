@@ -151,9 +151,9 @@ def capture(exercise, scenario, stage, cancel):
         if scenario == "brute-force":
             run("exec", "-T", client, "sh", "-s", "--", "1", input=(root / "scripts/run-bruteforce-auth.sh").read_bytes().replace(b"\r\n", b"\n"), timeout=45)
         elif scenario == "sql-injection":
-            run("exec", "-T", client, "/usr/local/bin/run-sql-requests", "malicious", run_id, "1", timeout=20)
+            run("exec", "-T", client, "sh", "-s", "--", "malicious", run_id, "1", input=(root / "scripts/run-sql-requests.sh").read_bytes().replace(b"\r\n", b"\n"), timeout=20)
         else:
-            run("exec", "-T", client, "/usr/local/bin/run-recon-scan", "1", timeout=25)
+            run("exec", "-T", client, "sh", "-s", "--", "1", input=(root / "scripts/run-recon-scan.sh").read_bytes().replace(b"\r\n", b"\n"), timeout=25)
             # The target logs after its bounded receive timeout; allow that real log to complete.
             time.sleep(1.3)
         end = utc(); stage("capturing")
