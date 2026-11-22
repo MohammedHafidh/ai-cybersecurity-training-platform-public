@@ -7,7 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.training.content import SCENARIOS, lesson
-from app.training.contracts import ScenarioKey, StartExercise, QuizSubmission
+from app.training.contracts import ScenarioKey, StartExercise, QuizSubmission, AskQuestion
 from app.training.storage import Exercise, QuizAttempt
 from app.training import lab, worker
 from app.persistence.runtime import request_engine
@@ -126,3 +126,13 @@ def complete(exercise: str,request: Request):
         if row.status!="ready" or not passed:raise HTTPException(409,"Complete the evidence review and pass the quiz first")
         row.completed_at=datetime.now(timezone.utc)
         return {"completed":True}
+
+
+@router.post("/exercises/{exercise}/question",dependencies=[Depends(control)])
+def question(exercise: str, body: AskQuestion, request: Request):
+    from app.training.explanations import answer
+    with request_engine(request) as engine,Session(engine) as session:
+        row=session.get(Exercise,exercise)
+        if row is None:raise HTTPException(404,"Exercise not found")
+        if row.status!='ready':raise HTTPException(409,"Evidence is not ready yet")
+        return answer(row,body.question)
