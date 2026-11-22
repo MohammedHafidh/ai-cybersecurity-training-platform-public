@@ -16,7 +16,7 @@ export default function App() {
   useEffect(() => { const change = () => { setRoute(location.hash.slice(1) || '/'); window.scrollTo(0, 0) }; window.addEventListener('hashchange', change); return () => window.removeEventListener('hashchange', change) }, [])
   useEffect(() => { api<Lesson[]>('/training/scenarios').then(setLessons).catch(e => setError(e.message)) }, [])
   useEffect(() => { document.getElementById('main')?.focus({ preventScroll: true }) }, [route])
-  const exerciseRoute = route.match(/^\/exercises\/([a-f0-9]{32})(?:\/(analysis|quiz|complete))?$/)
+  const exerciseRoute = route.match(/^\/exercises\/([a-f0-9]{32})(?:\/(analysis|quiz|complete))?(?:\?focus=ai)?$/)
   const selected = lessons.find(l => route === '/scenarios/' + l.id)
   return <>
     <a href="#main" onClick={e=>{e.preventDefault();document.getElementById('main')?.focus()}} className="skip-link">Skip to content</a>

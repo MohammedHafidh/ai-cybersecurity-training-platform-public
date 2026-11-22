@@ -25,3 +25,6 @@ Chromium started each approved scenario from Home and Guide, then automatically 
 
 ## Phase 5 — bounded natural-language AI and teaching retrieval
 The new exercise-scoped question endpoint uses stored detector facts and sanitized evidence, with a separate 21-chunk teaching corpus and local FAISS cache. Original v1 knowledge/index files are untouched. Known duplicate IDs are safely deduplicated; unknown IDs and malformed selections never become claims. All three browser checks returned live local grounded selections with citations after Ollama startup. A separate stopped-Ollama check showed explicitly labeled deterministic fallbacks. Unrelated questions were rejected and saved detector outputs were unchanged. Twenty-three targeted content/safety/AI tests passed.
+
+## Phase 6 — deterministic quizzes and completion
+Each scenario has four curated questions. The browser submits answers for server-side deterministic grading; score, pass/fail and attempt time persist in the additive quiz table. A failed attempt cannot complete a scenario; 3/4 passes and retry is allowed. All three browser paths passed scoring, feedback, completion and Home completion-state checks. Twenty-four targeted training tests passed. No accounts or model-based grading were added.

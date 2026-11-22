@@ -3,6 +3,7 @@ import { Observation } from './components/DetectionEvidence'
 import { type DetectionDetail } from './api/client'
 import { api, base, navigate, remember, type Exercise, type Lesson } from './training'
 import { AskAI } from './AskAI'
+import { Quiz, Completion } from './Quiz'
 
 const stages: Record<string,string> = { preparing:'Preparing isolated lab', starting:'Starting approved target', activity:'Running controlled activity', capturing:'Collecting fresh logs', normalizing:'Parsing and preparing features', rules:'Running rule detector', ml:'Running frozen ML detector', saving:'Saving results', ready:'Analysis ready' }
 
@@ -22,6 +23,7 @@ export function ExercisePage({ id, view, lessons }: {id:string;view:string;lesso
   const [details,setDetails]=useState<DetectionDetail[]>([])
   useEffect(()=>{let active=true;let timer:ReturnType<typeof setTimeout>;async function load(){try{const e=await api<Exercise>('/training/exercises/'+id);if(!active)return;setExercise(e);if(e.status==='running')timer=setTimeout(load,500);else if(e.status==='ready'&&view==='exercise')navigate('/exercises/'+id+'/analysis')}catch(e){if(active)setError((e as Error).message)}}void load();return()=>{active=false;clearTimeout(timer)}},[id,view])
   useEffect(()=>{if(exercise?.status==='ready')Promise.all(exercise.result.detection_ids.filter((_,i)=>i%2===0).map(key=>api<DetectionDetail>('/detections/'+key))).then(setDetails).catch(e=>setError(e.message))},[exercise?.status,id])
+  useEffect(()=>{if(view==='analysis'&&exercise?.status==='ready'&&location.hash.endsWith('?focus=ai'))requestAnimationFrame(()=>document.getElementById('ask-ai')?.scrollIntoView())},[view,exercise?.status])
   if(error)return <div role="alert" className="notice">{error} <a href="#/">Return home</a></div>
   if(!exercise)return <p role="status">Loading your exercise…</p>
   const l=lessons.find(l=>l.id===exercise.scenario);if(!l)return <p>Loading the lesson…</p>
@@ -32,8 +34,8 @@ export function ExercisePage({ id, view, lessons }: {id:string;view:string;lesso
       <section className="analysis-section"><p className="eyebrow">02 / From events to measurements</p><h2>Understand the features.</h2>{exercise.result.observations.map((o,i)=><div key={i}><h3>Observation {i+1} · {o.event_ids.length} linked records</h3><dl className="feature-dictionary">{Object.entries(o.features).map(([key,value])=><div key={key}><dt>{key} = {String(value)}</dt><dd>{l.features[key] || 'Observable feature derived by the frozen pipeline.'}</dd></div>)}</dl></div>)}</section>
       <section className="analysis-section"><p className="eyebrow">03 / Independent judgments</p><h2>Compare truth with prediction.</h2><div className="notice"><strong>Trusted expected label: {exercise.result.expected_label}.</strong><p>{exercise.result.ground_truth_reason}. This label was assigned before detector processing.</p></div>{exercise.result.observations.map((o,i)=><p key={i} className="comparison">Rule: <strong>{o.rule.label}</strong> · ML: <strong>{o.ml.label}</strong>. {o.rule.label!==o.ml.label?'The detectors disagree. ':''}{o.rule.label!==exercise.result.expected_label||o.ml.label!==exercise.result.expected_label?'At least one detector differs from ground truth. Inspect the features and limitations; this result has not been hidden or relabeled.':'Both predictions match the controlled label for this observation. This does not establish general accuracy.'}</p>)}<p>{l.limitations}</p><div className="legacy">{details.map(d=><Observation key={d.detection_id} detail={d} baseUrl={base} showRag={false}/>)}</div><a className="text-link" href="#ask-ai" onClick={e=>{e.preventDefault();document.getElementById('ask-ai')?.scrollIntoView()}}>ML result → Why? → Ask AI ↓</a></section>
       <section className="analysis-section" id="ask-ai"><p className="eyebrow">04 / Learn from the result</p><h2>Ask AI about this evidence.</h2><AskAI id={id}/><h3>Defensive lesson</h3><p>{l.mitigation}</p><a className="button" href={'#/exercises/'+id+'/quiz'}>Continue to knowledge check →</a></section></>}
-      {view==='quiz'&&<section><h2>Knowledge check</h2><p>The curated quiz integration is being prepared.</p></section>}
-      {view==='complete'&&<section><h2>{exercise.completed?'Scenario Complete':'Finish the knowledge check first.'}</h2><a href="#/">Return Home</a></section>}
+      {view==='quiz'&&<Quiz exercise={exercise} lesson={l}/>}
+      {view==='complete'&&<Completion exercise={exercise} lessons={lessons}/>}
     </>}
   </>
 }
