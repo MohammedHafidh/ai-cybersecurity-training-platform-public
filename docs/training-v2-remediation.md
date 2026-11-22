@@ -13,3 +13,6 @@ Design tokens: dominant cream `#F3EEE3`, ink `#111111`, restrained orange `#D954
 Safety policy: loopback-only operator service, same-origin local controls, startup-issued request token, strict Host/Origin checks, fixed private bundle hash manifest, structured subprocess arguments, one active exercise, dedicated owned Docker project, verified internal network/no published target ports, time/output limits and scoped cleanup. Live failure must never become silent replay. Private originals remain outside Git; only bounded, typed sanitized projections are returned.
 
 Startup design: one Windows operator command prepares PostgreSQL/schema and serves the production frontend through loopback FastAPI. It performs readiness checks and never starts an attack. Stop is scoped to the recorded platform processes/project, preserves database data and private evidence, and remains distinct from an exercise cancellation. Manual fallback steps will be documented with implementation.
+
+## Phase 2 — learning shell
+Home and three guides use the cream/ink/orange design foundation. Existing evaluation is retained as a secondary page. Actual Chromium checks passed for Home, all three guides and a 375px mobile layout. The controlled-exercise button is intentionally disabled until a live runner exists. Frontend production build and seven contract/content tests passed.

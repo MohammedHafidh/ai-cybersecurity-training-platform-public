@@ -141,3 +141,13 @@ def read_detector_comparison(run_id: str, request: Request) -> DetectorCompariso
 
 
 app.include_router(detection_router)
+
+from app.training.routes import router as training_router
+app.include_router(training_router)
+
+if os.getenv("CAPSTONE_SERVE_FRONTEND") == "1":
+    from fastapi.staticfiles import StaticFiles
+    frontend_dist = Path(__file__).resolve().parents[2] / "frontend/dist"
+    if not frontend_dist.is_dir():
+        raise RuntimeError("Build the frontend before starting the platform")
+    app.mount("/", StaticFiles(directory=frontend_dist, html=True), name="platform")
