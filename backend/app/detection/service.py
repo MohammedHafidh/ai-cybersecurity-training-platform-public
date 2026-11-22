@@ -69,7 +69,7 @@ class DetectionService:
         except (OSError, ValueError, KeyError, TypeError, ImportError, EOFError, UnpicklingError) as exc:
             raise DetectionServiceError("frozen ML bundle unavailable or invalid") from exc
 
-    def detect(self, session: Session, run_id: str) -> CombinedDetection:
+    def detect(self, session: Session, run_id: str, *, progress=None) -> CombinedDetection:
         run = session.get(RunRecord, run_id)
         if run is None:
             raise RunNotFound("ingested run not found")
@@ -93,7 +93,7 @@ class DetectionService:
                 for record in records
             ]
             rows = build_modeling_tables(events, {run_id: context})[run.source_type]
-            observations = self.score_observations(run.source_type, rows)
+            observations = self.score_observations(run.source_type, rows, progress=progress)
         except (KeyError, TypeError, ValueError) as exc:
             raise DetectionServiceError("stored run cannot be scored") from exc
         return CombinedDetection(
@@ -104,13 +104,15 @@ class DetectionService:
             observations=observations,
         )
 
-    def score_observations(self, source: SourceType, rows: list[dict]) -> list[ObservationDetection]:
+    def score_observations(self, source: SourceType, rows: list[dict], *, progress=None) -> list[ObservationDetection]:
         """Score prepared rows using explicit observable-field allowlists."""
         schema = INPUT_MODELS[source]
+        if progress: progress("rules")
         rules = {record["row_id"]: record for record in detect_scenario_rows(source, [
             schema(**{field: row[field] for field in schema.model_fields}) for row in rows
         ])}
         features = [{field: row[field] for field in FEATURES[source]} for row in rows]
+        if progress: progress("ml")
         ml = predict_observations(self._pipeline, [dict(source_type=source, **row) for row in features])
         return [
             ObservationDetection(

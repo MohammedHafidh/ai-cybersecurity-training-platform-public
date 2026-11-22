@@ -1,0 +1,199 @@
+{
+  "baseline_commit": "9787ec6a3d9c071e17a461add3c1ede41c77a6de",
+  "release_status": "Remediation branch only; no final tag authorized",
+  "hash_basis": "Git blob bytes for frozen artifacts; captured original bytes for exercise hashes",
+  "frozen_artifact_sha256": {
+    "data/releases/capstone-ml-v1/pipeline.joblib": "8309f7db2d560176a06fa37a50e1357c1c2e9ca1064caf0b50da0756ed0729e5",
+    "data/processed/day32/evaluation.json": "895d05d55c5c8752ce795933dbf3636cecaad6e50101d8610373bd90b93708b4",
+    "data/processed/day56/provenance.json": "2b31703fa8348b4d9df3b61ec583553b0e775648f9ce0ac066d8e15a485cdce4",
+    "data/knowledge/day45/chunks.json": "8836ab6184688fa875611724594832d657483a22d057f46c19ce0e8ad52160df",
+    "data/knowledge/day46/index.faiss": "c18c2aec4a9cc128f11fadccf3eea02bd9539e4f4dfb08bc38fa431a032c3994"
+  },
+  "local_tests": {
+    "backend": 239,
+    "api_client": 8,
+    "legacy_and_readonly_browser": 10,
+    "dedicated_live_browser": 4,
+    "dedicated_sample_browser": 4
+  },
+  "live_journey_total_seconds": 80.344,
+  "live_journeys": [
+    {
+      "scenario": "brute-force",
+      "mode": "live",
+      "exercise": "d49d29feaafb4e2f80159339cca8dbe7",
+      "run_id": "training-d49d29feaafb4e2f80159339cca8dbe7",
+      "hashes": {
+        "capture.log": "12f57a1cb65824f21a1a5e734fa1e10783f31de07933cef8a8d2c1365f9127e1",
+        "metadata.json": "34cfcd10c655d094f29b3effeb2d858a747d223b9c4d9a8058184429a655879e"
+      },
+      "event_count": 3,
+      "stages": [
+        {
+          "stage": "preparing",
+          "at": "2026-11-22T16:07:42.900071+00:00"
+        },
+        {
+          "stage": "starting",
+          "at": "2026-11-22T16:07:42.989833+00:00"
+        },
+        {
+          "stage": "activity",
+          "at": "2026-11-22T16:07:45.689664+00:00"
+        },
+        {
+          "stage": "capturing",
+          "at": "2026-11-22T16:07:49.219629+00:00"
+        },
+        {
+          "stage": "normalizing",
+          "at": "2026-11-22T16:07:50.603183+00:00"
+        },
+        {
+          "stage": "rules",
+          "at": "2026-11-22T16:07:50.777690+00:00"
+        },
+        {
+          "stage": "ml",
+          "at": "2026-11-22T16:07:50.793596+00:00"
+        },
+        {
+          "stage": "saving",
+          "at": "2026-11-22T16:07:51.491777+00:00"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-22T16:07:51.510197+00:00"
+        }
+      ],
+      "answer_mode": "local_grounded_selection",
+      "citations": [
+        "training-2.0:brute-force:limitations"
+      ],
+      "score": 4,
+      "completed": true,
+      "seconds": 39.676
+    },
+    {
+      "scenario": "sql-injection",
+      "mode": "live",
+      "exercise": "a1c8cd8583ee4c3fa9a2e49b1128903b",
+      "run_id": "training-a1c8cd8583ee4c3fa9a2e49b1128903b",
+      "hashes": {
+        "capture.log": "e6acb6b9f9b0fa88040b73256060c6c4dff6477513b6177f6eb0a175d93bd736",
+        "metadata.json": "665c7e655e5c171f784ce1b272d175ddaa01c5ddb96fc629dfa9624e58a90097"
+      },
+      "event_count": 1,
+      "stages": [
+        {
+          "stage": "preparing",
+          "at": "2026-11-22T16:08:28.624703+00:00"
+        },
+        {
+          "stage": "starting",
+          "at": "2026-11-22T16:08:28.714382+00:00"
+        },
+        {
+          "stage": "activity",
+          "at": "2026-11-22T16:08:31.198847+00:00"
+        },
+        {
+          "stage": "capturing",
+          "at": "2026-11-22T16:08:31.618696+00:00"
+        },
+        {
+          "stage": "normalizing",
+          "at": "2026-11-22T16:08:33.007488+00:00"
+        },
+        {
+          "stage": "rules",
+          "at": "2026-11-22T16:08:33.100718+00:00"
+        },
+        {
+          "stage": "ml",
+          "at": "2026-11-22T16:08:33.110904+00:00"
+        },
+        {
+          "stage": "saving",
+          "at": "2026-11-22T16:08:33.245119+00:00"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-22T16:08:33.289391+00:00"
+        }
+      ],
+      "answer_mode": "local_grounded_selection",
+      "citations": [
+        "training-2.0:sql-injection:limitations"
+      ],
+      "score": 4,
+      "completed": true,
+      "seconds": 14.914
+    },
+    {
+      "scenario": "reconnaissance",
+      "mode": "live",
+      "exercise": "912a7c8b6eca412886104bdb0c6df660",
+      "run_id": "training-912a7c8b6eca412886104bdb0c6df660",
+      "hashes": {
+        "capture.log": "041562f7658e09bc2350844400241ffec2c2c6df58ba4213c8b5d3d6e94acd45",
+        "metadata.json": "a31c5ee05182555234cd199f3aba3d4150429066675e9e28dda77fb2136c2813",
+        "nmap-scan.txt": "e76fbe0fce155694988cedbcd134ca3a71405085fd6ec166a22789fb6498d0ef",
+        "nmap-scan.xml": "bc7eaabd3e43594cd2435b9d0c713f4891a49cfe52b314acd9d0d7793799a738"
+      },
+      "event_count": 2,
+      "stages": [
+        {
+          "stage": "preparing",
+          "at": "2026-11-22T16:08:44.118911+00:00"
+        },
+        {
+          "stage": "starting",
+          "at": "2026-11-22T16:08:44.159392+00:00"
+        },
+        {
+          "stage": "activity",
+          "at": "2026-11-22T16:08:46.131481+00:00"
+        },
+        {
+          "stage": "capturing",
+          "at": "2026-11-22T16:08:47.852697+00:00"
+        },
+        {
+          "stage": "normalizing",
+          "at": "2026-11-22T16:08:49.543057+00:00"
+        },
+        {
+          "stage": "rules",
+          "at": "2026-11-22T16:08:49.621885+00:00"
+        },
+        {
+          "stage": "ml",
+          "at": "2026-11-22T16:08:49.628932+00:00"
+        },
+        {
+          "stage": "saving",
+          "at": "2026-11-22T16:08:49.660487+00:00"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-22T16:08:49.676587+00:00"
+        }
+      ],
+      "answer_mode": "local_grounded_selection",
+      "citations": [
+        "training-2.0:reconnaissance:concept"
+      ],
+      "score": 4,
+      "completed": true,
+      "seconds": 13.545
+    }
+  ],
+  "limits": [
+    "Automated browser duration excludes human spoken narration",
+    "Live private lab acceptance is local; hosted CI runs explicitly labeled synthetic sample journeys",
+    "No account-based identity or cross-browser progress",
+    "Extractive, bounded local teaching answers; not unrestricted chat or causal ML attribution",
+    "Frozen detector false positives/negatives retained"
+  ]
+}

@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path, PurePosixPath
 import subprocess
 from zipfile import ZipFile
@@ -64,7 +65,11 @@ def verify_archive(archive, expected):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=ROOT / "build/final-release")
+    parser.add_argument("--release-name", default=RELEASE, help="Package label only; never creates or moves a Git tag")
     args = parser.parse_args()
+    release = args.release_name
+    if not re.fullmatch(r"[a-z0-9][a-z0-9.-]{0,60}", release):
+        parser.exit(1, "Invalid package label.\n")
     if git("status", "--porcelain", "--untracked-files=no").strip():
         parser.exit(1, "Commit tracked changes before packaging.\n")
     commit = git("rev-parse", "HEAD").decode().strip()
@@ -76,11 +81,11 @@ def main():
     if output == ROOT:
         parser.exit(1, "Use a dedicated output directory.\n")
     output.mkdir(parents=True, exist_ok=True)
-    archive = output / f"capstone-{RELEASE}-source.zip"
+    archive = output / f"capstone-{release}-source.zip"
     archive_source(ROOT, commit, archive)
     verify_archive(archive, hashes)
     manifest = {
-        "release": RELEASE, "commit": commit,
+        "release": release, "commit": commit,
         "tree": git("rev-parse", "HEAD^{tree}").decode().strip(),
         "rc1_commit": "bc7e7c15cfeb9ab89b1dc8d757f7962aba70ceaa",
         "archive": archive.name, "archive_sha256": sha(archive.read_bytes()),
@@ -98,7 +103,7 @@ def main():
     for line in sums.read_text().splitlines():
         expected, name = line.split("  ", 1)
         assert sha((output / name).read_bytes()) == expected
-    print(f"Verified {RELEASE} source package for {commit}: {manifest['archive_sha256']}")
+    print(f"Verified {release} source package for {commit}: {manifest['archive_sha256']}")
 
 
 if __name__ == "__main__":
