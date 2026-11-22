@@ -32,7 +32,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[frontend_origin],
     allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type"],
+    allow_headers=["Content-Type", "X-Capstone-Token"],
 )
 app.include_router(ingestion_router)
 app.include_router(evaluation_router)

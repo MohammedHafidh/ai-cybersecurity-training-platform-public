@@ -93,6 +93,11 @@ class ProcessingResult(BaseModel):
 @router.post("/runs/{run_id}/process", response_model=ProcessingResult, tags=["detections"])
 def process_run(run_id: str, session: DB) -> ProcessingResult:
     """Score an ingested run and atomically store both predictions per observation."""
+    return process_known_run(run_id, session)
+
+
+def process_known_run(run_id, session, *, progress=None):
+    """Shared persistence path; training observes real stages without changing detector behavior."""
     try:
         service = detection_service()
     except DetectionServiceError as exc:
@@ -102,11 +107,12 @@ def process_run(run_id: str, session: DB) -> ProcessingResult:
         if run is None:
             raise HTTPException(status_code=404, detail="ingested run not found")
         try:
-            result = service.detect(session, run_id)
+            result = service.detect(session, run_id, progress=progress)
         except RunNotFound as exc:
             raise HTTPException(status_code=404, detail=str(exc)) from exc
         except DetectionServiceError as exc:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
+        if progress: progress("saving")
         ids = []
         now = datetime.now(timezone.utc)
         for observation in result.observations:

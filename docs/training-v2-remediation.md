@@ -16,3 +16,6 @@ Startup design: one Windows operator command prepares PostgreSQL/schema and serv
 
 ## Phase 2 — learning shell
 Home and three guides use the cream/ink/orange design foundation. Existing evaluation is retained as a secondary page. Actual Chromium checks passed for Home, all three guides and a 375px mobile layout. The controlled-exercise button is intentionally disabled until a live runner exists. Frontend production build and seven contract/content tests passed.
+
+## Phase 3 — safe live-runner vertical slice
+Pinned private bundle hashes and approved image labels are verified before execution. Each exercise has a unique server ID, two containers on one internal network, no published target ports, bounded subprocesses and ownership-scoped cleanup. Fresh authentication collection reached existing normalization, frozen rules/ML and PostgreSQL; its private original files were retained outside Git. Twenty-two targeted tests passed, including unsafe topology and control-request rejection. Two additive training tables and the shared detector progress hooks are in place; detector algorithms and artifacts are unchanged. Quiz routes are prepared but the student quiz flow is not yet accepted.

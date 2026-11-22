@@ -16,6 +16,9 @@ async def database_lifespan(app: FastAPI):
     except (SQLAlchemyError, ValueError, ImportError):
         raise RuntimeError("invalid database configuration") from None
     app.state.database_engine = engine
+    if engine is not None and os.getenv("CAPSTONE_TRAINING_ENABLED") == "1":
+        from app.training.storage import setup_training
+        setup_training(engine)
     try:
         yield
     finally:

@@ -1,0 +1,19 @@
+{
+  "version": "approved-lab-1",
+  "files": {
+    ".gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "auth-client/Dockerfile": "6a56875dd2ec6eaa2fffe0dfb9c5c95ad4d8f6f3760bfa545e6f65d41b3ee0e3",
+    "auth-target/Dockerfile": "e1bf8c31cff17fe3983a4ae7cd0801c2376da9b9f961c65ce4def4d1ac5117c2",
+    "docker-compose.yml": "0698b12e2423878ab02e403868fbbc1f3fdbed20a16acb557d203ccbea0dbd31",
+    "README.md": "d5a76a2f7681d8e38ae1325c6ea9ad43929ac783d6df400fc70d7e098b8fc9b2",
+    "recon-client/Dockerfile": "b6319016f96fcbfab436a1fc6056317c640e1b9c0d0096302c89b30d769b7f07",
+    "recon-target/Dockerfile": "0d97ebc356d878b08926339be09a8b1fd3986bfcb602d6bb8b5ed85707cd1776",
+    "recon-target/server.py": "8cb79d3f46fb0f3bf26d54aea915321e54178682702c8b25020ac871ee9753a0",
+    "scripts/run-bruteforce-auth.sh": "c8bc6f64f320c420840af3b433b006fb0f9f4e1013f9b568c2eccf124bb3dbb7",
+    "scripts/run-recon-scan.sh": "6333ba3841017dc6250e741e32288d4b0b8d551fe2bebf95392d3e0e093aea36",
+    "scripts/run-sql-requests.sh": "5fb126eea808146093c6b3ee2f4355c90999fb91e19cddbd058b1881c9174ed5",
+    "sql-target/Dockerfile": "d1bb4d747ef20a9275eaa4cfbcab28bef2e03c251e352e11c4426e177a78d518",
+    "sql-target/server.py": "ff2bace673b427b456be7a508075f3d2fab3c74e91cac756cf904c0d1e49be7a",
+    "web-client/Dockerfile": "ea9b84d5108704cd23cf661164b551ff85b82168d85fc0bfdd9f45e23312e247"
+  }
+}

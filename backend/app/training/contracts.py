@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Annotated, Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 ScenarioKey = Literal["brute-force", "sql-injection", "reconnaissance"]
@@ -14,7 +14,7 @@ class StartExercise(BaseModel):
 
 class QuizSubmission(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    answers: list[int] = Field(min_length=4, max_length=4)
+    answers: list[Annotated[int, Field(strict=True, ge=0, le=3)]] = Field(min_length=4, max_length=4)
 
 
 class AskQuestion(BaseModel):
